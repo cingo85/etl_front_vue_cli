@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <title>Grid Layout</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS 外部檔案-->
+  <link rel="stylesheet" href="css/reset.css">
+  <!-- bootstrap CSS CDN-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"  /> -->
+  <!--fontawesome CSS CDN-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+  <!--SEMANTIC CSS CDN-->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"/>
+
+  <!--CSS 外部檔案-->
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+
+  <!--jquery JS CDN-->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="//apps.bdimg.com/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+   <!--bootstrap JS CDN-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+ 
+</head>
+<body>
+  <div id="app">
+    <header class="top-menu">
+      <div class="wrapper-brand">
+        <a class="brand">大學校院<br>校務資料庫<br>填報上傳系統</a>
+      </div>
+      <div class="container">
+        <nav >
+          <ul>
+            <li class="feature1"><a href="#"><i class="fas fa-users"></i>您好 test</a></li>
+            <li class="feature2"><a href="#"><i class="fas fa-sign-out-alt"></i>登出</a></li>
+            <li class="feature3"><a href="#"><i class="fas fa-wrench"></i>設定</a></li>
+           
+          </ul>
+        </nav>
+      </div>
+    </header>
+    <aside>
+        <nav id="menu" class="rad-sidebar">
+          <ul>
+            <li><a href="#" class="active"><i class="fa fa-home"></i>校10-2. 配合大專校院弱勢學生助學計畫之其他助學措施統計表(10月填報)</a></li>
+            <li><a href="#"><i class="fa fa-info-circle"></i>校10-2. 配合大專校院弱勢學生助學計畫之其他助學措施統計表(10月填報)</a></li>
+            <li>
+              <a href="#"><i class="fa fa-laptop"></i>校10-2. 配合大專校院弱勢學生助學計畫之其他助學措施統計表(10月填報)<i class="fa fa-caret-down"></i></a>
+              <ul>
+                <li><a href="#">BBB</a></li>
+                <li><a href="#">CCC</a></li>
+                <li><a href="#">DDD</a></li>
+              </ul>
+            </li>
+            <li><a href="#"><i class="fa fa-info-circle"></i>校10-2. 配合大專校院弱勢學生助學計畫之其他助學措施統計表(10月填報)</a></li>
+          </ul>
+          <!--開啟選單按鈕-->
+          <a href="#" class="rad-toggle-btn">
+            <i class="fa fa-bars"></i>
+          </a>
+        </nav>
+    </aside>
+
+    <main>
+      <div class="container-fluid layout" >
+          
+        <table class="table table-bordered" >
+          <thead id="sortableCol">
+            <tr>
+                <th class="borderless" scope="col" colspan="2"></th>
+                <th scope="col" ></th>
+                <th scope="col" ></th>
+                <th scope="col"></th>
+                <th scope="col" ><button type="button"  class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button></th>
+                <th scope="col" v-for="(item,index) in functionTable.ColTable">
+                    <div  style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;">
+                      <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
+                      <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
+                    </div>   
+                </th>
+            </tr>
+            <tr>
+              <th scope="col" colspan="2"><button type="button" class="btn btn btn-info btn-lg btn-block"><i class="fas fa-eye"></i></button></th>
+              <th scope="col" colspan="3" >大表英文名稱</th>
+              <th scope="col" >資料庫名稱</th>
+              <th scope="col"  v-for="(item,index) in functionTable.ColTable" ><textarea class="content" type="text" v-model="DB[index].DBname"></textarea></th>
+            </tr>
+            <tr>
+              <th scope="col" colspan="2"><button type="button" class="btn btn btn-info btn-lg btn-block">發版</button></th>
+              <th scope="col" colspan="3"  rowspan="2">大表中文名稱</th>
+              <th scope="col" >表單名稱</th>
+              <th scope="col"  v-for="(item,index) in functionTable.ColTable"><textarea class="content" type="text" v-model="DB[index].TableName"></textarea></th>
+
+            </tr>
+            <tr>
+              <th scope="col" colspan="2"><button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button></th>
+              <th scope="col" >串接順序</th>
+              <th scope="col"  v-for="(item,index) in functionTable.ColTable"><textarea class="content sort-key" id="" type="text" v-model="index">{{index}}</textarea></th>
+            </tr>
+            <tr>
+                <th scope="row" ></th>
+                <td>欄位英文</td>
+                <td>欄位中文</td>
+                <td>欄位型態</td>
+                <td>pk/nop</td>
+                <td>表單邏輯</td>
+                <th scope="col"  v-for="(item,index) in functionTable.ColTable"><textarea class="content" type="text"></textarea></th>
+            </tr>
+          </thead>
+
+
+
+          <tbody id="sortableRow">
+            <tr :id="'drag'+index" v-for="(item,index) in functionTable.RowTable">
+              <td scope="row" id="draggable">
+                <div  style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;">
+                    <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
+                    <div class="all-button minus minus-button" id="minusrow" @click="removeRow(index)"></div>
+                </div>
+              </td>
+              <td><textarea class="content" type="text" v-model="functionData[index].eng">{{functionData[index].eng}}</textarea></td>
+              <td><textarea class="content" type="text" v-model="functionData[index].chin">{{functionData[index].chin}}</textarea></td>
+              <td><textarea class="content" type="text" v-model="functionData[index].type">{{functionData[index].type}}</textarea></td>
+              <td><textarea class="content" type="text" v-model="functionData[index].pk">{{functionData[index].pk}}</textarea></td>
+              <td><textarea class="content" type="text" v-model="functionData[index].login">{{functionData[index].login}}</textarea></td>
+              <td  v-for="(item,index) in functionTable.ColTable" ><textarea class="content" type="text"></textarea></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+  </div>
+     <!--vue.js CDN-->
+
+  <script type="text/javascript" src="/js/hello.js"></script>
+</body>
+</html>

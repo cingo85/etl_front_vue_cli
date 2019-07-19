@@ -1,0 +1,440 @@
+@charset "UTF-8";
+/*@import 'https://code.highcharts.com/css/highcharts.css';*/
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+/* --------------------------------
+ * base
+ * -------------------------------- */
+ :root {
+	--white: #ffffff;
+	--light: #f0eff3;
+	--black: #000000;
+	--dark-blue: #1f2029;
+  --dark-light: #353746;
+  --dark:#2b2929;
+	--red: #da2c4d;
+	--yellow: #f8ab37;
+  --grey: #ecedf3;
+  --green-blue:rgb(70, 197, 159);
+  --blue:CadetBlue;
+  --blue2:rgba(2, 89, 165, 1);
+ 
+}
+html {
+  font-size: 62.5%;
+  font-family:"Microsoft JhengHei";
+  margin:0;
+  overflow: hidden;
+}
+body {
+  margin:0;
+  background: linear-gradient(to top , rgb(255, 255, 255),rgb(251, 253, 251));
+  color: var(--dark);
+  font-family:"Microsoft JhengHei";
+  overflow: hidden;
+}
+*, *::before, *::after {
+  box-sizing: border-box;
+  
+ 
+}
+a,a:link, a:visited, a:hover, a:active {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+/*上半部menu*/
+.top-menu{
+  z-index: 300;
+  margin-top: 0;
+  height: 100px;
+  position: fixed;
+  width: 100%;
+  font-family:"Microsoft JhengHei";
+ /* background-color:rgba(120, 216, 240, 0.555);*/
+  background-color:var(--blue);
+  box-shadow: 0px 0 4px rgba(0, 0, 0, 0.3);
+  
+}
+/*LOGO*/
+.wrapper-brand{
+  position: fixed;
+  left: 20px;
+  z-index: 400;
+ 
+  margin-top:8px;
+  padding-top: 7px;
+  text-align: center;
+  border: 2px solid white;
+  right: 20px;
+  width: 150px;
+  height: 80px;
+  /*line-height: 100px;*/
+}
+.brand{
+  color:var(--white) !important;
+  font-size: 1.7rem;
+}
+
+
+.container{
+  position: absolute;
+  width: 100%;
+  right: 3%;
+  
+
+}
+.container nav{
+  position: absolute;
+  top: 10px;
+  right: 0;
+}
+.container nav ul{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container nav li{
+ /*display: inline-block;*/
+ width: 80px;
+ margin-left: 13px;
+ padding-left: 10px;
+}
+
+.container nav li a{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  font-weight: 600;
+ 
+}
+.container nav li a::before{
+  content: '';
+  position: relative;
+
+  border:chartreuse;
+  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgb(162, 221, 103);
+  z-index: 3000;
+  top: 3px;
+  transform: translateY(-30px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+}
+
+.container nav li:hover a::before,
+.container nav li.active a::before{
+  transform: translateY(19px) scale(8);
+  z-index: -1;
+  /*transform: scale(3);*/
+  box-shadow:0 0 0.5px 0.1px chartreuse, 0 0 0.5px 0.5px rgb(246, 248, 245);
+
+}
+.container nav li.active a i{
+  color: #186b08;
+}
+
+
+.container nav li a i{
+  font-size: 20px;
+  margin: 10px;
+  margin-bottom: 20px;
+  color: #FFF;
+  transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  
+}
+/*縮放MENU按鈕*/
+.rad-toggle-btn{
+ /*position: absolute;*/
+  color:var(--black);
+  font-size: 30px;
+  margin-left: 10px;
+}
+.rad-toggle-btn i{
+  color:var(--black);
+  font-size: 30px;
+}
+
+/*左邊選單*/
+.rad-sidebar {
+  font-family:"Microsoft JhengHei";
+  z-index: 100;
+  position: fixed;
+  font-weight: 600;
+  background:rgb(247, 248, 248) !important;
+  width: 280px;
+  height: 100vh;
+  top: 100px;
+  bottom: 0;
+  left:-280px;
+  box-shadow: 0.5px 0 2px rgba(0, 0, 0, 0.14), 2px 4px 8px rgba(0, 0, 0, 0.28);
+  transition: all .2s ease-in-out;
+}
+
+.show{
+  left:0;
+}
+/*rad-nav-min*/
+
+.rad-sidebar ul{
+  list-style:none;
+	margin-top:0;
+	padding:0
+}
+/*MENU選項分隔線*/
+.rad-sidebar ul li{
+  border-bottom: 1px solid #63606027;
+}
+/*MENU選項左邊border*/
+.rad-sidebar>ul>li>a{
+  border-left:5px solid rgba(34, 34, 34, 0.308);
+} 
+
+/*MENU選項icon+字*/
+.rad-sidebar ul li a{
+  color:rgba(0, 0, 0,0.5);
+	font-size:16px;
+	display:block;
+	padding:8px 0 8px 7px;
+  /*text-decoration:none;*/
+	-webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+	font-weight: 1000;
+}
+
+/*MENU選項icon*/
+.rad-sidebar ul a i{
+  margin-right:10px;
+	font-size: 18px;
+	margin-top: 3px;
+	width: 20px;
+}
+/*MENU選項下拉式icon*/
+.rad-sidebar ul a i[class*='fa-caret']{
+  float: right;
+}
+/*MENU選項已點選、hover*/
+.rad-sidebar  ul a:hover,
+.rad-sidebar ul a.active{
+  background-color:rgba(211, 210, 210, 0.356);
+  border-left:5px solid rgb(27, 146, 126);
+	color:rgb(44, 96, 100);
+  /*border-left-color: #FFCC33;
+	color:#FFCC33;*/
+}
+
+	/* Submenu */
+  .rad-sidebar ul li a.active+ul{
+    display:block
+  }
+  
+	.rad-sidebar ul li ul{
+    margin-top: 0;
+    display: none;
+  }
+	.rad-sidebar ul li ul li{
+    border-bottom: none;
+  }
+	.rad-sidebar ul li ul li a{
+    padding-left: 30px;
+  }
+	.rad-sidebar ul li ul li a:hover{
+		background-color:rgba(211, 210, 210, 0.356);
+	}
+
+.rad-toggle-btn{
+  margin-left:100%;
+  position:absolute;
+  top:0;
+  padding:6px 10px 7px 10px;
+  font-size:1.3em;
+  -webkit-transition: all 0.3s ease;
+	-moz-transition: all 0.3s ease;
+	transition: all 0.3s ease;
+}
+.blurred{
+  display: none;
+  background: #333232be;
+  height: 100%;
+  position: absolute;
+  top:-20px;
+  left: -20px;
+  right: -20px;
+  z-index: 2;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow:0 0 800px 500px #333232be;
+  transition: all 0.8s ease;
+}
+
+.blurred.show{
+display: block;
+border-radius: 0;
+opacity: 1;
+}
+main{
+  position: absolute;
+  top: 100px;
+  bottom: 0px;
+  right: 0px;
+  left: 30px;
+  top: 100px;
+  padding:20px;
+  background: #f3f1f1;
+ 
+}
+.layout{
+  overflow: scroll;
+    position: absolute;
+    top: 17px;
+    bottom: 0px;
+    right: 0px;
+    left: 30px;
+}
+th,td{
+  width:100px;
+  max-width: 100px;
+  min-width: 100px;
+  min-height: 30px;
+  word-wrap:break-word;
+  line-height: 70px;
+}
+
+.table{
+  width: 100%;
+    position: relative;
+}
+.table>thead>tr>th ,
+.table>thead>tr>td{
+  vertical-align: middle;
+}
+/*plus button*/
+.all-button {
+  position: relative;
+  top:0px;
+  height: 25px;
+  width: 25px;
+ 
+  background-color: #4d4648;
+  margin:2px;
+  border-radius: 100%;
+  /* opacity: 0; */
+  border-radius: 50% 50% 50% 50% / 70% 70% 10% 70%; 
+ -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  -webkit-transform: translate(-5.5px,0) scale(0.92);
+          transform:translate(-5.5px,0)  scale(0.92); 
+          transition: all 0.3s ease-in-out;
+}
+.minus{
+  border-radius: 50% 50% 50% 50% / 70%  70%  70% 10%; 
+
+}
+
+.plus-button::before ,
+.minus-button::before{
+  content: "+";
+  position: absolute;
+  margin:10px 12.5px; 
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: 20px;
+  font-weight: 600;
+}
+.minus-button::before{
+  content: "-";
+}
+.plus-button:hover ,
+.minus-button:hover{
+  -webkit-transform: translate(-6px,0) scale(1);
+          transform: translate(-6px,0) scale(1);
+}
+.plus-button:active,
+.minus-button:active {
+  -webkit-transform: translate(-5px,0) scale(0.96);
+          transform: translate(-5px,0) scale(0.96);
+} 
+
+textarea{
+  width: 100%;
+  height: 100%;
+  /* outline:none ; */
+  border:0px;
+  background:none; 
+}
+textarea:focus{
+  border:1px;
+}
+/* input{  
+	background:none;  
+	outline:none;  
+	border:0px;
+} */
+
+@media (max-width: 440px){
+  .container nav ul{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  .container nav li{
+   /*display: inline-block;*/
+   width: 60px;
+   margin-left: 0px;
+   padding-left: 0px;
+  }
+  
+  .container nav li a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 600;
+   
+  }
+  .container nav li a::before{
+    content: '';
+    position: relative;
+  
+    border:chartreuse;
+    border-radius: 50%;
+    width: 5px;
+    height: 5px;
+    background: rgb(162, 221, 103);
+    z-index: 3000;
+    top: 3px;
+    transform: translateY(-30px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)
+  }
+  
+  .container nav li:hover a::before,
+  .container nav li.active a::before{
+    transform: translateY(19px) scale(8);
+    z-index: -1;
+    /*transform: scale(3);*/
+    box-shadow:0 0 0.5px 0.1px chartreuse, 0 0 0.5px 0.5px rgb(246, 248, 245);
+  
+  }
+  .container nav li.active a i{
+    color: #186b08;
+  }
+  
+  
+  .container nav li a i{
+    font-size: 20px;
+    margin: 10px;
+    margin-bottom: 20px;
+    color: #FFF;
+    transition: all 3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    
+  }
+}
