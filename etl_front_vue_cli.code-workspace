@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "C:\\project\\etl_front\\js\\api"
 		}
 	],
 	"settings": {}

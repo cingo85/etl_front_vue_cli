@@ -1,7 +1,6 @@
 <template>
  
     <body class="gray-bg">
-
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
@@ -25,11 +24,11 @@
             </form>
         </div>
     </div>
-
 </body>
 </template>
 
 <script>
+import '../assets/css/style2.css'
 export default {
     name: 'login'
 
