@@ -4,15 +4,15 @@
   </div>
 </template>
 <script>
-import Main from '@/components/Main.vue'
+import FunctionTable from '@/components/FunctionTable.vue'
 import 'bootstrap'
 import 'jquery'
 import 'popper.js'
 
 export default {
-  name :'main',
+  name :'functionTable',
   components:{
-    Main
+    FunctionTable
   }
   
 }

@@ -1,9 +1,21 @@
 <template>
   <div id="app">
-    <router-view></router-view>
-    <router-link></router-link>
+    <router-view/>
+    <router-link to="/Login">Login</router-link>
+     <router-link to="/FunctionTable">FunctionTable</router-link>
   </div>
 </template>
+<script>
+import Login from '@/views/Login.vue'
+import FunctionTable from '@/views/FunctionTable.vue'
+export default {
+   components:{
+      Login,
+      FunctionTable
+   }
+}
+</script>
+
 
 <style>
 #app {

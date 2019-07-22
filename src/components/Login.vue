@@ -4,9 +4,7 @@
     <div class="middle-box text-center loginscreen animated fadeInDown">
         <div>
             <div>
-
                 <h6 class="logo-name">IN+</h6>
-
             </div>
             <h3>ETL清洗程式</h3>
            

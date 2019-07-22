@@ -1,9 +1,10 @@
 <template>
     <body>
+    <div id="app">
     <noscript>
       <strong>We're sorry but etl_front_vue_cli doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app">
+
       <header class="top-menu">
         <div class="wrapper-brand">
           <a class="brand">大學校院<br>校務資料庫<br>填報上傳系統</a>
@@ -112,8 +113,8 @@
     </div>
     <!-- built files will be auto injected -->
   </body>
-</template>
 
+</template>
 <script>
 import Vue from 'vue'
 import '../assets/css/reset.css'
@@ -122,78 +123,17 @@ import 'bootstrap'
 import 'jquery'
 import 'popper.js'
 import $ from 'jquery'
+import 'jquery-ui-bundle'
+import functionTable from '../assets/js/hello'
 
-let vueData={
-  functionTable:{
-    ColTable:['default','default','default','default','default','default','default'],
-    RowTable:['default','default','default'],
-  },
-  DB:[
-      {
-        DBname:'DB0',
-        TableName:'學生基本資料0'
-      },
-      {
-        DBname:'DB1',
-        TableName:'學生基本資料1'
-      },
-      {
-        DBname:'DB2',
-        TableName:'學生基本資料2'
-      },
-      {
-        DBname:'DB3',
-        TableName:'學生基本資料3'
-      },
-      {
-        DBname:'DB4',
-        TableName:'學生基本資料4'
-      },
-      {
-        DBname:'DB5',
-        TableName:'學生基本資料5'
-      },
-      {
-        DBname:'DB6',
-        TableName:'學生基本資料6'
-      },
-      {
-        DBname:'DB7',
-        TableName:'學生基本資料1'
-      }
-    ],
-  newDB:[],
-  sortnum:[],
-  functionData:[
 
-     {
-        eng:'1',
-        chin:'姓名',
-        type:'String',
-        pk:'yes',
-        logic:'nothing1'
-      },
-      {
-        eng:'2',
-        chin:'姓名',
-        type:'String',
-        pk:'yes',
-        logic:'nothing2'
-      },
-      {
-        eng:'3',
-        chin:'姓名',
-        type:'String',
-        pk:'yes',
-        logic:'nothing2'
-      }
-  ]
- 
-}
+Vue.prototype.functionTable = functionTable;
+
+
 
 var app = new Vue ({
   el:'#app',
-	data: vueData,
+	data: functionTable,
   created:function(){
     //  this.newDB=this.DB;
   },
@@ -290,8 +230,9 @@ var app = new Vue ({
 });
 
 
+
 export default {
-  name:'main'
+  name:'functionTable'
 }
 </script>
 

@@ -10,4 +10,9 @@ import '../src/assets/css/animate.css'
 
 Vue.config.productionTip = false
 
-
+new Vue({
+    el:'#app',
+    render: h => h(App),
+    store,
+    router
+  }).$mount('#app')
