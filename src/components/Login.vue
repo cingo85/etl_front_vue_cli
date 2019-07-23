@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import '../assets/css/style2.css'
 export default {
     name: 'login'
 

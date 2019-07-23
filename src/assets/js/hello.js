@@ -64,7 +64,7 @@ let vueData={
         }
     ]
    
-  }
+}
 
 export default{
     vueData

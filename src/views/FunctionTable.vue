@@ -5,9 +5,13 @@
 </template>
 <script>
 import FunctionTable from '@/components/FunctionTable.vue'
+
 import 'bootstrap'
 import 'jquery'
 import 'popper.js'
+import '../assets/css/reset.css'
+import '../assets/css/style.css'
+
 
 export default {
   name :'functionTable',
