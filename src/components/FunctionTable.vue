@@ -9,6 +9,8 @@
                 <th scope="col" ><button type="button"  class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button></th>
                 <th scope="col" v-for="(item,index) in functionTable.ColTable">
                     <div  style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;">
+                      <button id="addrow" @click="addCol(index)">add</button>
+                      <button id="minusrow" @click="removeCol(index)">remove</button>
                       <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
                       <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
                     </div>   
@@ -49,8 +51,10 @@
             <tr :id="'drag'+index" v-for="(item,index) in functionTable.RowTable">
               <td scope="row" id="draggable">
                 <div  style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;">
-                    <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
-                    <div class="all-button minus minus-button" id="minusrow" @click="removeRow(index)"></div>
+                      <button id="addrow" @click="addRow(index)">add</button>
+                      <button id="minusrow" @click="removeRow(index)">remove</button>
+                    <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
+                    <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
                 </div>
               </td>
               <td><textarea class="content" type="text" v-model="functionData[index].eng">{{functionData[index].eng}}</textarea></td>
@@ -73,21 +77,78 @@ import functionTable from '@/assets/js/hello'
 
 Vue.prototype.functionTable = functionTable;
 
-
-
-var app = new Vue ({
-  el:'#app',
-	data: {
-    functionTable
-    },
+export default {
+  name:'functionTable',
+  data(){
+    return{
+        functionTable:{
+        ColTable:['default','default','default','default','default','default','default'],
+        RowTable:['default','default','default']
+      },
+      DB:[
+          {
+            DBname:'DB0',
+            TableName:'學生基本資料0'
+          },
+          {
+            DBname:'DB1',
+            TableName:'學生基本資料1'
+          },
+          {
+            DBname:'DB2',
+            TableName:'學生基本資料2'
+          },
+          {
+            DBname:'DB3',
+            TableName:'學生基本資料3'
+          },
+          {
+            DBname:'DB4',
+            TableName:'學生基本資料4'
+          },
+          {
+            DBname:'DB5',
+            TableName:'學生基本資料5'
+          },
+          {
+            DBname:'DB6',
+            TableName:'學生基本資料6'
+          },
+          {
+            DBname:'DB7',
+            TableName:'學生基本資料1'
+          }
+        ],
+      newDB:[],
+      sortnum:[],
+      functionData:[
+         {
+            eng:'1',
+            chin:'姓名',
+            type:'String',
+            pk:'yes',
+            logic:'nothing1'
+          },
+          {
+            eng:'2',
+            chin:'姓名',
+            type:'String',
+            pk:'yes',
+            logic:'nothing2'
+          },
+          {
+            eng:'3',
+            chin:'姓名',
+            type:'String',
+            pk:'yes',
+            logic:'nothing2'
+          }
+      ]
+    }
+  },
   created:function(){
-    console.log(this.functionTable);
-    console.log(this.functionTable.data);
-    console.log(JSON.stringify(this.functionTable))
-    //  this.newDB=this.DB;
   },
   mounted:function(){
-     console.log('mounted');
     // $(document).disableSelection();
     $( '#sortableRow' ).sortable({
       revert: true,
@@ -109,7 +170,6 @@ var app = new Vue ({
         }
       }
     });
-
   },
   computed:{
       repeat(){
@@ -120,7 +180,7 @@ var app = new Vue ({
   },
   methods:{
     changecolumn:function(){
-        console.log(this.newDB);
+        //console.log(this.newDB);
         var $this=this;
         var i=0;
 
@@ -175,12 +235,6 @@ var app = new Vue ({
       this.functionData.splice(index,1);
     }
   }
-});
-
-
-
-export default {
-  name:'functionTable'
 }
 </script>
 
