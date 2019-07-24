@@ -9,10 +9,12 @@
   },
   "dependencies": {
     "collectable": "^0.31.0",
+    "font-awesome": "^4.7.0",
     "jquery-sortable": "^0.9.13",
     "jquery-ui-bundle": "^1.12.1-migrate",
     "semantic-ui-css": "^2.4.1",
     "vue": "^2.6.10",
+    "vue-loader": "^15.7.1",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
   },

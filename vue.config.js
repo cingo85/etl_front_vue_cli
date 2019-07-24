@@ -8,10 +8,11 @@ function resolve(dir){
 module.exports = {
   assetsDir: '/static',
   configureWebpack:config => {
+    devtool:'sourcemap',
     config.resolve= {
       extensions: ['.js', '.vue', '.json',".css"],
       alias: {
-        'vue$': 'vue/dist/vue.esm.js',
+        'vue$': 'vue/dist/vue.js',
         '@':resolve('src')
       }
     }

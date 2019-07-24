@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './components/Login.vue'
-import FunctionTable from './components/FunctionTable.vue'
+import Login from './views/Login.vue'
+import FunctionTable from './views/FunctionTable.vue'
 
 Vue.use(Router)
 

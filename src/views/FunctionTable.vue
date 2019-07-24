@@ -1,16 +1,14 @@
 <template>
-  <div class="main">
-    <h1>This is an about page</h1>
-  </div>
+  <FunctionTable></FunctionTable>
 </template>
 <script>
 import FunctionTable from '@/components/FunctionTable.vue'
 
+
 import 'bootstrap'
 import 'jquery'
 import 'popper.js'
-import '../assets/css/reset.css'
-import '../assets/css/style.css'
+
 
 
 export default {
