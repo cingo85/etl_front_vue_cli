@@ -3,7 +3,7 @@
     <Header v-if="header_show">
       <app-header></app-header>
     </Header>
-    <router-view v-on:header="header" v-on:footer="footer"></router-view>
+    <router-view v-on:header="header" v-on:footer="footer" v-on:project="project"></router-view>
     <projectChangePage v-if="project_show">
       <project-Page></project-Page>
     </projectChangePage>

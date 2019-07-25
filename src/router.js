@@ -38,7 +38,7 @@ export default new Router({
       component: indexPage,
       children: [
         {
-          path: 'projectChangePage',
+          path: '/projectChangePage',
           name: 'projectChangePage',
           component: projectChangePage
         }
