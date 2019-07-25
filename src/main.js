@@ -9,11 +9,13 @@ import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../src/assets/css/animate.css'
 
+
+
 Vue.config.productionTip = false
 Vue.use(Vuex);
 new Vue({
-    el:'#app',
-    render: h => h(App),
-    store,
-    router
-  }).$mount('#app')
+  el: '#app',
+  render: h => h(App),
+  store,
+  router
+}).$mount('#app')

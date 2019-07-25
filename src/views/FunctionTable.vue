@@ -2,21 +2,14 @@
   <FunctionTable></FunctionTable>
 </template>
 <script>
-import FunctionTable from '@/components/FunctionTable.vue'
-
-
-import 'bootstrap'
-import 'jquery'
-import 'popper.js'
-
-
+import FunctionTable from "@/components/FunctionTable.vue";
+import "jquery-ui-bundle";
 
 export default {
-  name :'functionTable',
-  components:{
+  name: "functionTable",
+  components: {
     FunctionTable
   }
-  
-}
+};
 </script>
 
