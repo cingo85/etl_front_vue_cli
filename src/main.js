@@ -8,6 +8,7 @@ import 'popper.js'
 import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../src/assets/css/animate.css'
+import '../src/assets/css/style.css'
 
 
 

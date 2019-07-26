@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './views/Login.vue'
-import FunctionTable from './views/FunctionTable.vue'
-import indexPage from './views/indexPage.vue'
-import NotFound from './views/404.vue'
-import projectChangePage from './views/projectChangePage.vue'
-import header from './views/header.vue'
-import footer from './views/footer.vue'
+import Login from './views/mainpage/Login.vue'
+import FunctionTable from './views/mainpage/FunctionTable.vue'
+import indexPage from './views/mainpage/indexPage.vue'
+import NotFound from './views/otherpage/404.vue'
+import statistics from './views/mainpage/statistics.vue'
+import projectPage from './views/mainpage/projectPage.vue'
 
 Vue.use(Router)
 
@@ -20,7 +19,7 @@ export default new Router({
 
     },
     {
-      path: '/Login',
+      path: '/',
       name: 'login',
       component: Login
     },
@@ -35,14 +34,17 @@ export default new Router({
     {
       path: '/indexPage',
       name: 'indexPage',
-      component: indexPage,
-      children: [
-        {
-          path: '/projectChangePage',
-          name: 'projectChangePage',
-          component: projectChangePage
-        }
-      ]
+      component: indexPage
+    },
+    {
+      path: '/projectPage',
+      name: 'projectPage',
+      component: projectPage
+    }, {
+      path: '/statistics',
+      name: 'statistics',
+      component: statistics
     }
+
   ]
 })
