@@ -1,5 +1,5 @@
 export default {
-  name: 'vueData',
+  name: 'functionTable',
   data() {
     return {
       functionTable: {
