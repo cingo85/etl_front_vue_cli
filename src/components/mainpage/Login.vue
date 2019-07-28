@@ -7,7 +7,7 @@
       </div>
       <h3>ETL清洗程式</h3>
 
-      <p>請輸入帳號密碼</p>
+      <p>{{ msg }}</p>
       <form class="m-t" role="form" action="index.html">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Username" required id="username" />
@@ -24,10 +24,14 @@
 </body>
 </template>
 
-<script>
-export default {
-  name: "login"
-};
+<script lang="ts">
+import Component from "vue-class-component";
+import App from "../../App.vue";
+
+@Component
+export default class Login extends App {
+  private msg!: string;
+}
 </script>
 
 
