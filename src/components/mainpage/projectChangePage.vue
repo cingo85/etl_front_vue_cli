@@ -14,7 +14,7 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" id="inputPassword2" />
+                <input size="21" type="text" class="form-control" id="project_name" />
               </div>
               <div class="form-group col-md-2">
                 <label for="staticEmail2">客戶名稱</label>
@@ -87,8 +87,14 @@
 </template>
 
 <script>
+import { apiCreateNewProject } from "../../api";
+
 export default {
-  name: "projectChangePage"
+  name: "projectChangePage",
+  data() {
+    return {};
+  },
+  methods: {}
 };
 </script>
 

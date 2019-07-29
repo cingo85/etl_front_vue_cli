@@ -27,6 +27,7 @@ import Header from "@/views/otherpage/header.vue";
 import Footer from "@/views/otherpage/footer.vue";
 import projectChangePage from "@/views/mainpage/projectChangePage.vue";
 import createNewTable from "@/views/mainpage/createNewTable.vue";
+import Register from "@/views/mainpage/register.vue";
 import Vue from "vue";
 
 export default {
@@ -44,6 +45,7 @@ export default {
     FunctionTable,
     projectChangePage,
     createNewTable,
+    Register,
     "app-header": Header,
     "app-footer": Footer,
     "project-Page": projectChangePage,

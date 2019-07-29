@@ -1,0 +1,28 @@
+import axios from 'axios'
+
+axios.defaults.baseURL = 'http://localhost:8093/api/'
+
+/*
+if (process.env.NODE_ENV == 'development') {
+    axios.defaults.baseURL = 'http://localhost:8093/api/';
+} else if (process.env.NODE_ENV == 'production') {
+    axios.defaults.baseURL = '';
+} else {
+    axios.defaults.baseURL = 'http://localhost:8093/api/';
+}*/
+
+//User Api
+const userRequest = axios.create({
+    baseURL: 'http://localhost:8093/api/t_member'
+});
+
+export const apiUserRegister = data => userRequest.post('/createNewmember', data);
+
+export const apiUserLogin = data => userRequest.post('/Login', data)
+
+const projectRequest = axios.create({
+    baseURL: 'http://localhost:8093/api/t_project'
+});
+
+export const apiQueryAllproject = () => projectRequest.get('/queryAllproject');
+export const apiCreateNewProject = data => projectRequest.post('/createNewProject', data);

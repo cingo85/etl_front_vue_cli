@@ -79,8 +79,19 @@
 </template>
 
 <script>
+import { apiQueryAllproject } from "../../api";
+
 export default {
-  name: "indexPage"
+  name: "indexPage",
+  data: {
+    projectForm: "Insert"
+  },
+  methods: {},
+  mounted: function() {
+    apiQueryAllproject().then(res => {
+      console.log(res);
+    });
+  }
 };
 </script>
 

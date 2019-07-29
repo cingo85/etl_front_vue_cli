@@ -9,10 +9,14 @@ import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
 import '../src/assets/css/animate.css'
 import '../src/assets/css/style.css'
+import '../src/api'
+import axios from "axios";
+import { URLSearchParams } from "url";
 
-
-
+global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
+Vue.prototype.axios = axios
+
 Vue.use(Vuex);
 new Vue({
   el: '#app',

@@ -6,6 +6,7 @@ import indexPage from './views/mainpage/indexPage.vue'
 import NotFound from './views/otherpage/404.vue'
 import statistics from './views/mainpage/statistics.vue'
 import projectPage from './views/mainpage/projectPage.vue'
+import Register from './views/mainpage/register.vue'
 
 Vue.use(Router)
 
@@ -30,6 +31,10 @@ export default new Router({
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
       component: FunctionTable
+    }, {
+      path: '/register',
+      name: 'Register',
+      component: Register
     },
     {
       path: '/indexPage',
