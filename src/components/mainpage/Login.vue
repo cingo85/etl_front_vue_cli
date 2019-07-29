@@ -24,14 +24,10 @@
 </body>
 </template>
 
-<script lang="ts">
-import Component from "vue-class-component";
-import App from "../../App.vue";
-
-@Component
-export default class Login extends App {
-  private msg!: string;
-}
+<script>
+export default {
+  name: "Login"
+};
 </script>
 
 

@@ -3,7 +3,6 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import Component from "vue-class-component";
 import 'jquery'
 import 'popper.js'
 import 'bootstrap/dist/js/bootstrap'
