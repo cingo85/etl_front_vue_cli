@@ -1,9 +1,9 @@
 <template>
-  <Register></Register>
+  <RegisterView></RegisterView>
 </template>
 
 <script>
-import Register from "@/components/mainpage/register.vue";
+import RegisterView from "@/components/mainpage/register.vue";
 import "bootstrap";
 import "jquery";
 import "popper.js";
@@ -12,7 +12,7 @@ import "../../assets/css/style2.css";
 export default {
   name: "register",
   components: {
-    Register
+    RegisterView
   },
   data() {
     return {};

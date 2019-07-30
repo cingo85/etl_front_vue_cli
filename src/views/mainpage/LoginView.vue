@@ -1,10 +1,10 @@
 <template>
-  <Login></Login>
+  <LoginView></LoginView>
 </template>
 
 <script>
 // @ is an alias to /src
-import Login from "@/components/mainpage/Login.vue";
+import LoginView from "@/components/mainpage/Login.vue";
 import "bootstrap";
 import "jquery";
 import "popper.js";
@@ -13,7 +13,7 @@ import "../../assets/css/style2.css";
 export default {
   name: "login",
   components: {
-    Login
+    LoginView
   },
   data() {
     return {};

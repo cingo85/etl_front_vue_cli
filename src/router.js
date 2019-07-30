@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Login from './views/mainpage/Login.vue'
-import FunctionTable from './views/mainpage/FunctionTable.vue'
-import indexPage from './views/mainpage/indexPage.vue'
+import Login from './views/mainpage/LoginView.vue'
+import FunctionTable from './views/mainpage/FunctionTableView.vue'
+import indexPage from './views/mainpage/indexPageView.vue'
 import NotFound from './views/otherpage/404.vue'
-import statistics from './views/mainpage/statistics.vue'
-import projectPage from './views/mainpage/projectPage.vue'
-import Register from './views/mainpage/register.vue'
+import statistics from './views/mainpage/statisticsView.vue'
+import projectPage from './views/mainpage/projectPageView.vue'
+import Register from './views/mainpage/registerView.vue'
 
 Vue.use(Router)
 

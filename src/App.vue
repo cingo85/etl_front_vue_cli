@@ -21,13 +21,13 @@
   </div>
 </template>
 <script>
-import Login from "@/views/mainpage/Login.vue";
-import FunctionTable from "@/views/mainpage/FunctionTable.vue";
-import Header from "@/views/otherpage/header.vue";
-import Footer from "@/views/otherpage/footer.vue";
-import projectChangePage from "@/views/mainpage/projectChangePage.vue";
-import createNewTable from "@/views/mainpage/createNewTable.vue";
-import Register from "@/views/mainpage/register.vue";
+import Login from "@/views/mainpage/LoginView.vue";
+import FunctionTable from "@/views/mainpage/FunctionTableView.vue";
+import Header from "@/views/otherpage/headerView.vue";
+import Footer from "@/views/otherpage/footerView.vue";
+import projectChangePage from "@/views/mainpage/projectChangePageView.vue";
+import createNewTable from "@/views/mainpage/createNewTableView.vue";
+import Register from "@/views/mainpage/registerView.vue";
 import Vue from "vue";
 
 export default {

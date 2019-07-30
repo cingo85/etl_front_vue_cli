@@ -86,6 +86,7 @@ export default {
   data: {
     projectForm: "Insert"
   },
+  created: {},
   methods: {},
   mounted: function() {
     apiQueryAllproject().then(res => {

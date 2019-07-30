@@ -1,5 +1,5 @@
 <template>
-  <project-Change-Page></project-Change-Page>
+  <projectChangePageView></projectChangePageView>
 </template>
 
 <script>
@@ -7,7 +7,7 @@ import projectChangePage from "@/components/mainpage/projectChangePage.vue";
 export default {
   name: "projectChangePage",
   components: {
-    "project-Change-Page": projectChangePage
+    projectChangePageView: projectChangePage
   },
   created: function() {
     this.$emit("header", false);

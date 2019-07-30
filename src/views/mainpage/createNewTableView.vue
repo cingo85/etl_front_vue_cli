@@ -1,13 +1,13 @@
 <template>
-<create-New-Table></create-New-Table>
+  <createNewTableView></createNewTableView>
 </template>
 
 <script>
-import createNewTable from "@/components/mainpage/createNewTable.vue";
+import createNewTableView from "@/components/mainpage/createNewTable.vue";
 export default {
   name: "createNewTable",
   components: {
-    "create-New-Table": createNewTable
+    createNewTableView: createNewTableView
   },
   created: function() {
     this.$emit("header", false);
