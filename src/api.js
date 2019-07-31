@@ -19,6 +19,9 @@ const userRequest = axios.create({
 export const apiUserRegister = data => userRequest.post('/createNewmember', data);
 export const apiUserLogin = data => userRequest.post('/Login', data)
 
+
+
+//Project Api
 const projectRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_project'
 });
@@ -26,6 +29,8 @@ const projectRequest = axios.create({
 export const apiQueryAllproject = () => projectRequest.get('/queryAllproject');
 export const apiCreateNewProject = data => projectRequest.post('/createNewProject', data);
 
+
+//DataSource Api
 const datasourceRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_datasource'
 });

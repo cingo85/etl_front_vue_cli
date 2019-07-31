@@ -12,12 +12,15 @@ import '../src/assets/css/style.css'
 import '../src/api'
 import axios from "axios";
 import { URLSearchParams } from "url";
+import UUID from 'uuid'
 
 global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
 Vue.prototype.axios = axios
 
 Vue.use(Vuex);
+Vue.use(UUID);
+
 new Vue({
   el: '#app',
   render: h => h(App),

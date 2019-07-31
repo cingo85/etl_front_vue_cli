@@ -89,6 +89,7 @@
 
 <script>
 import { apiCreateNewProject, apiCreateNewDataBase } from "../../api";
+import { uuid } from "uuid";
 
 export default {
   name: "projectChangePage",
@@ -99,8 +100,17 @@ export default {
       check_date: "",
       warr_date: "",
       note: "",
-      datasource_type: ""
+      datasource_type: "",
+      project_creater_id: "kate",
+      datasource_name: "xxx"
     };
+  },
+  created: function() {
+    const uuidv1 = require("uuid/v1");
+    const uuidv4 = require("uuid/v4");
+    var project_id_UUID = uuidv1();
+    var datasource_id_UUID = uuidv4();
+    console.log(project_id_UUID + "." + datasource_id_UUID);
   },
   methods: {
     createNewProject() {
@@ -109,19 +119,26 @@ export default {
         customer_name: this.customer_name,
         check_date: this.check_date,
         warr_date: this.warr_date,
-        note: this.note
-      }),
-        apiCreateNewDataBase({
-          datasource_type: this.datasource_type,
-          database_ip: this.database_ip,
-          database_port: this.database_port,
-          datasource_name: this.datasource_name,
-          database_user: this.database_user,
-          database_password: this.database_password,
-          note: this.note,
-          state: this.state,
-          data_root: this.data_root
-        });
+        note: this.note,
+        project_id: "this.project_id_UUID",
+        project_creater_id: "kate",
+        project_last_modify_id: "kate",
+        state: "w",
+        t_datasource: [
+          {
+            datasource_type: this.datasource_type,
+            database_ip: this.database_ip,
+            database_port: this.database_port,
+            database_user: this.database_user,
+            database_password: this.database_password,
+            note: this.note,
+            state: this.state,
+            data_root: this.data_root,
+            datasource_name: "blabla",
+            datasource_id: "this.datasource_id_UUID"
+          }
+        ]
+      });
     }
   }
 };
