@@ -83,12 +83,12 @@ import { apiQueryAllproject } from "../../api";
 
 export default {
   name: "indexPage",
-  data: {
-    projectForm: "Insert"
+  data() {
+    return {
+      projectForm: "Insert"
+    };
   },
-  created: {},
-  methods: {},
-  mounted: function() {
+  created: function() {
     apiQueryAllproject().then(res => {
       console.log(res);
     });

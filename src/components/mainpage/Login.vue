@@ -8,7 +8,7 @@
       <h3>ETL清洗程式</h3>
 
       <p>test</p>
-      <form class="m-t" role="form" @submit.prevent="login">
+      <form class="m-t" role="form">
         <div class="form-group">
           <input
             type="text"

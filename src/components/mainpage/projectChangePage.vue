@@ -14,14 +14,14 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" id="project_name" />
+                <input size="21" type="text" class="form-control" v-model="project_name" />
               </div>
               <div class="form-group col-md-2">
                 <label for="staticEmail2">客戶名稱</label>
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" id="inputPassword2" />
+                <input size="21" type="text" class="form-control" v-model="customer_name" />
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -33,7 +33,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="check_date" />
                 </div>
               </div>
               <div class="form-group col-md-2">
@@ -44,7 +44,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="warr_date" />
                 </div>
               </div>
             </div>
@@ -54,7 +54,7 @@
               </div>
               <div id="selectdatasourceDiv" class="form-group col-md-10">
                 <label for="inputPassword2" class="sr-only"></label>
-                <select class="custom-select" id="datasource">
+                <select class="custom-select" v-model="datasource_type">
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
@@ -72,13 +72,14 @@
                   id="exampleFormControlTextarea2"
                   rows="2"
                   cols="100"
+                  v-model="note"
                 ></textarea>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">確定</button>
+          <button v-on:click="createNewProject" type="button" class="btn btn-primary">確定</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
         </div>
       </div>
@@ -87,14 +88,42 @@
 </template>
 
 <script>
-import { apiCreateNewProject } from "../../api";
+import { apiCreateNewProject, apiCreateNewDataBase } from "../../api";
 
 export default {
   name: "projectChangePage",
   data() {
-    return {};
+    return {
+      project_name: "",
+      customer_name: "",
+      check_date: "",
+      warr_date: "",
+      note: "",
+      datasource_type: ""
+    };
   },
-  methods: {}
+  methods: {
+    createNewProject() {
+      apiCreateNewProject({
+        project_name: this.project_name,
+        customer_name: this.customer_name,
+        check_date: this.check_date,
+        warr_date: this.warr_date,
+        note: this.note
+      }),
+        apiCreateNewDataBase({
+          datasource_type: this.datasource_type,
+          database_ip: this.database_ip,
+          database_port: this.database_port,
+          datasource_name: this.datasource_name,
+          database_user: this.database_user,
+          database_password: this.database_password,
+          note: this.note,
+          state: this.state,
+          data_root: this.data_root
+        });
+    }
+  }
 };
 </script>
 

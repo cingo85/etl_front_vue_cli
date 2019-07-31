@@ -17,7 +17,6 @@ const userRequest = axios.create({
 });
 
 export const apiUserRegister = data => userRequest.post('/createNewmember', data);
-
 export const apiUserLogin = data => userRequest.post('/Login', data)
 
 const projectRequest = axios.create({
@@ -26,3 +25,9 @@ const projectRequest = axios.create({
 
 export const apiQueryAllproject = () => projectRequest.get('/queryAllproject');
 export const apiCreateNewProject = data => projectRequest.post('/createNewProject', data);
+
+const datasourceRequest = axios.create({
+    baseURL: 'http://localhost:8093/api/t_datasource'
+});
+
+export const apiCreateNewDataBase = data => datasourceRequest.post('/createNewDataBase', data)
