@@ -56,15 +56,15 @@
                 <label for="inputPassword2" class="sr-only"></label>
 
                 <select class="custom-select" v-model="datasource_type">
-                  <option value>{{datasource_type[index]}}</option>
+                  <option value>請選擇</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
                 </select>
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="datasource_type[index] === 'database'"
-                v-show="datasource_type[index] ==='database'"
+                v-if="datasource_type === 'database'"
+                v-show="datasource_type==='database'"
               >
                 <input type="text" placeholder="資料庫IP" class="form-control" id="databaseIP" />
               </div>
