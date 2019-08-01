@@ -7,7 +7,7 @@
         </div>
 
         <div class="modal-body">
-          <form xclass="form-inline">
+          <form>
             <div style="margin: 5px" class="form-inline">
               <div class="form-group col-md-2">
                 <label for="staticEmail2">專案名稱</label>
@@ -48,17 +48,99 @@
                 </div>
               </div>
             </div>
-            <div style="margin: 5px" class="form-inline">
+            <div style="margin: 5px" class="form-inline" v-for="(item ,index) in t_datasource">
               <div class="form-group col-md-2">
-                <label for="staticEmail2">資料來源</label>
+                <label for="staticEmail2">第{{index+1}}筆資料來源</label>
               </div>
-              <div id="selectdatasourceDiv" class="form-group col-md-10">
+              <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
+
                 <select class="custom-select" v-model="datasource_type">
-                  <option value>請選擇</option>
+                  <option value>{{datasource_type[index]}}</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
                 </select>
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="datasource_type[index] === 'database'"
+                v-show="datasource_type[index] ==='database'"
+              >
+                <input type="text" placeholder="資料庫IP" class="form-control" id="databaseIP" />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="datasource_type === 'database'"
+                v-show="datasource_type==='database'"
+              >
+                <input type="text" placeholder="資料庫帳號" class="form-control" id="databaseAccount" />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="datasource_type === 'database'"
+                v-show="datasource_type==='database'"
+              >
+                <input type="text" placeholder="資料庫密碼" class="form-control" id="databasePassword" />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="datasource_type === 'database'"
+                v-show="datasource_type==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫說明"
+                  class="form-control"
+                  id="databaseDescription"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="datasource_type === 'database'"
+                v-show="datasource_type==='database'"
+              ></div>
+              <div
+                class="form-group col-md-6"
+                v-if="datasource_type === 'datafolder'"
+                v-show="datasource_type==='datafolder'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料夾路徑"
+                  size="50"
+                  class="form-control"
+                  id="datafolderPath"
+                />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="datasource_type === 'datafolder'"
+                v-show="datasource_type==='datafolder'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料夾說明"
+                  style="margin-left:-94px"
+                  class="form-control"
+                  id="datafolderDescription"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="datasource_type != ''"
+                v-show="datasource_type !=''"
+              >
+                <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
+                <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
+              </div>
+            </div>
+            <div style="margin: 5px" class="form-inline">
+              <div class="form-group col-md-2">
+                <label for="staticEmail2">資料存放路徑</label>
+              </div>
+              <div class="form-group col-md-10">
+                <label for="inputPassword2" class="sr-only"></label>
+                <input size="29" type="text" class="form-control" v-model="project_name" />
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -95,14 +177,19 @@ export default {
   name: "projectChangePage",
   data() {
     return {
+      datasource_type: "",
       project_name: "",
       customer_name: "",
       check_date: "",
       warr_date: "",
       note: "",
-      datasource_type: "",
       project_creater_id: "kate",
-      datasource_name: "xxx"
+      datasource_name: "xxx",
+      t_datasource: [
+        {
+          datasource_type: ""
+        }
+      ]
     };
   },
   created: function() {
@@ -112,7 +199,16 @@ export default {
     var datasource_id_UUID = uuidv4();
     console.log(project_id_UUID + "." + datasource_id_UUID);
   },
+  watch: {
+    datasource_type: function() {
+      if ($("div[name='selectdatasourceDiv']").hasClass("col-md-10")) {
+        $("div[name='selectdatasourceDiv']").remove("col-md-10");
+        $("div[name='selectdatasourceDiv']").add("col-md-1");
+      }
+    }
+  },
   methods: {
+    //API接口
     createNewProject() {
       apiCreateNewProject({
         project_name: this.project_name,
@@ -139,6 +235,20 @@ export default {
           }
         ]
       });
+    },
+    addCol: function(index) {
+      $("div[name='selectdatasourceDiv']")
+        .remove("form-group col-md-10")
+        .add("form-group col-md-1");
+
+      let obj = {
+        datasource_type: ""
+      };
+
+      this.t_datasource.splice(index + 1, 0, obj);
+    },
+    removeCol: function(index) {
+      this.t_datasource.splice(index, 1);
     }
   }
 };

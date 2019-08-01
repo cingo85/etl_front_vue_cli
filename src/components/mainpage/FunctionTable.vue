@@ -167,15 +167,15 @@ export default {
       this.$forceUpdate();
     },
     addCol: function(index) {
-      this.functionTable.ColTable.splice(index + 1, 0, "add");
+      this.functionTable.Data.ColTable.splice(index + 1, 0, "add");
       this.DB.splice(index + 1, 0, "");
     },
     removeCol: function(index) {
-      this.functionTable.ColTable.splice(index, 1);
+      this.functionTable.Data.ColTable.splice(index, 1);
       this.DB.splice(index, 1);
     },
     addRow: function(index) {
-      this.functionTable.RowTable.splice(index + 1, 0, "add");
+      this.functionTable.Data.RowTable.splice(index + 1, 0, "add");
       let obj = {
         eng: "",
         chin: "",
@@ -183,11 +183,11 @@ export default {
         pk: "",
         logic: ""
       };
-      this.functionData.splice(index + 1, 0, obj);
+      this.functionTable.Data.functionData.splice(index + 1, 0, obj);
     },
     removeRow: function(index) {
-      this.functionTable.RowTable.splice(index, 1);
-      this.functionData.splice(index, 1);
+      this.functionTable.Data.RowTable.splice(index, 1);
+      this.functionTable.Data.functionData.splice(index, 1);
     }
   }
 };
