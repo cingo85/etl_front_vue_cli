@@ -1,14 +1,14 @@
 <template>
-  <Footer></Footer>
+  <FooterView></FooterView>
 </template>
 
 <script>
-import Footer from "@/components/otherpage/footer.vue";
+import FooterView from "@/components/otherpage/footer.vue";
 
 export default {
   name: "app-footer",
   components: {
-    Footer
+    FooterView
   }
 };
 </script>

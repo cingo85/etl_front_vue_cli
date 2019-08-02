@@ -1,13 +1,13 @@
 <template>
-  <index-page></index-page>
+  <indexpageView></indexpageView>
 </template>
 
 <script>
-import index_Page from "@/components/mainpage/IndexPage.vue";
+import indexPageView from "@/components/mainpage/IndexPage.vue";
 export default {
   name: "indexPage",
   components: {
-    "index-page": index_Page
+    indexpageView: indexPageView
   },
   created: function() {
     this.$emit("project", true);

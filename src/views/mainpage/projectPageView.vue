@@ -1,5 +1,5 @@
 <template>
-  <project-Page></project-Page>
+  <projectPageView></projectPageView>
 </template>
 
 <script>
@@ -8,7 +8,7 @@ import projectPage from "@/components/mainpage/projectPage.vue";
 export default {
   name: "projectPage",
   components: {
-    "project-Page": projectPage
+    projectPageView: projectPage
   },
   created: function() {
     this.$emit("createTable", true);

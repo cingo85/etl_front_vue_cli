@@ -7,21 +7,21 @@
         </div>
 
         <div class="modal-body">
-          <form xclass="form-inline">
+          <form>
             <div style="margin: 5px" class="form-inline">
               <div class="form-group col-md-2">
                 <label for="staticEmail2">專案名稱</label>
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" id="inputPassword2" />
+                <input size="21" type="text" class="form-control" v-model="project_name" />
               </div>
               <div class="form-group col-md-2">
                 <label for="staticEmail2">客戶名稱</label>
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" id="inputPassword2" />
+                <input size="21" type="text" class="form-control" v-model="customer_name" />
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -33,7 +33,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="check_date" />
                 </div>
               </div>
               <div class="form-group col-md-2">
@@ -44,21 +44,131 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="warr_date" />
                 </div>
               </div>
             </div>
-            <div style="margin: 5px" class="form-inline">
+            <div style="margin: 5px" class="form-inline" v-for="(item ,index) in t_datasource">
               <div class="form-group col-md-2">
-                <label for="staticEmail2">資料來源</label>
+                <label for="staticEmail2">第{{index+1}}筆資料來源</label>
               </div>
-              <div id="selectdatasourceDiv" class="form-group col-md-10">
+              <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
-                <select class="custom-select" id="datasource">
+
+                <select class="custom-select" v-model="t_datasource[index].datasource_type">
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
                 </select>
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫IP"
+                  class="form-control"
+                  v-model="t_datasource[index].database_ip"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫Port"
+                  size="10"
+                  class="form-control"
+                  v-model="t_datasource[index].database_port"
+                />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫帳號"
+                  class="form-control"
+                  v-model="t_datasource[index].database_user"
+                />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫密碼"
+                  class="form-control"
+                  v-model="t_datasource[index].database_password"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料庫說明"
+                  class="form-control"
+                  v-model="t_datasource[index].database_note"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="t_datasource[index].datasource_type === 'database'"
+                v-show="t_datasource[index].datasource_type ==='database'"
+              ></div>
+              <div
+                class="form-group col-md-6"
+                v-if="t_datasource[index].datasource_type === 'datafolder'"
+                v-show="t_datasource[index].datasource_type ==='datafolder'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料夾路徑"
+                  size="50"
+                  class="form-control"
+                  v-model="t_datasource[index].data_root"
+                />
+              </div>
+              <div
+                class="form-group col-md-2"
+                v-if="t_datasource[index].datasource_type === 'datafolder'"
+                v-show="t_datasource[index].datasource_type ==='datafolder'"
+              >
+                <input
+                  type="text"
+                  placeholder="資料夾說明"
+                  style="margin-left:-94px"
+                  class="form-control"
+                  v-model="t_datasource[index].database_note"
+                />
+              </div>
+              <div
+                class="form-group col-md-1"
+                v-if="t_datasource[index].datasource_type != ''"
+                v-show="t_datasource[index].datasource_type !=''"
+              >
+                <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
+                <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
+              </div>
+            </div>
+            <div style="margin: 5px" class="form-inline">
+              <div class="form-group col-md-2">
+                <label for="staticEmail2">資料存放路徑</label>
+              </div>
+              <div class="form-group col-md-10">
+                <label for="inputPassword2" class="sr-only"></label>
+                <input size="29" type="text" class="form-control" />
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -72,13 +182,14 @@
                   id="exampleFormControlTextarea2"
                   rows="2"
                   cols="100"
+                  v-model="note"
                 ></textarea>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">確定</button>
+          <button v-on:click="createNewProject" type="button" class="btn btn-primary">確定</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
         </div>
       </div>
@@ -87,8 +198,101 @@
 </template>
 
 <script>
+import { apiCreateNewProject, apiCreateNewDataBase } from "../../api";
+import { uuid } from "uuid";
+
 export default {
-  name: "projectChangePage"
+  name: "projectChangePage",
+  data() {
+    const uuidv4 = require("uuid/v4");
+    var datasource_id_UUID = uuidv4();
+
+    const uuidv1 = require("uuid/v1");
+    var project_id_UUID = uuidv1();
+    return {
+      project_id: project_id_UUID,
+      project_name: "",
+      project_creater_id: "KATE",
+      project_last_modify_id: "KATE",
+      customer_name: "",
+      check_date: "",
+      warr_date: "",
+      note: "",
+      t_datasource: [
+        {
+          project_id: project_id_UUID,
+          datasource_type: "",
+          database_ip: "",
+          database_port: "",
+          database_user: "",
+          database_password: "",
+          database_note: "",
+          state: "",
+          data_root: "",
+          datasource_name: "blabla",
+          datasource_type: "",
+          datasource_id: datasource_id_UUID
+        }
+      ]
+    };
+  },
+  created: function() {
+    const uuidv1 = require("uuid/v1");
+    var project_id_UUID = uuidv1();
+    const uuidv4 = require("uuid/v4");
+    var datasource_id_UUID = uuidv4();
+  },
+  watch: {
+    datasource_type: function() {
+      if ($("div[name='selectdatasourceDiv']").hasClass("col-md-10")) {
+        $("div[name='selectdatasourceDiv']").remove("col-md-10");
+        $("div[name='selectdatasourceDiv']").add("col-md-1");
+      }
+    }
+  },
+  methods: {
+    //API接口
+    createNewProject() {
+      apiCreateNewProject({
+        project_name: this.project_name,
+        customer_name: this.customer_name,
+        check_date: this.check_date,
+        warr_date: this.warr_date,
+        note: this.note,
+        project_id: this.project_id,
+        project_creater_id: "kate",
+        project_last_modify_id: "kate",
+        state: "w",
+        t_datasource: this.t_datasource
+      });
+    },
+    addCol: function(index) {
+      $("div[name='selectdatasourceDiv']")
+        .remove("form-group col-md-10")
+        .add("form-group col-md-1");
+
+      const uuidv4 = require("uuid/v4");
+      var datasource_id_UUID = uuidv4();
+      let obj = {
+        project_id: this.project_id,
+        datasource_type: "",
+        datasource_id: datasource_id_UUID,
+        database_ip: "",
+        database_port: "",
+        database_user: "",
+        database_password: "",
+        note: "",
+        state: "",
+        data_root: "",
+        datasource_name: ""
+      };
+
+      this.t_datasource.splice(index + 1, 0, obj);
+    },
+    removeCol: function(index) {
+      this.t_datasource.splice(index, 1);
+    }
+  }
 };
 </script>
 

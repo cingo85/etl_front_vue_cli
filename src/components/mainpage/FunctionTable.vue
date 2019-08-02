@@ -9,7 +9,7 @@
         <th scope="col">
           <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
         </th>
-        <th scope="col" v-for="(item,index) in functionTable.ColTable">
+        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
           >
@@ -26,8 +26,8 @@
         </th>
         <th scope="col" colspan="3">大表英文名稱</th>
         <th scope="col">資料庫名稱</th>
-        <th scope="col" v-for="(item,index) in functionTable.ColTable">
-          <textarea class="content" type="text" v-model="DB[index].DBname"></textarea>
+        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+          <textarea class="content" type="text" v-model="item.DBname"></textarea>
         </th>
       </tr>
       <tr>
@@ -36,8 +36,8 @@
         </th>
         <th scope="col" colspan="3" rowspan="2">大表中文名稱</th>
         <th scope="col">表單名稱</th>
-        <th scope="col" v-for="(item,index) in functionTable.ColTable">
-          <textarea class="content" type="text" v-model="DB[index].TableName"></textarea>
+        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+          <textarea class="content" type="text" v-model="item.TableName"></textarea>
         </th>
       </tr>
       <tr>
@@ -45,7 +45,7 @@
           <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
         </th>
         <th scope="col">串接順序</th>
-        <th scope="col" v-for="(item,index) in functionTable.ColTable">
+        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <textarea class="content sort-key" id type="text" v-model="index">{{index}}</textarea>
         </th>
       </tr>
@@ -56,14 +56,14 @@
         <td>欄位型態</td>
         <td>pk/nop</td>
         <td>表單邏輯</td>
-        <th scope="col" v-for="(item,index) in functionTable.ColTable">
+        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <textarea class="content" type="text"></textarea>
         </th>
       </tr>
     </thead>
 
     <tbody id="sortableRow">
-      <tr :id="'drag'+index" v-for="(item,index) in functionTable.RowTable">
+      <tr :id="'drag'+index" v-for="(item,index) in functionTable.Data.functionData">
         <td scope="row" id="draggable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
@@ -73,21 +73,21 @@
           </div>
         </td>
         <td>
-          <textarea class="content" type="text" v-model="functionData[index].eng">{{functionData[index].eng}}</textarea>
+          <textarea class="content" type="text" v-model="item.eng">{{item.eng}}</textarea>
         </td>
         <td>
-          <textarea class="content" type="text" v-model="functionData[index].chin">{{functionData[index].chin}}</textarea>
+          <textarea class="content" type="text" v-model="item.chin">{{item.chin}}</textarea>
         </td>
         <td>
-          <textarea class="content" type="text" v-model="functionData[index].type">{{functionData[index].type}}</textarea>
+          <textarea class="content" type="text" v-model="item.type">{{item.type}}</textarea>
         </td>
         <td>
-          <textarea class="content" type="text" v-model="functionData[index].pk">{{functionData[index].pk}}</textarea>
+          <textarea class="content" type="text" v-model="item.pk">{{item.pk}}</textarea>
         </td>
         <td>
-          <textarea class="content" type="text" v-model="functionData[index].login">{{functionData[index].login}}</textarea>
+          <textarea class="content" type="text" v-model="item.login">{{item.login}}</textarea>
         </td>
-        <td v-for="(item,index) in functionTable.ColTable">
+        <td v-for="(item,index2) in functionTable.Data.ColTable">
           <textarea class="content" type="text"></textarea>
         </td>
       </tr>
@@ -95,18 +95,18 @@
   </table>
 </template>
 <script>
-import Vue from "vue";
-import $ from "jquery";
-import functionTable from "@/assets/js/hello.js";
-//Vue.prototype.GLOBAL = functionTable;
+import { functionTable } from "@/assets/js/hello.js";
+
 export default {
   name: "functionTable",
   data() {
     return {
-      functionTable: functionTable.functionTable
+      functionTable: ""
     };
   },
-  created: function() {},
+  created: function() {
+    this.functionTable = functionTable;
+  },
   mounted: function() {
     // $(document).disableSelection();
     $("#sortableRow").sortable({
@@ -167,16 +167,15 @@ export default {
       this.$forceUpdate();
     },
     addCol: function(index) {
-      console.log("addCol");
-      this.functionTable.ColTable.splice(index + 1, 0, "add");
+      this.functionTable.Data.ColTable.splice(index + 1, 0, "add");
       this.DB.splice(index + 1, 0, "");
     },
     removeCol: function(index) {
-      this.functionTable.ColTable.splice(index, 1);
+      this.functionTable.Data.ColTable.splice(index, 1);
       this.DB.splice(index, 1);
     },
     addRow: function(index) {
-      this.functionTable.RowTable.splice(index + 1, 0, "add");
+      this.functionTable.Data.RowTable.splice(index + 1, 0, "add");
       let obj = {
         eng: "",
         chin: "",
@@ -184,11 +183,11 @@ export default {
         pk: "",
         logic: ""
       };
-      this.functionData.splice(index + 1, 0, obj);
+      this.functionTable.Data.functionData.splice(index + 1, 0, obj);
     },
     removeRow: function(index) {
-      this.functionTable.RowTable.splice(index, 1);
-      this.functionData.splice(index, 1);
+      this.functionTable.Data.RowTable.splice(index, 1);
+      this.functionTable.Data.functionData.splice(index, 1);
     }
   }
 };

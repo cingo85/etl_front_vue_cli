@@ -1,14 +1,14 @@
 <template>
-  <Header></Header>
+  <HeaderView></HeaderView>
 </template>
 
 <script>
-import Header from "@/components/otherpage/header.vue";
+import HeaderView from "@/components/otherpage/header.vue";
 
 export default {
   name: "app-header",
   components: {
-    Header
+    HeaderView
   }
 };
 </script>

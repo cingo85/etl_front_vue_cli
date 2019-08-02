@@ -7,31 +7,70 @@
       </div>
       <h3>ETL清洗程式</h3>
 
-      <p>{{ msg }}</p>
-      <form class="m-t" role="form" action="index.html">
+      <p>test</p>
+      <form class="m-t" role="form">
         <div class="form-group">
-          <input type="text" class="form-control" placeholder="Username" required id="username" />
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Username"
+            required
+            v-model="username"
+          />
         </div>
         <div class="form-group">
-          <input type="password" class="form-control" placeholder="Password" required id="password" />
+          <input
+            type="password"
+            class="form-control"
+            placeholder="Password"
+            required
+            v-model="password"
+          />
         </div>
-        <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+        <button v-on:click="login" type="submit" class="btn btn-primary block full-width m-b">Login</button>
 
-        <a class="btn btn-sm btn-white btn-block" href="register.html">Create an account</a>
+        <a class="btn btn-sm btn-black btn-block" href="/register">Create an account</a>
       </form>
     </div>
   </div>
 </body>
 </template>
 
-<script lang="ts">
-import Component from "vue-class-component";
-import App from "../../App.vue";
+<script>
+import { apiUserLogin } from "../../api";
 
-@Component
-export default class Login extends App {
-  private msg!: string;
-}
+export default {
+  name: "Login",
+  data() {
+    return {
+      username: "",
+      password: ""
+    };
+  },
+  methods: {
+    login() {
+      apiUserLogin({
+        username: this.username,
+        password: this.password
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+    /*
+    login: function() {
+      let username = this.username;
+      let password = this.password;
+      this.$store
+        .dispatch("login", { username, password })
+        .then(() => this.$router.push("/"))
+        .catch(err => console.log(err));
+    }*/
+  }
+};
 </script>
 
 
