@@ -29,45 +29,19 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="gradeX">
-                  <td>嘉義大學-第三期</td>
-                  <td>嘉義大學</td>
-                  <td>2019/3/5</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">垃圾桶</td>
-                </tr>
-                <tr class="gradeC">
-                  <td>台灣首府大學</td>
-                  <td>台灣首府大學</td>
-                  <td>2019/3/5</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">垃圾桶</td>
-                </tr>
-                <tr class="gradeA">
-                  <td>國立高雄大學</td>
-                  <td>國立高雄大學</td>
-                  <td>2019/3/5</td>
-                  <td class="center">Winni</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">Winni</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">垃圾桶</td>
-                </tr>
-                <tr>
-                  <td>交通大學</td>
-                  <td>交通大學</td>
-                  <td>2019/3/5</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">Kate</td>
-                  <td class="center">2019/3/11</td>
-                  <td class="center">垃圾桶</td>
+                <tr class="gradeX" v-for="(item,index) in projectData">
+                  <td v-if="!(item.is_close)">{{item.project_name}}</td>
+                  <td v-if="!(item.is_close)">{{item.customer_name}}</td>
+                  <td v-if="!(item.is_close)">{{item.project_create_date}}</td>
+                  <td class="center" v-if="!(item.is_close)">{{item.project_creater_id}}</td>
+                  <td class="center" v-if="!(item.is_close)">{{item.project_last_modify_date}}</td>
+                  <td class="center" v-if="!(item.is_close)">{{item.project_last_modify_id}}</td>
+                  <td class="center" v-if="!(item.is_close)">{{item.warr_date}}</td>
+                  <td
+                    class="center fas fa-trash-alt"
+                    @click="remove(item.sn)"
+                    v-if="!(item.is_close)"
+                  ></td>
                 </tr>
               </tbody>
             </table>
@@ -79,19 +53,31 @@
 </template>
 
 <script>
-import { apiQueryAllproject } from "../../api";
+import { apiQueryAllproject, apiCloseProject } from "../../api";
 
 export default {
   name: "indexPage",
   data() {
     return {
-      projectForm: "Insert"
+      projectData: "",
+      sn: ""
     };
   },
   created: function() {
     apiQueryAllproject().then(res => {
-      console.log(res);
+      this.projectData = res.data;
     });
+  },
+  methods: {
+    remove: function(index) {
+      console.log(index);
+      apiCloseProject({
+        sn: index
+      });
+      apiQueryAllproject().then(res => {
+        this.projectData = res.data;
+      });
+    }
   }
 };
 </script>

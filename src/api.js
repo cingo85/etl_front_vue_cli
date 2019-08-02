@@ -26,8 +26,11 @@ const projectRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_project'
 });
 
+
 export const apiQueryAllproject = () => projectRequest.get('/queryAllproject');
 export const apiCreateNewProject = data => projectRequest.post('/createNewProject', data);
+export const apiCloseProject = data => projectRequest.post('/closeProject', data)
+
 
 
 //DataSource Api
