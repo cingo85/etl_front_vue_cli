@@ -20,9 +20,9 @@
                 <tr>
                   <th>專案名稱</th>
                   <th>客戶名稱</th>
-                  <th data-hide="phone,tablet">建立日期</th>
-                  <th data-hide="phone,tablet">建立人員</th>
-                  <th data-hide="phone,tablet">最後修改日期</th>
+                  <th>建立日期</th>
+                  <th>建立人員</th>
+                  <th>最後修改日期</th>
                   <th>最後修改人員</th>
                   <th>保固日期</th>
                   <th>刪除</th>
@@ -30,7 +30,7 @@
               </thead>
               <tbody>
                 <tr class="gradeX" v-for="(item,index) in projectData">
-                  <td v-if="!(item.is_close)">{{item.project_name}}</td>
+                  <td v-if="!(item.is_close)" @click="query(item.project_id)">{{item.project_name}}</td>
                   <td v-if="!(item.is_close)">{{item.customer_name}}</td>
                   <td v-if="!(item.is_close)">{{item.project_create_date}}</td>
                   <td class="center" v-if="!(item.is_close)">{{item.project_creater_id}}</td>
@@ -69,13 +69,17 @@ export default {
     });
   },
   methods: {
-    remove: function(index) {
-      console.log(index);
+    remove: function(sn) {
       apiCloseProject({
-        sn: index
+        sn: sn
       });
-      apiQueryAllproject().then(res => {
-        this.projectData = res.data;
+    },
+    query(project_id){
+      this.$router.push({
+        name:"projectPage",
+        params:{project_id:project_id},
+        query:{project_id:project_id}
+
       });
     }
   }

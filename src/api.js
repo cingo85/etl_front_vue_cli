@@ -25,11 +25,10 @@ export const apiUserLogin = data => userRequest.post('/Login', data)
 const projectRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_project'
 });
-
-
 export const apiQueryAllproject = () => projectRequest.get('/queryAllproject');
 export const apiCreateNewProject = data => projectRequest.post('/createNewProject', data);
 export const apiCloseProject = data => projectRequest.post('/closeProject', data)
+
 
 
 
@@ -37,5 +36,5 @@ export const apiCloseProject = data => projectRequest.post('/closeProject', data
 const datasourceRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_datasource'
 });
-
 export const apiCreateNewDataBase = data => datasourceRequest.post('/createNewDataBase', data)
+export const apiQueryDataBaseByprojectId = data => datasourceRequest.post('/queryDataSourceByProjectId', data)
