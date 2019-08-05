@@ -54,7 +54,6 @@
               </div>
               <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
-
                 <select class="custom-select" v-model="t_datasource[index].datasource_type">
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
@@ -153,6 +152,16 @@
                   v-model="t_datasource[index].database_note"
                 />
               </div>
+              <input
+                type="hidden"
+                name="true_is_input_datasource"
+                v-model="t_datasource[index].is_input_datasource"
+              />
+              <input
+                type="hidden"
+                name="false_is_output_datasource"
+                v-model="t_datasource[index].is_output_datasource"
+              />
               <div
                 class="form-group col-md-1"
                 v-if="t_datasource[index].datasource_type != ''"
@@ -166,9 +175,21 @@
               <div class="form-group col-md-2">
                 <label for="staticEmail2">資料存放路徑</label>
               </div>
-              <div class="form-group col-md-10">
+              <div
+                name="selectdatasourceDiv"
+                class="form-group col-md-1"
+                v-for="(item ,index) in t_datasource2"
+              >
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="29" type="text" class="form-control" />
+                <select
+                  class="custom-select"
+                  @change="onSelectDataSource(item)"
+                  v-model="t_datasource2[index].datasource_type"
+                >
+                  <option value>請選擇</option>
+                  <option value="database">資料庫</option>
+                  <option value="datafolder">資料夾</option>
+                </select>
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -206,11 +227,11 @@ export default {
   data() {
     const uuidv4 = require("uuid/v4");
     var datasource_id_UUID = uuidv4();
-
+    var datasource_id_UUID2 = uuidv4();
     const uuidv1 = require("uuid/v1");
     var project_id_UUID = uuidv1();
     return {
-      project_id: project_id_UUID,
+      projectId: project_id_UUID,
       project_name: "",
       project_creater_id: "KATE",
       project_last_modify_id: "KATE",
@@ -220,7 +241,7 @@ export default {
       note: "",
       t_datasource: [
         {
-          project_id: project_id_UUID,
+          projectId: project_id_UUID,
           datasource_type: "",
           database_ip: "",
           database_port: "",
@@ -230,8 +251,26 @@ export default {
           state: "",
           data_root: "",
           datasource_name: "blabla",
+          datasource_id: datasource_id_UUID,
+          is_input_datasource: true,
+          is_output_datasource: false
+        }
+      ],
+      t_datasource2: [
+        {
+          projectId: project_id_UUID,
           datasource_type: "",
-          datasource_id: datasource_id_UUID
+          database_ip: "",
+          database_port: "",
+          database_user: "",
+          database_password: "",
+          database_note: "",
+          state: "",
+          data_root: "",
+          datasource_name: "blabla",
+          datasource_id: datasource_id_UUID2,
+          is_input_datasource: false,
+          is_output_datasource: true
         }
       ]
     };
@@ -259,11 +298,12 @@ export default {
         check_date: this.check_date,
         warr_date: this.warr_date,
         note: this.note,
-        project_id: this.project_id,
+        projectId: this.projectId,
         project_creater_id: "kate",
         project_last_modify_id: "kate",
         state: "w",
-        t_datasource: this.t_datasource
+        t_datasource: this.t_datasource,
+        t_datasource2: this.t_datasource2
       });
     },
     addCol: function(index) {
@@ -274,7 +314,7 @@ export default {
       const uuidv4 = require("uuid/v4");
       var datasource_id_UUID = uuidv4();
       let obj = {
-        project_id: this.project_id,
+        projectId: this.projectId,
         datasource_type: "",
         datasource_id: datasource_id_UUID,
         database_ip: "",
@@ -284,13 +324,17 @@ export default {
         note: "",
         state: "",
         data_root: "",
-        datasource_name: ""
+        datasource_name: "",
+        is_input_datasource: true,
+        is_output_datasource: false
       };
-
       this.t_datasource.splice(index + 1, 0, obj);
     },
     removeCol: function(index) {
       this.t_datasource.splice(index, 1);
+    },
+    onSelectDataSource() {
+      // this.t_datasource.splice(index + 1, 0, obj);
     }
   }
 };

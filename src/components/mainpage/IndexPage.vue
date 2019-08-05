@@ -30,7 +30,7 @@
               </thead>
               <tbody>
                 <tr class="gradeX" v-for="(item,index) in projectData">
-                  <td v-if="!(item.is_close)" @click="query(item.project_id)">{{item.project_name}}</td>
+                  <td v-if="!(item.is_close)" @click="query(item.projectId)">{{item.project_name}}</td>
                   <td v-if="!(item.is_close)">{{item.customer_name}}</td>
                   <td v-if="!(item.is_close)">{{item.project_create_date}}</td>
                   <td class="center" v-if="!(item.is_close)">{{item.project_creater_id}}</td>
@@ -54,13 +54,14 @@
 
 <script>
 import { apiQueryAllproject, apiCloseProject } from "../../api";
-
+import XXX from "../../store";
 export default {
   name: "indexPage",
   data() {
     return {
       projectData: "",
-      sn: ""
+      sn: "",
+      projectId: this.$store.state.projectId
     };
   },
   created: function() {
@@ -74,12 +75,10 @@ export default {
         sn: sn
       });
     },
-    query(project_id){
+    query(projectId) {
       this.$router.push({
-        name:"projectPage",
-        params:{project_id:project_id},
-        query:{project_id:project_id}
-
+        name: "projectPage",
+        query: { projectId: projectId }
       });
     }
   }

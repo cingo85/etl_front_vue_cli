@@ -31,9 +31,8 @@
           </div>
           <div class="ibox-content">
             <div class="col-lg-12" style="padding-left:485px">資料來源:</div>
-            <div class="row" v-for="(item,index) in DataSouce"> 
-              <div class="col-lg-12" style="padding-left:510px">{{item.datasource_type}}</div>
-           
+            <div class="row" v-for="(item,index) in DataSouce">
+              <div class="col-lg-12" style="padding-left:510px">Test</div>
             </div>
             <div class="row">
               <div class="col-lg-4" style="padding-left:500px">保固期限:</div>
@@ -96,25 +95,25 @@
 </template>
 
 <script>
-import {apiQueryDataBaseByprojectId} from '../../api'
+import { apiQueryDataBaseByprojectId } from "../../api";
 export default {
-  data(){
-    return{
-      project_id:this.$route.query.project_id,
-      DataSouce:""
-    }
+  data() {
+    return {
+      projectId: this.$route.query.projectId,
+      DataSouce: ""
+    };
   },
   created() {
     apiQueryDataBaseByprojectId({
-      projectId:this.project_id
+      projectId: this.projectId
+    })
+      .then(res => {
+        this.DataSouce = res.data;
+        console.log(res);
       })
-        .then(res => {
-          this.DataSouce = res.data;
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
