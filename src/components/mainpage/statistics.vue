@@ -71,11 +71,11 @@
 </template>
 
 <script>
-import Vue from "vue";
-import $ from "jquery";
-
 export default {
-  name: "statistics"
+  name: "statistics",
+  data() {
+    return {};
+  }
 };
 </script>
 

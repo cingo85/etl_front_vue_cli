@@ -5,8 +5,12 @@
         <div class="ibox">
           <div class="ibox-title">
             <div class="row">
-              <div class="col-lg-6">
-                <h2>嘉義大學第三期</h2>
+              <div
+                class="col-lg-6"
+                v-for="projectItem of this.$store.state.IndexPage_module.projectData"
+                v-if="projectItem.projectId === projectId"
+              >
+                <h2>{{projectItem.project_name}}</h2>
               </div>
               <div class="col-lg-6">
                 <button
@@ -22,25 +26,33 @@
                 <button
                   type="button"
                   class="btn btn-primary"
-                  onclick="location.href='./statistics.html'"
+                  onclick="location.href='./statistics'"
                 >資料統計表</button>
                 <button type="button" class="btn btn-primary" href="#modal-form">匯出設定檔</button>
-                <a data-toggle="modal" class="btn btn-primary" href="#modal-form">編輯基本資料</a>
+                <a data-toggle="modal" class="btn btn-primary" href="#modal-form-update">編輯基本資料</a>
               </div>
             </div>
           </div>
           <div class="ibox-content">
             <div class="col-lg-12" style="padding-left:485px">資料來源:</div>
-            <div class="row" v-for="(item,index) in DataSouce">
-              <div class="col-lg-12" style="padding-left:510px">Test</div>
+            <div class="row" v-for="item in DataSouce" v-if="item.projectId === projectId">
+              <div
+                class="col-lg-12"
+                style="padding-left:510px"
+              >{{item.datasource_type}}+{{item.database_ip}}+{{item.database_port}}</div>
             </div>
-            <div class="row">
+            <div
+              class="row"
+              v-for="projectItem of this.$store.state.IndexPage_module.projectData"
+              v-if="projectItem.projectId === projectId"
+            >
               <div class="col-lg-4" style="padding-left:500px">保固期限:</div>
-              <div class="col-lg-2">2017/03/07</div>
+              <div class="col-lg-2">{{projectItem.warr_date}}</div>
               <div class="col-lg-1">驗收日期:</div>
-              <div class="col-lg-5">2017/03/07</div>
+              <div class="col-lg-5">{{projectItem.check_date}}</div>
+              <div class="col-lg-12" style="padding-left:485px">備註:</div>
+              <div class="col-lg-12" style="padding-left:485px">{{projectItem.note}}</div>
             </div>
-            <div class="col-lg-12" style="padding-left:485px">備註:</div>
           </div>
           <div class="ibox-content">
             <div class="row">
@@ -96,6 +108,8 @@
 
 <script>
 import { apiQueryDataBaseByprojectId } from "../../api";
+import { mapState } from "vuex";
+import { type } from "os";
 export default {
   data() {
     return {
@@ -103,18 +117,24 @@ export default {
       DataSouce: ""
     };
   },
+  beforeCreate() {
+    this.$store.dispatch("initStore");
+    this.test = this.$store.state.IndexPage_module.projectData;
+  },
   created() {
     apiQueryDataBaseByprojectId({
       projectId: this.projectId
     })
       .then(res => {
         this.DataSouce = res.data;
-        console.log(res);
       })
       .catch(err => {
         console.log(err);
       });
-  }
+
+    this.$store.state.IndexPage_module.projectData;
+  },
+  computed: {}
 };
 </script>
 

@@ -7,7 +7,9 @@ import statisticsView from "@/components/mainpage/statistics.vue";
 
 export default {
   name: "statistics",
-  components: statisticsView
+  components: {
+    statisticsView
+  }
 };
 </script>
 

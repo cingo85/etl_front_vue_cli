@@ -7,7 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   modules: {
-    IndexPage: IndexPage_module
+    IndexPage_module
   },
   state: {
 
@@ -16,6 +16,9 @@ export default new Vuex.Store({
 
   },
   actions: {
+
+  },
+  getters: {
 
   }
 })

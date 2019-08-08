@@ -10,7 +10,7 @@ export default {
     indexpageView: indexPageView
   },
   created: function() {
-    this.$emit("project", true);
+    this.$emit("insert_project", true);
   }
 };
 </script>

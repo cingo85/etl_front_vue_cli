@@ -29,7 +29,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr class="gradeX" v-for="(item,index) in projectData">
+                <tr v-for="item of this.$store.state.IndexPage_module.projectData">
                   <td v-if="!(item.is_close)" @click="query(item.projectId)">{{item.project_name}}</td>
                   <td v-if="!(item.is_close)">{{item.customer_name}}</td>
                   <td v-if="!(item.is_close)">{{item.project_create_date}}</td>
@@ -54,20 +54,23 @@
 
 <script>
 import { apiQueryAllproject, apiCloseProject } from "../../api";
-import XXX from "../../store";
+import VuexStore from "../../store";
 export default {
   name: "indexPage",
   data() {
     return {
-      projectData: "",
-      sn: "",
-      projectId: this.$store.state.projectId
+      projectId: this.$store.state.projectId,
+      changeType: "Insert"
     };
   },
   created: function() {
-    apiQueryAllproject().then(res => {
-      this.projectData = res.data;
-    });
+    //單純axios方法
+    //apiQueryAllproject().then(res => {
+    //  this.projectData = res.data;
+    // });
+
+    //呼叫store內部方法
+    this.$store.dispatch("initStore");
   },
   methods: {
     remove: function(sn) {
