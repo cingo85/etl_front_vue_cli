@@ -13,7 +13,7 @@
                   type="button"
                   class="btn btn-primary"
                   style="margin-left: 850px"
-                  onclick="location.href='./projectPage'"
+                  @click="goback()"
                 >回專案清單</button>
               </div>
             </div>
@@ -75,6 +75,10 @@ export default {
   name: "statistics",
   data() {
     return {};
+  },methods:{
+    goback(){
+      this.$router.history.go(-1)
+    }
   }
 };
 </script>

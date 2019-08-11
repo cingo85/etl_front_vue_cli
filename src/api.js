@@ -30,8 +30,6 @@ export const apiCreateNewProject = data => projectRequest.post('/createNewProjec
 export const apiCloseProject = data => projectRequest.post('/closeProject', data)
 
 
-
-
 //DataSource Api
 const datasourceRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_datasource'
