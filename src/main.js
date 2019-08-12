@@ -13,6 +13,8 @@ import '../src/api'
 import axios from "axios";
 import { URLSearchParams } from "url";
 import UUID from 'uuid'
+import VuePapaParse from 'vue-papa-parse'
+
 
 global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
@@ -20,6 +22,8 @@ Vue.prototype.axios = axios
 
 Vue.use(Vuex);
 Vue.use(UUID);
+Vue.use(VuePapaParse)
+
 
 new Vue({
   el: '#app',

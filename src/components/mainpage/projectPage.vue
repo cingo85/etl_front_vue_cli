@@ -23,11 +23,7 @@
             </div>
             <div class="row">
               <div class="col-lg-3">
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  onclick="location.href='./statistics'"
-                >資料統計表</button>
+                <button type="button" class="btn btn-primary" @click="query(projectId)">資料統計表</button>
                 <button type="button" class="btn btn-primary" href="#modal-form">匯出設定檔</button>
                 <a data-toggle="modal" class="btn btn-primary" href="#modal-form-update">編輯基本資料</a>
               </div>
@@ -119,7 +115,7 @@ export default {
   },
   beforeCreate() {
     this.$store.dispatch("initStore");
-    this.test = this.$store.state.IndexPage_module.projectData;
+    //this.test = this.$store.state.IndexPage_module.projectData;
   },
   created() {
     apiQueryDataBaseByprojectId({
@@ -132,9 +128,19 @@ export default {
         console.log(err);
       });
 
-    this.$store.state.IndexPage_module.projectData;
+    // this.$store.state.IndexPage_module.projectData;
   },
-  computed: {}
+  computed: {},
+  methods: {
+    query(projectId) {
+      this.$router.push({
+        name: "statistics",
+        query: {
+          projectId: projectId
+        }
+      });
+    }
+  }
 };
 </script>
 

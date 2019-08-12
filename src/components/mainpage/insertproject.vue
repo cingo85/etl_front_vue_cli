@@ -55,7 +55,11 @@
               </div>
               <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
-                <select class="custom-select" v-model="t_datasource[index].datasource_type" @click="cleanValue('dataSource',index,t_datasource[index].datasource_type)">
+                <select
+                  class="custom-select"
+                  v-model="t_datasource[index].datasource_type"
+                  @click="cleanValue('dataSource',index,t_datasource[index].datasource_type)"
+                >
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
@@ -159,17 +163,25 @@
                 v-show="t_datasource[index].datasource_type !=''"
               >
                 <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
-                <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index,t_datasource.length)"></div>
+                <div
+                  class="all-button minus minus-button"
+                  id="minusrow"
+                  @click="removeCol(index,t_datasource.length)"
+                ></div>
               </div>
             </div>
-            
+
             <div style="margin: 5px" class="form-inline" v-for="(item ,index) in t_datasource2">
               <div class="form-group col-md-2">
                 <label for="staticEmail2">資料來源</label>
               </div>
               <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
-                <select class="custom-select" v-model="t_datasource2[index].datasource_type" @click="cleanValue('dataPath',index,t_datasource2[index].datasource_type)">
+                <select
+                  class="custom-select"
+                  v-model="t_datasource2[index].datasource_type"
+                  @click="cleanValue('dataPath',index,t_datasource2[index].datasource_type)"
+                >
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
                   <option value="datafolder">資料夾</option>
@@ -267,9 +279,7 @@
                   v-model="t_datasource2[index].database_note"
                 />
               </div>
-           
             </div>
-
 
             <div style="margin: 5px" class="form-inline">
               <div class="form-group col-md-2">
@@ -366,8 +376,6 @@ export default {
         $("div[name='selectdatasourceDiv']").remove("col-md-10");
         $("div[name='selectdatasourceDiv']").add("col-md-1");
       }
-
-
     }
   },
   methods: {
@@ -411,20 +419,19 @@ export default {
       };
       this.t_datasource.splice(index + 1, 0, obj);
     },
-    removeCol: function(index,arrayLength) {
-      
-      if(arrayLength===1){
-        alert('已經到底了')
-      }else{
+    removeCol: function(index, arrayLength) {
+      if (arrayLength === 1) {
+        alert("已經到底了");
+      } else {
         this.t_datasource.splice(index, 1);
       }
     },
-    cleanValue:function(al,index,optionValue){
+    cleanValue: function(al, index, optionValue) {
       const uuidv4 = require("uuid/v4");
       var datasource_id_UUID = uuidv4();
-      let obj = {
+      let objSetting = {
         projectId: this.projectId,
-        datasource_type:optionValue,
+        datasource_type: optionValue,
         datasource_id: datasource_id_UUID,
         database_ip: "",
         database_port: "",
@@ -433,13 +440,30 @@ export default {
         note: "",
         state: "",
         data_root: "",
-        datasource_name: ""
+        datasource_name: "",
+        is_input_datasource: true,
+        is_output_datasource: false
+      };
+      let objSetting2 = {
+        projectId: this.projectId,
+        datasource_type: optionValue,
+        datasource_id: datasource_id_UUID,
+        database_ip: "",
+        database_port: "",
+        database_user: "",
+        database_password: "",
+        note: "",
+        state: "",
+        data_root: "",
+        datasource_name: "",
+        is_input_datasource: false,
+        is_output_datasource: true
       };
 
-      if(al==='dataSource'){
-        this.$set(this.t_datasource,index,obj);
-      }else{
-        this.$set(this.t_datasource2,index,obj);
+      if (al === "dataSource") {
+        this.$set(this.t_datasource, index, objSetting);
+      } else {
+        this.$set(this.t_datasource2, index, objSetting2);
       }
     }
   }
