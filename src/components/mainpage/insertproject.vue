@@ -243,9 +243,9 @@
               >
                 <input
                   type="text"
-                  placeholder="資料庫說明"
+                  placeholder="資料庫名稱"
                   class="form-control"
-                  v-model="t_datasource2[index].database_note"
+                  v-model="t_datasource2[index].datasource_name"
                 />
               </div>
               <div
@@ -273,10 +273,10 @@
               >
                 <input
                   type="text"
-                  placeholder="資料夾說明"
+                  placeholder="資料夾名稱"
                   style="margin-left:-94px"
                   class="form-control"
-                  v-model="t_datasource2[index].database_note"
+                  v-model="t_datasource2[index].datasource_name"
                 />
               </div>
             </div>
@@ -339,7 +339,7 @@ export default {
           database_note: "",
           state: "",
           data_root: "",
-          datasource_name: "blabla",
+          datasource_name: "",
           datasource_id: datasource_id_UUID,
           is_input_datasource: true,
           is_output_datasource: false

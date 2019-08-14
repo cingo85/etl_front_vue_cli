@@ -36,3 +36,10 @@ const datasourceRequest = axios.create({
 });
 export const apiCreateNewDataBase = data => datasourceRequest.post('/createNewDataBase', data)
 export const apiQueryDataBaseByprojectId = data => datasourceRequest.post('/queryDataSourceByProjectId', data)
+
+//TableMaster api
+const tableMasterRequest = axios.create({
+    baseURL: 'http://localhost:8093/api/t_table_master'
+})
+export const apiUpdateTableMaster = data => tableMasterRequest.post('/updatet_table_master', data);
+export const apiQueryTableMaster = () => tableMasterRequest.get('/queryAlltableMaster');

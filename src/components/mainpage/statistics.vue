@@ -52,22 +52,44 @@
                   <th>備註</th>
                 </tr>
               </thead>
-              <tbody v-for="(item,index) in DataSouce">
+              <tbody v-for="(item,index) in t_table_master">
                 <tr>
-                  <td>{{item.datasource_type}}</td>
-                  <td>{{item.database_note}}</td>
-                  <td>{{item.table_name}}</td>
-                  <td>{{item.table_column_quantity}}</td>
-                  <td>{{item.table_data_quantity}}</td>
-                  <td>N</td>
+                  <td v-model="t_table_master[index].datasource_type">{{item.datasource_type}}</td>
+                  <td v-model="t_table_master[index].database_note">{{item.database_note}}</td>
+                  <td v-model="t_table_master[index].table_name">{{item.table_name}}</td>
+                  <td
+                    v-model="t_table_master[index].table_column_quantity"
+                  >{{item.table_column_quantity}}</td>
+                  <td
+                    v-model="t_table_master[index].table_data_quantity"
+                  >{{item.table_data_quantity}}</td>
+                  <td v-model="t_table_master[index].isConcatenation">{{item.isConcatenation}}</td>
                   <td>
-                    <input type="text" placeholder="資料描述" size="30" class="form-control" />
+                    <input
+                      type="text"
+                      placeholder="資料描述"
+                      size="30"
+                      class="form-control"
+                      v-model="t_table_master[index].description"
+                    />
                   </td>
                   <td>
-                    <input type="text" placeholder="未串接原因" size="30" class="form-control" />
+                    <input
+                      type="text"
+                      placeholder="未串接原因"
+                      size="30"
+                      class="form-control"
+                      v-model="t_table_master[index].reason"
+                    />
                   </td>
                   <td>
-                    <input type="text" placeholder="備註" size="30" class="form-control" />
+                    <input
+                      type="text"
+                      placeholder="備註"
+                      size="30"
+                      class="form-control"
+                      v-model="t_table_master[index].tMasterNote"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -80,27 +102,53 @@
 </template>
 
 <script>
-import { apiQueryDataBaseByprojectId } from "../../api";
+import {
+  apiQueryDataBaseByprojectId,
+  apiUpdateTableMaster,
+  apiQueryTableMaster
+} from "../../api";
 import { Papa } from "papaparse";
 export default {
   name: "statistics",
   data() {
     return {
       projectId: this.$route.query.projectId,
-      DataSouce: "",
-      csvfile: { test: "N" },
-      t_table_master: {
-        project_id: this.$route.query.projectId,
-        database_id: "",
-        table_id: "",
-        table_name: "",
-        table_pk: "",
-        table_pk_name: "",
-        table_column_quantity: "",
-        table_data_quantity: "",
-        state: ""
-      }
+      csvfile: [{}],
+      t_table_master: [
+        {
+          datasource_type: "",
+          projectId: "",
+          database_note: "",
+          datasource_id: "",
+          table_id: "",
+          table_name: "",
+          table_pk: "",
+          table_pk_name: "",
+          table_column_quantity: "",
+          table_data_quantity: "",
+          state: "",
+          isConcatenation: "N",
+          description: "",
+          reason: "",
+          tMasterNote: ""
+        }
+      ]
     };
+  },
+  created() {
+    apiQueryTableMaster({
+      projectId: this.projectId
+    })
+      .then(res => {
+        if (res.data.length === 0) {
+          apiQueryDataBaseByprojectId(this.projectId);
+        } else {
+          this.t_table_master = res.data;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   methods: {
     goback() {
@@ -128,18 +176,95 @@ export default {
           }
         }
       });
+    },
+    xxx(t_table_master) {
+      t_table_master.forEach(element => {
+        console.log(!(element.table_id === undefined));
+        if (!(element.table_id === undefined)) {
+          apiUpdateTableMaster({
+            sn: element.sn,
+            datasource_type: element.datasource_type,
+            projectId: element.projectId,
+            database_note: element.database_note,
+            datasource_id: element.datasource_id,
+            table_id: element.table_id,
+            table_name: element.table_name,
+            table_pk: element.table_pk,
+            table_pk_name: element.table_pk_name,
+            table_column_quantity: element.table_column_quantity,
+            table_data_quantity: element.table_data_quantity,
+            state: element.state,
+            isConcatenation: false,
+            description: element.description,
+            reason: element.reason,
+            tMasterNote: element.tMasterNote
+          });
+        }
+      });
+    },
+    apiQueryDataBaseByprojectId(projectId) {
+      apiQueryDataBaseByprojectId({
+        projectId: projectId
+      })
+        .then(res => {
+          this.t_table_master = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-  created() {
-    apiQueryDataBaseByprojectId({
-      projectId: this.projectId
-    })
-      .then(res => {
-        this.DataSouce = res.data;
-      })
-      .catch(err => {
-        console.log(err);
+  computed: {
+    // t_table_master: function() {}
+  },
+  watch: {
+    csvfile: function() {
+      var testArray = [];
+      let index = 0;
+      this.t_table_master.map(val => {
+        var obj = {
+          sn: "",
+          datasource_type: "test",
+          projectId: "",
+          database_note: "",
+          datasource_id: "",
+          table_id: "",
+          table_name: "",
+          table_pk: "",
+          table_pk_name: "",
+          table_column_quantity: "",
+          table_data_quantity: "",
+          state: "",
+          isConcatenation: "N",
+          description: "",
+          reason: "",
+          tMasterNote: ""
+        };
+        obj.sn = val.sn;
+        obj.projectId = val.projectId;
+        obj.datasource_type = val.datasource_type;
+        obj.datasource_id = val.datasource_id;
+        obj.database_note = val.database_note;
+        this.csvfile.map(val2 => {
+          if (val.projectId === val2.project_id) {
+            if (val.datasource_id === val2.datasource_id) {
+              obj.table_id = val2.table_id;
+              obj.table_name = val2.table_name;
+              obj.table_column_quantity = val2.table_column_quantity;
+              obj.table_data_quantity = val2.table_data_quantity;
+            }
+          }
+        });
+        testArray.splice(index++, 0, obj);
       });
+      this.t_table_master = testArray;
+    },
+    t_table_master: {
+      handler: function(t_table_master) {
+        this.xxx(this.t_table_master);
+      },
+      deep: true
+    }
   }
 };
 </script>
