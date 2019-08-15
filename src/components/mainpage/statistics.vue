@@ -105,7 +105,7 @@
 import {
   apiQueryDataBaseByprojectId,
   apiUpdateTableMaster,
-  apiQueryTableMaster
+  apiQueryTableMasterByProjectId
 } from "../../api";
 import { Papa } from "papaparse";
 export default {
@@ -136,8 +136,8 @@ export default {
     };
   },
   created() {
-    apiQueryTableMaster({
-      projectId: this.projectId
+    apiQueryTableMasterByProjectId({
+      projectId: this.$route.query.projectId
     })
       .then(res => {
         if (res.data.length === 0) {
@@ -177,7 +177,7 @@ export default {
         }
       });
     },
-    xxx(t_table_master) {
+    update(t_table_master) {
       t_table_master.forEach(element => {
         console.log(!(element.table_id === undefined));
         if (!(element.table_id === undefined)) {
@@ -261,7 +261,7 @@ export default {
     },
     t_table_master: {
       handler: function(t_table_master) {
-        this.xxx(this.t_table_master);
+        this.update(this.t_table_master);
       },
       deep: true
     }

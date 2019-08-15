@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8093/api/'
-
+axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
 /*
 if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = 'http://localhost:8093/api/';
@@ -42,4 +42,7 @@ const tableMasterRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_table_master'
 })
 export const apiUpdateTableMaster = data => tableMasterRequest.post('/updatet_table_master', data);
-export const apiQueryTableMaster = () => tableMasterRequest.get('/queryAlltableMaster');
+export const apiQueryTableMasterByProjectId = data => tableMasterRequest.post('/querytableMasterByProjectId', data);
+
+
+
