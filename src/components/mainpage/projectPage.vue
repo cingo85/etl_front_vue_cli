@@ -31,11 +31,22 @@
           </div>
           <div class="ibox-content">
             <div class="col-lg-12" style="padding-left:485px">資料來源:</div>
-            <div class="row" v-for="item in DataSouce" v-if="item.projectId === projectId">
+            <div
+              class="row"
+              v-for="item in DataSouce"
+              v-if="item.projectId === projectId"
+              v-show="item.is_input_datasource"
+            >
               <div
                 class="col-lg-12"
                 style="padding-left:510px"
-              >{{item.datasource_type}}+{{item.database_ip}}+{{item.database_port}}</div>
+                v-if="item.datasource_type === 'database'"
+              >SQL:{{item.database_ip}}+{{item.database_port}}</div>
+              <div
+                class="col-lg-12"
+                style="padding-left:510px"
+                v-if="item.datasource_type === 'datafolder'"
+              >CSV:{{item.data_root}}</div>
             </div>
             <div
               class="row"
@@ -110,7 +121,8 @@ export default {
   data() {
     return {
       projectId: this.$route.query.projectId,
-      DataSouce: ""
+      DataSouce: "",
+      TableMaster: ""
     };
   },
   beforeCreate() {
@@ -127,7 +139,15 @@ export default {
       .catch(err => {
         console.log(err);
       });
-
+    apiQueryTableMasterByProjectId({
+      projectId: this.projectId
+    })
+      .then(res => {
+        this.TableMaster = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
     // this.$store.state.IndexPage_module.projectData;
   },
   computed: {},

@@ -121,27 +121,37 @@ export default {
           database_note: "",
           datasource_id: "",
           table_id: "",
-          table_name: "",
+          table_cname: "",
           table_pk: "",
           table_pk_name: "",
           table_column_quantity: "",
           table_data_quantity: "",
-          state: "",
+          state: "CsvImport",
           isConcatenation: "N",
           description: "",
           reason: "",
           tMasterNote: ""
         }
-      ]
+      ],
+      is_input_datasource: ""
     };
   },
   created() {
+    var projectId = this.$route.query.projectId;
     apiQueryTableMasterByProjectId({
-      projectId: this.$route.query.projectId
+      projectId: projectId
     })
       .then(res => {
         if (res.data.length === 0) {
-          apiQueryDataBaseByprojectId(this.projectId);
+          apiQueryDataBaseByprojectId({
+            projectId: projectId
+          })
+            .then(res => {
+              this.t_table_master = res.data;
+            })
+            .catch(err => {
+              console.log(err);
+            });
         } else {
           this.t_table_master = res.data;
         }
@@ -179,7 +189,6 @@ export default {
     },
     update(t_table_master) {
       t_table_master.forEach(element => {
-        console.log(!(element.table_id === undefined));
         if (!(element.table_id === undefined)) {
           apiUpdateTableMaster({
             sn: element.sn,
@@ -188,7 +197,7 @@ export default {
             database_note: element.database_note,
             datasource_id: element.datasource_id,
             table_id: element.table_id,
-            table_name: element.table_name,
+            table_cname: element.table_name,
             table_pk: element.table_pk,
             table_pk_name: element.table_pk_name,
             table_column_quantity: element.table_column_quantity,
@@ -201,17 +210,6 @@ export default {
           });
         }
       });
-    },
-    apiQueryDataBaseByprojectId(projectId) {
-      apiQueryDataBaseByprojectId({
-        projectId: projectId
-      })
-        .then(res => {
-          this.t_table_master = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
     }
   },
   computed: {
@@ -219,7 +217,7 @@ export default {
   },
   watch: {
     csvfile: function() {
-      var testArray = [];
+      var resultArray = [];
       let index = 0;
       this.t_table_master.map(val => {
         var obj = {
@@ -234,7 +232,7 @@ export default {
           table_pk_name: "",
           table_column_quantity: "",
           table_data_quantity: "",
-          state: "",
+          state: "CsvImport",
           isConcatenation: "N",
           description: "",
           reason: "",
@@ -255,9 +253,9 @@ export default {
             }
           }
         });
-        testArray.splice(index++, 0, obj);
+        resultArray.splice(index++, 0, obj);
       });
-      this.t_table_master = testArray;
+      this.t_table_master = resultArray;
     },
     t_table_master: {
       handler: function(t_table_master) {

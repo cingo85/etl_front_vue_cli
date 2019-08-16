@@ -15,7 +15,12 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" id="inputPassword2" />
+                  <input
+                    size="23"
+                    type="text"
+                    class="form-control"
+                    v-model="t_table_master.table_ename"
+                  />
                 </div>
               </div>
             </div>
@@ -26,7 +31,12 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" id="inputPassword2" />
+                  <input
+                    size="23"
+                    type="text"
+                    class="form-control"
+                    v-model="t_table_master.table_cname"
+                  />
                 </div>
               </div>
             </div>
@@ -35,13 +45,13 @@
                 <label for="staticEmail2">備註</label>
               </div>
               <div class="form-group col-md-10">
-                <label for="inputPassword2" class="sr-only">Password</label>
+                <label for="inputPassword2" class="sr-only"></label>
                 <textarea
                   class="form-control rounded-0"
                   style="margin-left: 100px"
-                  id="exampleFormControlTextarea2"
                   rows="2"
                   cols="100"
+                  v-model="t_table_master.tMasterNote"
                 ></textarea>
               </div>
             </div>
@@ -57,8 +67,33 @@
 </template>
 
 <script>
+import { uuid } from "uuid";
 export default {
-  name: "createNewTable"
+  name: "createNewTable",
+  data() {
+    const uuidv4 = require("uuid/v4");
+    var datasource_id = uuidv4();
+    var table_id = uuidv4();
+    return {
+      projectId: this.$route.query.projectId,
+      t_table_master: {
+        projectId: this.$route.query.projectId,
+        database_note: "",
+        datasource_id: datasource_id,
+        table_id: table_id,
+        table_cname: "",
+        table_ename: "",
+        state: "PMCreate",
+        isConcatenation: "N",
+        description: "",
+        reason: "",
+        tMasterNote: ""
+      }
+    };
+  },
+  methods: {
+    create() {}
+  }
 };
 </script>
 
