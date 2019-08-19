@@ -114,7 +114,10 @@
 </template>
 
 <script>
-import { apiQueryDataBaseByprojectId } from "../../api";
+import {
+  apiQueryDataBaseByprojectId,
+  apiQueryTableMasterByProjectId
+} from "../../api";
 import { mapState } from "vuex";
 import { type } from "os";
 export default {

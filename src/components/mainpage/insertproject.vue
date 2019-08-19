@@ -121,9 +121,9 @@
               >
                 <input
                   type="text"
-                  placeholder="資料庫說明"
+                  placeholder="資料庫名稱"
                   class="form-control"
-                  v-model="t_datasource[index].database_note"
+                  v-model="t_datasource[index].datasource_name"
                 />
               </div>
               <div
@@ -151,10 +151,10 @@
               >
                 <input
                   type="text"
-                  placeholder="資料夾說明"
+                  placeholder="資料夾名稱"
                   style="margin-left:-94px"
                   class="form-control"
-                  v-model="t_datasource[index].database_note"
+                  v-model="t_datasource[index].datasource_name"
                 />
               </div>
               <div
@@ -173,7 +173,7 @@
 
             <div style="margin: 5px" class="form-inline" v-for="(item ,index) in t_datasource2">
               <div class="form-group col-md-2">
-                <label for="staticEmail2">資料來源</label>
+                <label for="staticEmail2">資料輸出路徑</label>
               </div>
               <div name="selectdatasourceDiv" class="form-group col-md-1">
                 <label for="inputPassword2" class="sr-only"></label>
@@ -390,7 +390,7 @@ export default {
         projectId: this.projectId,
         project_creater_id: "kate",
         project_last_modify_id: "kate",
-        state: "w",
+        state: "",
         t_datasource: this.t_datasource,
         t_datasource2: this.t_datasource2
       });

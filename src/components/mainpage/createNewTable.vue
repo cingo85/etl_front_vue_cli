@@ -15,12 +15,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input
-                    size="23"
-                    type="text"
-                    class="form-control"
-                    v-model="t_table_master.table_ename"
-                  />
+                  <input size="23" type="text" class="form-control" v-model="table_ename" />
                 </div>
               </div>
             </div>
@@ -31,12 +26,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input
-                    size="23"
-                    type="text"
-                    class="form-control"
-                    v-model="t_table_master.table_cname"
-                  />
+                  <input size="23" type="text" class="form-control" v-model="table_cname" />
                 </div>
               </div>
             </div>
@@ -51,14 +41,14 @@
                   style="margin-left: 100px"
                   rows="2"
                   cols="100"
-                  v-model="t_table_master.tMasterNote"
+                  v-model="tMasterNote"
                 ></textarea>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">確定</button>
+          <button type="button" class="btn btn-primary" @click="create()">確定</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
         </div>
       </div>
@@ -68,6 +58,8 @@
 
 <script>
 import { uuid } from "uuid";
+import { apiUpdateTableMaster } from "../../api";
+
 export default {
   name: "createNewTable",
   data() {
@@ -76,23 +68,40 @@ export default {
     var table_id = uuidv4();
     return {
       projectId: this.$route.query.projectId,
-      t_table_master: {
-        projectId: this.$route.query.projectId,
-        database_note: "",
-        datasource_id: datasource_id,
-        table_id: table_id,
-        table_cname: "",
-        table_ename: "",
-        state: "PMCreate",
-        isConcatenation: "N",
-        description: "",
-        reason: "",
-        tMasterNote: ""
-      }
+      database_note: "",
+      datasource_id: datasource_id,
+      table_id: table_id,
+      table_cname: "",
+      table_ename: "",
+      state: "PMCreate",
+      isConcatenation: false,
+      description: "",
+      reason: "",
+      tMasterNote: ""
     };
   },
   methods: {
-    create() {}
+    create() {
+      apiUpdateTableMaster({
+        projectId: this.projectId,
+        database_note: this.database_note,
+        datasource_id: this.datasource_id,
+        table_id: this.table_id,
+        table_cname: this.table_cname,
+        table_ename: this.table_ename,
+        state: this.state,
+        isConcatenation: this.isConcatenation,
+        description: this.description,
+        reason: this.reason,
+        tMasterNote: this.tMasterNote
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 };
 </script>

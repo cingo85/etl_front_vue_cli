@@ -55,8 +55,8 @@
               <tbody v-for="(item,index) in t_table_master">
                 <tr>
                   <td v-model="t_table_master[index].datasource_type">{{item.datasource_type}}</td>
-                  <td v-model="t_table_master[index].database_note">{{item.database_note}}</td>
-                  <td v-model="t_table_master[index].table_name">{{item.table_name}}</td>
+                  <td v-model="t_table_master[index].datasource_name">{{item.datasource_name}}</td>
+                  <td v-model="t_table_master[index].table_cname">{{item.table_cname}}</td>
                   <td
                     v-model="t_table_master[index].table_column_quantity"
                   >{{item.table_column_quantity}}</td>
@@ -105,7 +105,9 @@
 import {
   apiQueryDataBaseByprojectId,
   apiUpdateTableMaster,
-  apiQueryTableMasterByProjectId
+  apiQueryTableMasterByProjectId,
+  apiUpdateDataBaseByProjectId,
+  apiDatasourceNMastserByProjectId
 } from "../../api";
 import { Papa } from "papaparse";
 export default {
@@ -114,51 +116,51 @@ export default {
     return {
       projectId: this.$route.query.projectId,
       csvfile: [{}],
-      t_table_master: [
-        {
-          datasource_type: "",
-          projectId: "",
-          database_note: "",
-          datasource_id: "",
-          table_id: "",
-          table_cname: "",
-          table_pk: "",
-          table_pk_name: "",
-          table_column_quantity: "",
-          table_data_quantity: "",
-          state: "CsvImport",
-          isConcatenation: "N",
-          description: "",
-          reason: "",
-          tMasterNote: ""
-        }
-      ],
+      t_table_master: [],
       is_input_datasource: ""
     };
   },
   created() {
     var projectId = this.$route.query.projectId;
-    apiQueryTableMasterByProjectId({
+    apiDatasourceNMastserByProjectId({
       projectId: projectId
     })
       .then(res => {
-        if (res.data.length === 0) {
-          apiQueryDataBaseByprojectId({
-            projectId: projectId
-          })
-            .then(res => {
-              this.t_table_master = res.data;
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        } else {
-          this.t_table_master = res.data;
-        }
+        this.t_table_master = res.data;
       })
       .catch(err => {
         console.log(err);
       });
+    // apiQueryTableMasterByProjectId({
+    //   projectId: projectId
+    // })
+    //   .then(res => {
+    //     console.log(res);
+    //     if (res.data.length === 0) {
+    //       apiQueryDataBaseByprojectId({
+    //         projectId: projectId
+    //       })
+    //         .then(res => {
+    //           let index = 0;
+    //           res.data.forEach(item => {
+    //             if (item.is_input_datasource) {
+    //               this.t_table_master.splice(index++, 0, item);
+    //             }
+    //           });
+    //         })
+    //         .catch(err => {
+    //           console.log(err);
+    //         });
+    //     } else {
+    //       res.data.forEach(item => {
+    //         console.log(item.state);
+    //       });
+    //       this.t_table_master = res.data;
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
   },
   methods: {
     goback() {
@@ -187,7 +189,7 @@ export default {
         }
       });
     },
-    update(t_table_master) {
+    updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
         if (!(element.table_id === undefined)) {
           apiUpdateTableMaster({
@@ -197,16 +199,23 @@ export default {
             database_note: element.database_note,
             datasource_id: element.datasource_id,
             table_id: element.table_id,
-            table_cname: element.table_name,
+            table_cname: element.table_cname,
+            table_ename: element.table_ename,
             table_pk: element.table_pk,
             table_pk_name: element.table_pk_name,
             table_column_quantity: element.table_column_quantity,
             table_data_quantity: element.table_data_quantity,
-            state: element.state,
+            state: "CsvImport",
             isConcatenation: false,
             description: element.description,
             reason: element.reason,
-            tMasterNote: element.tMasterNote
+            tMasterNote: element.tMasterNote,
+            datasource_name: element.datasource_name
+          });
+          apiUpdateDataBaseByProjectId({
+            projectId: element.projectId,
+            datasource_id: element.datasource_id,
+            state: element.state
           });
         }
       });
@@ -227,7 +236,7 @@ export default {
           database_note: "",
           datasource_id: "",
           table_id: "",
-          table_name: "",
+          table_cname: "",
           table_pk: "",
           table_pk_name: "",
           table_column_quantity: "",
@@ -236,18 +245,21 @@ export default {
           isConcatenation: "N",
           description: "",
           reason: "",
-          tMasterNote: ""
+          tMasterNote: "",
+          datasource_name: ""
         };
         obj.sn = val.sn;
         obj.projectId = val.projectId;
         obj.datasource_type = val.datasource_type;
         obj.datasource_id = val.datasource_id;
         obj.database_note = val.database_note;
+        obj.datasource_name = val.datasource_name;
+        obj.state = "CsvImport";
         this.csvfile.map(val2 => {
           if (val.projectId === val2.project_id) {
             if (val.datasource_id === val2.datasource_id) {
               obj.table_id = val2.table_id;
-              obj.table_name = val2.table_name;
+              obj.table_cname = val2.table_name;
               obj.table_column_quantity = val2.table_column_quantity;
               obj.table_data_quantity = val2.table_data_quantity;
             }
@@ -259,7 +271,7 @@ export default {
     },
     t_table_master: {
       handler: function(t_table_master) {
-        this.update(this.t_table_master);
+        this.updateTableMaster(this.t_table_master);
       },
       deep: true
     }
