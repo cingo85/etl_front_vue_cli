@@ -103,9 +103,7 @@
 
 <script>
 import {
-  apiQueryDataBaseByprojectId,
   apiUpdateTableMaster,
-  apiQueryTableMasterByProjectId,
   apiUpdateDataBaseByProjectId,
   apiDatasourceNMastserByProjectId
 } from "../../api";
@@ -116,8 +114,7 @@ export default {
     return {
       projectId: this.$route.query.projectId,
       csvfile: [{}],
-      t_table_master: [],
-      is_input_datasource: ""
+      t_table_master: []
     };
   },
   created() {
@@ -126,41 +123,12 @@ export default {
       projectId: projectId
     })
       .then(res => {
+        console.log(res);
         this.t_table_master = res.data;
       })
       .catch(err => {
         console.log(err);
       });
-    // apiQueryTableMasterByProjectId({
-    //   projectId: projectId
-    // })
-    //   .then(res => {
-    //     console.log(res);
-    //     if (res.data.length === 0) {
-    //       apiQueryDataBaseByprojectId({
-    //         projectId: projectId
-    //       })
-    //         .then(res => {
-    //           let index = 0;
-    //           res.data.forEach(item => {
-    //             if (item.is_input_datasource) {
-    //               this.t_table_master.splice(index++, 0, item);
-    //             }
-    //           });
-    //         })
-    //         .catch(err => {
-    //           console.log(err);
-    //         });
-    //     } else {
-    //       res.data.forEach(item => {
-    //         console.log(item.state);
-    //       });
-    //       this.t_table_master = res.data;
-    //     }
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
   },
   methods: {
     goback() {
@@ -172,7 +140,7 @@ export default {
         header: true,
         complete: results => {
           var tableId = results.data[0].table_id;
-          var tableName = results.data[0].table_name;
+          var tableName = results.data[0].table_cname;
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
 
@@ -191,33 +159,38 @@ export default {
     },
     updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
-        if (!(element.table_id === undefined)) {
-          apiUpdateTableMaster({
-            sn: element.sn,
-            datasource_type: element.datasource_type,
-            projectId: element.projectId,
-            database_note: element.database_note,
-            datasource_id: element.datasource_id,
-            table_id: element.table_id,
-            table_cname: element.table_cname,
-            table_ename: element.table_ename,
-            table_pk: element.table_pk,
-            table_pk_name: element.table_pk_name,
-            table_column_quantity: element.table_column_quantity,
-            table_data_quantity: element.table_data_quantity,
-            state: "CsvImport",
-            isConcatenation: false,
-            description: element.description,
-            reason: element.reason,
-            tMasterNote: element.tMasterNote,
-            datasource_name: element.datasource_name
-          });
-          apiUpdateDataBaseByProjectId({
-            projectId: element.projectId,
-            datasource_id: element.datasource_id,
-            state: element.state
-          });
-        }
+        // if (!(element.table_id === undefined)) {
+        const uuidv4 = require("uuid/v4");
+        var table_id_temp_UUID = uuidv4();
+        apiUpdateTableMaster({
+          sn: element.sn,
+          datasource_type: element.datasource_type,
+          projectId: element.projectId,
+          database_note: element.database_note,
+          datasource_id: element.datasource_id,
+          table_id: table_id_temp_UUID,
+          table_cname: element.table_cname,
+          table_ename: element.table_ename,
+          table_pk: element.table_pk,
+          table_pk_name: element.table_pk_name,
+          table_column_quantity: element.table_column_quantity,
+          table_data_quantity: element.table_data_quantity,
+          state: "CsvImport",
+          isConcatenation: false,
+          description: element.description,
+          reason: element.reason,
+          tMasterNote: element.tMasterNote,
+          datasource_name: element.datasource_name
+        });
+        apiUpdateDataBaseByProjectId({
+          projectId: element.projectId,
+          datasource_id: element.datasource_id,
+          state: element.state,
+          datasource_name: element.datasource_name,
+          datasource_type: element.datasource_type,
+          sn: element.sn
+        });
+        // }
       });
     }
   },
@@ -230,8 +203,7 @@ export default {
       let index = 0;
       this.t_table_master.map(val => {
         var obj = {
-          sn: "",
-          datasource_type: "test",
+          datasource_type: "",
           projectId: "",
           database_note: "",
           datasource_id: "",
@@ -241,25 +213,28 @@ export default {
           table_pk_name: "",
           table_column_quantity: "",
           table_data_quantity: "",
-          state: "CsvImport",
-          isConcatenation: "N",
+          state: "",
+          isConcatenation: false,
           description: "",
           reason: "",
           tMasterNote: "",
           datasource_name: ""
         };
-        obj.sn = val.sn;
+
         obj.projectId = val.projectId;
         obj.datasource_type = val.datasource_type;
         obj.datasource_id = val.datasource_id;
         obj.database_note = val.database_note;
         obj.datasource_name = val.datasource_name;
-        obj.state = "CsvImport";
+        obj.state = val.state;
+        obj.reason = val.reason;
+        obj.tMasterNote = val.tMasterNote;
+        obj.description = val.description;
         this.csvfile.map(val2 => {
           if (val.projectId === val2.project_id) {
             if (val.datasource_id === val2.datasource_id) {
               obj.table_id = val2.table_id;
-              obj.table_cname = val2.table_name;
+              obj.table_cname = val2.table_cname;
               obj.table_column_quantity = val2.table_column_quantity;
               obj.table_data_quantity = val2.table_data_quantity;
             }
@@ -270,10 +245,20 @@ export default {
       this.t_table_master = resultArray;
     },
     t_table_master: {
-      handler: function(t_table_master) {
+      handler(t_table_master) {
         this.updateTableMaster(this.t_table_master);
       },
-      deep: true
+      deep: true,
+      immediate: false
+
+      /*
+       * 第一次綁定就執行
+       */
+      // handler function(t_table_master) {
+      //   this.updateTableMaster(this.t_table_master);
+      // },
+      // deep: true,
+      // immediate: true
     }
   }
 };

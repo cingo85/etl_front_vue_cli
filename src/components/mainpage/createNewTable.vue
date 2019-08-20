@@ -77,7 +77,8 @@ export default {
       isConcatenation: false,
       description: "",
       reason: "",
-      tMasterNote: ""
+      tMasterNote: "",
+      version: "1.0"
     };
   },
   methods: {

@@ -36,7 +36,7 @@ const datasourceRequest = axios.create({
 });
 export const apiCreateNewDataBase = data => datasourceRequest.post('/createNewDataBase', data)
 export const apiQueryDataBaseByprojectId = data => datasourceRequest.post('/queryDataSourceByProjectId', data)
-export const apiUpdateDataBaseByProjectId = data => datasourceRequest.post('/updateDataBase', data)
+export const apiUpdateDataBaseByProjectId = data => datasourceRequest.post('/updateDataBaseState', data)
 
 //TableMaster api
 const tableMasterRequest = axios.create({
@@ -45,5 +45,6 @@ const tableMasterRequest = axios.create({
 export const apiUpdateTableMaster = data => tableMasterRequest.post('/updatet_table_master', data);
 export const apiQueryTableMasterByProjectId = data => tableMasterRequest.post('/querytableMasterByProjectId', data);
 export const apiDatasourceNMastserByProjectId = data => tableMasterRequest.post('/compareDataSourceNTableMasterProjectId', data)
+export const apiQueryTableMasterByPmState = data => tableMasterRequest.post('/querytableMasterByPmState', data)
 
 

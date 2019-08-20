@@ -88,21 +88,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>嘉義大學-第三期</td>
-                  <td>嘉義大學</td>
-                </tr>
-                <tr>
-                  <td>台灣首府大學</td>
-                  <td>台灣首府大學</td>
-                </tr>
-                <tr>
-                  <td>國立高雄大學</td>
-                  <td>國立高雄大學</td>
-                </tr>
-                <tr>
-                  <td>交通大學</td>
-                  <td>交通大學</td>
+                <tr v-for="item in TableMaster" v-if="item.state === 'PMCreate'">
+                  <td @click="queryInFunctionTable(item.table_id)">{{item.table_cname}}</td>
+                  <td>{{item.version}}</td>
                 </tr>
               </tbody>
             </table>
@@ -161,6 +149,12 @@ export default {
         query: {
           projectId: projectId
         }
+      });
+    },
+    queryInFunctionTable(table_id) {
+      this.$router.push({
+        name: "functionTable",
+        query: { table_id: table_id }
       });
     }
   }
