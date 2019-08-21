@@ -175,7 +175,7 @@ export default {
             table_pk_name: element.table_pk_name,
             table_column_quantity: element.table_column_quantity,
             table_data_quantity: element.table_data_quantity,
-            state: "CsvImport",
+            TableMasterState: "CsvImport",
             isConcatenation: false,
             description: element.description,
             reason: element.reason,
@@ -185,7 +185,7 @@ export default {
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
             datasource_id: element.datasource_id,
-            state: element.state,
+            DataBaseState: element.state,
             datasource_name: element.datasource_name,
             datasource_type: element.datasource_type,
             sn: element.sn
@@ -213,13 +213,24 @@ export default {
           table_pk_name: "",
           table_column_quantity: "",
           table_data_quantity: "",
-          state: "",
+          TableMasterState: "",
           isConcatenation: false,
           description: "",
           reason: "",
           tMasterNote: "",
           datasource_name: "",
-          t_column_master: []
+          t_column_master: [{
+            table_id:"",
+            column_id:"",
+            column_name:"",
+            column_read_name:"",
+            column_c_name:"",
+            is_pk:"",
+            column_type:"",
+            column_length:"",
+            column_default:"",
+            is_datamodel_attribute:""
+          }]
         };
 
         obj.projectId = val.projectId;
@@ -227,7 +238,7 @@ export default {
         obj.datasource_id = val.datasource_id;
         obj.database_note = val.database_note;
         obj.datasource_name = val.datasource_name;
-        obj.state = val.state;
+        obj.TableMasterState = val.TableMasterState;
         obj.reason = val.reason;
         obj.tMasterNote = val.tMasterNote;
         obj.description = val.description;
