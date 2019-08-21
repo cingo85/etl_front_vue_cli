@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import 'jquery'
+import $ from 'jquery'
 import 'popper.js'
 import 'bootstrap/dist/js/bootstrap'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -14,15 +14,18 @@ import axios from "axios";
 import { URLSearchParams } from "url";
 import UUID from 'uuid'
 import VuePapaParse from 'vue-papa-parse'
+import bootstrap4toggle from 'bootstrap4-toggle'
 
 
 global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
+Vue.prototype.$ = $;
 Vue.prototype.axios = axios
 
 Vue.use(Vuex);
 Vue.use(UUID);
 Vue.use(VuePapaParse)
+Vue.use(bootstrap4toggle)
 
 
 new Vue({

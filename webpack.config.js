@@ -5,5 +5,11 @@ module.exports = {
         filename: '/static/js/[name].[contenthash:8].js',
         publicPath: '/',
         chunkFilename: '/static/js/[name].[contenthash:8].js'
-    }
+    },
+    plugins: [new webpack.ProvidePlugin({
+        jQuery: 'jquery',
+        $: 'jquery',
+        jquery: 'jquery',
+        Tether: 'tether'
+    })]
 }

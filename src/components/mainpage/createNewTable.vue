@@ -94,7 +94,8 @@ export default {
         isConcatenation: this.isConcatenation,
         description: this.description,
         reason: this.reason,
-        tMasterNote: this.tMasterNote
+        tMasterNote: this.tMasterNote,
+        version: this.version
       })
         .then(res => {
           console.log(res);

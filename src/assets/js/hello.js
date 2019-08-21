@@ -2,7 +2,7 @@
 export const functionTable = {
 
   Data: {
-    ColTable: ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
+    ColTable: ['default', 'default', 'default'],
     RowTable: ['default', 'default', 'default']
     ,
     DB: [
@@ -12,30 +12,6 @@ export const functionTable = {
       },
       {
         DBname: 'DB1',
-        TableName: '學生基本資料1'
-      },
-      {
-        DBname: 'DB2',
-        TableName: '學生基本資料2'
-      },
-      {
-        DBname: 'DB3',
-        TableName: '學生基本資料3'
-      },
-      {
-        DBname: 'DB4',
-        TableName: '學生基本資料4'
-      },
-      {
-        DBname: 'DB5',
-        TableName: '學生基本資料5'
-      },
-      {
-        DBname: 'DB6',
-        TableName: '學生基本資料6'
-      },
-      {
-        DBname: 'DB7',
         TableName: '學生基本資料1'
       }
     ],

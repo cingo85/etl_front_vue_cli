@@ -140,7 +140,7 @@ export default {
         header: true,
         complete: results => {
           var tableId = results.data[0].table_id;
-          var tableName = results.data[0].table_cname;
+          var tableName = results.data[0].table_name;
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
 
@@ -159,38 +159,38 @@ export default {
     },
     updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
-        // if (!(element.table_id === undefined)) {
-        const uuidv4 = require("uuid/v4");
-        var table_id_temp_UUID = uuidv4();
-        apiUpdateTableMaster({
-          sn: element.sn,
-          datasource_type: element.datasource_type,
-          projectId: element.projectId,
-          database_note: element.database_note,
-          datasource_id: element.datasource_id,
-          table_id: table_id_temp_UUID,
-          table_cname: element.table_cname,
-          table_ename: element.table_ename,
-          table_pk: element.table_pk,
-          table_pk_name: element.table_pk_name,
-          table_column_quantity: element.table_column_quantity,
-          table_data_quantity: element.table_data_quantity,
-          state: "CsvImport",
-          isConcatenation: false,
-          description: element.description,
-          reason: element.reason,
-          tMasterNote: element.tMasterNote,
-          datasource_name: element.datasource_name
-        });
-        apiUpdateDataBaseByProjectId({
-          projectId: element.projectId,
-          datasource_id: element.datasource_id,
-          state: element.state,
-          datasource_name: element.datasource_name,
-          datasource_type: element.datasource_type,
-          sn: element.sn
-        });
-        // }
+        if (!(element.table_id === null)) {
+          const uuidv4 = require("uuid/v4");
+          var table_id_temp_UUID = uuidv4();
+          apiUpdateTableMaster({
+            sn: element.sn,
+            datasource_type: element.datasource_type,
+            projectId: element.projectId,
+            database_note: element.database_note,
+            datasource_id: element.datasource_id,
+            table_id: table_id_temp_UUID,
+            table_cname: element.table_cname,
+            table_ename: element.table_ename,
+            table_pk: element.table_pk,
+            table_pk_name: element.table_pk_name,
+            table_column_quantity: element.table_column_quantity,
+            table_data_quantity: element.table_data_quantity,
+            state: "CsvImport",
+            isConcatenation: false,
+            description: element.description,
+            reason: element.reason,
+            tMasterNote: element.tMasterNote,
+            datasource_name: element.datasource_name
+          });
+          apiUpdateDataBaseByProjectId({
+            projectId: element.projectId,
+            datasource_id: element.datasource_id,
+            state: element.state,
+            datasource_name: element.datasource_name,
+            datasource_type: element.datasource_type,
+            sn: element.sn
+          });
+        }
       });
     }
   },
@@ -218,7 +218,8 @@ export default {
           description: "",
           reason: "",
           tMasterNote: "",
-          datasource_name: ""
+          datasource_name: "",
+          t_column_master: []
         };
 
         obj.projectId = val.projectId;

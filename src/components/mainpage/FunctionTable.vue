@@ -2,8 +2,34 @@
   <table class="table table-bordered">
     <thead id="sortableCol">
       <tr>
-        <th class="borderless" scope="col" colspan="2"></th>
-        <th scope="col"></th>
+        <th class="borderless" scope="col" colspan="2">
+          <button>回上一層</button>
+        </th>
+        <th scope="col">
+          <div>
+            <input
+              @click="toggleModel()"
+              id="ModelPattern"
+              type="checkbox"
+              checked
+              data-toggle="toggle"
+              data-onstyle="danger"
+              data-on="編輯模式"
+              data-off="檢視模式"
+            />
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              checked
+              data-toggle="toggle"
+              data-onstyle="success"
+              data-offstyle="primary"
+              data-on="大表"
+              data-off="串接"
+            />
+          </div>
+        </th>
         <th scope="col"></th>
         <th scope="col"></th>
         <th scope="col">
@@ -96,7 +122,7 @@
 </template>
 <script>
 import { functionTable } from "@/assets/js/hello.js";
-
+import $ from "jquery";
 export default {
   name: "functionTable",
   data() {
@@ -188,7 +214,17 @@ export default {
     removeRow: function(index) {
       this.functionTable.Data.RowTable.splice(index, 1);
       this.functionTable.Data.functionData.splice(index, 1);
+    },
+    toggleModel: function() {
+      // $(function() {
+      $("#ModelPattern").change(function() {
+        alert("切換殺戮模式");
+      });
+      // });
     }
+    /*
+     *畫面控制選項
+     */
   }
 };
 </script>
