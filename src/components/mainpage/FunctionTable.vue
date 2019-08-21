@@ -122,7 +122,7 @@
 </template>
 <script>
 import { functionTable } from "@/assets/js/hello.js";
-import $ from "jquery";
+
 export default {
   name: "functionTable",
   data() {
@@ -216,6 +216,7 @@ export default {
       this.functionTable.Data.functionData.splice(index, 1);
     },
     toggleModel: function() {
+      console.log('hello')
       // $(function() {
       $("#ModelPattern").change(function() {
         alert("切換殺戮模式");
