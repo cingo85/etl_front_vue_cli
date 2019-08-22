@@ -122,16 +122,25 @@
 </template>
 <script>
 import { functionTable } from "@/assets/js/hello.js";
+import VuexStore from "../../store";
 
 export default {
   name: "functionTable",
   data() {
     return {
-      functionTable: ""
+      functionTable: "",
+      tableId: this.$route.query.table_id,
+      Data: [
+        {
+          tableId: this.$route.query.table_id
+        }
+      ]
     };
   },
   created: function() {
     this.functionTable = functionTable;
+
+    this.$store.dispatch("loadingProject", this.Data);
   },
   mounted: function() {
     // $(document).disableSelection();
@@ -216,7 +225,7 @@ export default {
       this.functionTable.Data.functionData.splice(index, 1);
     },
     toggleModel: function() {
-      console.log('hello')
+      console.log("hello");
       // $(function() {
       $("#ModelPattern").change(function() {
         alert("切換殺戮模式");

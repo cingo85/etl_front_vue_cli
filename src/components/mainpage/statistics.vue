@@ -140,7 +140,7 @@ export default {
         header: true,
         complete: results => {
           var tableId = results.data[0].table_id;
-          var tableName = results.data[0].table_name;
+          var tableName = results.data[0].table_cname;
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
 
@@ -180,7 +180,8 @@ export default {
             description: element.description,
             reason: element.reason,
             tMasterNote: element.tMasterNote,
-            datasource_name: element.datasource_name
+            datasource_name: element.datasource_name,
+            t_column_master: element.t_column_master
           });
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
@@ -201,6 +202,10 @@ export default {
     csvfile: function() {
       var resultArray = [];
       let index = 0;
+      let map = new Map();
+      let arr = new Array();
+      let indexColumn = 0;
+
       this.t_table_master.map(val => {
         var obj = {
           datasource_type: "",
@@ -219,18 +224,21 @@ export default {
           reason: "",
           tMasterNote: "",
           datasource_name: "",
-          t_column_master: [{
-            table_id:"",
-            column_id:"",
-            column_name:"",
-            column_read_name:"",
-            column_c_name:"",
-            is_pk:"",
-            column_type:"",
-            column_length:"",
-            column_default:"",
-            is_datamodel_attribute:""
-          }]
+          t_column_master: [
+            {
+              table_id: "",
+              column_id: "",
+              column_name: "",
+              column_read_name: "",
+              column_c_name: "",
+              is_pk: "",
+              column_type: "",
+              column_length: "",
+              column_default: "",
+              is_datamodel_attribute: "",
+              ColumnMasterState: "CsvImport"
+            }
+          ]
         };
 
         obj.projectId = val.projectId;
@@ -243,15 +251,47 @@ export default {
         obj.tMasterNote = val.tMasterNote;
         obj.description = val.description;
         this.csvfile.map(val2 => {
+          let columnObj = {
+            table_id: "",
+            column_id: "",
+            column_name: "",
+            column_read_name: "",
+            column_c_name: "",
+            is_pk: "",
+            column_type: "",
+            column_length: "",
+            column_default: "",
+            is_datamodel_attribute: "",
+            ColumnMasterState: "CsvImport"
+          };
           if (val.projectId === val2.project_id) {
             if (val.datasource_id === val2.datasource_id) {
               obj.table_id = val2.table_id;
               obj.table_cname = val2.table_cname;
               obj.table_column_quantity = val2.table_column_quantity;
               obj.table_data_quantity = val2.table_data_quantity;
+
+              (columnObj.table_id = val2.table_id),
+                (columnObj.column_id = val2.column_id),
+                (columnObj.column_name = val2.column_name),
+                (columnObj.column_read_name = val2.column_read_name),
+                (columnObj.column_c_name = val2.column_c_name),
+                (columnObj.is_pk = val2.is_pk),
+                (columnObj.column_type = val2.column_type),
+                (columnObj.column_length = val2.column_length),
+                (columnObj.column_default = val2.column_default),
+                (columnObj.is_datamodel_attribute =
+                  val2.is_datamodel_attribute);
+              if (map.get(val2.table_id) === undefined) {
+                map.set(val2.table_id, (arr = new Array()));
+                map.get(val2.table_id).splice(indexColumn++, 0, columnObj);
+              } else {
+                map.get(val2.table_id).splice(indexColumn++, 0, columnObj);
+              }
             }
           }
         });
+        obj.t_column_master = map.get(obj.table_id);
         resultArray.splice(index++, 0, obj);
       });
       this.t_table_master = resultArray;
