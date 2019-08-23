@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 axios.defaults.baseURL = 'http://localhost:8093/api/'
-axios.defaults.headers.post['Content-Type'] = 'application/json;charset=UTF-8';
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 /*
 if (process.env.NODE_ENV == 'development') {
     axios.defaults.baseURL = 'http://localhost:8093/api/';
@@ -42,9 +42,10 @@ export const apiUpdateDataBaseByProjectId = data => datasourceRequest.post('/upd
 const tableMasterRequest = axios.create({
     baseURL: 'http://localhost:8093/api/t_table_master'
 })
+
 export const apiUpdateTableMaster = data => tableMasterRequest.post('/updatet_table_master', data);
 export const apiQueryTableMasterByProjectId = data => tableMasterRequest.post('/querytableMasterByProjectId', data);
 export const apiDatasourceNMastserByProjectId = data => tableMasterRequest.post('/compareDataSourceNTableMasterProjectId', data)
 export const apiQueryTableMasterByPmState = data => tableMasterRequest.post('/querytableMasterByPmState', data)
-export const apiQueryTableMasterByTableId = data => tableMasterRequest.post('/querytableMasterByTableId', data);
+export const apiQueryTableMasterByTableId = data => tableMasterRequest.post('/querytableMasterByTableId', 'tableId=' + data);
 

@@ -1,4 +1,4 @@
-import { apiQueryTableMasterByProjectId } from '../api'
+import { apiQueryTableMasterByTableId } from '../api'
 
 
 export default {
@@ -6,22 +6,33 @@ export default {
         tableMaster: ""
     },
     getters: {
-
+        tableMaster: state => state.tableMaster
     },
     actions: {
-        loadingProject({ commit }, tableId) {
-            console.log(tableId);
-            apiQueryTableMasterByProjectId(tableId)
+        loadingOneTableMaster({ commit }, tableId) {
+            apiQueryTableMasterByTableId(tableId)
                 .then(res => {
-                    console.log(res);
-                    commit('SETMaster', res.data)
+                    console.log("2");
+                    commit('SET_MASTER_ONE_TABLE', res.data)
                 }).catch(error => {
                     console.log(error);
                 })
         }
+
+        // loadingAllTableMaster({ commit }, projectId) {
+        //     apiQueryTableMasterByProjectId(projectId)
+        //         .then(res => {
+        //             commit('SET_MASTER_ALL_TABLE', res.data)
+        //         }).catch(error => {
+        //             console.log(error);
+        //         })
+        // }
     },
     mutations: {
-
+        SET_MASTER_ONE_TABLE(state, tableMaster) {
+            state.tableMaster = tableMaster;
+            console.log("2");
+        }
     }
 
 }

@@ -89,7 +89,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in TableMaster" v-if="item.TableMasterState === 'PMCreate'">
-                  <td @click="queryInFunctionTable(item.table_id)">{{item.table_cname}}</td>
+                  <td @click="queryInFunctionTable(item.tableId)">{{item.table_cname}}</td>
                   <td>{{item.version}}</td>
                 </tr>
               </tbody>

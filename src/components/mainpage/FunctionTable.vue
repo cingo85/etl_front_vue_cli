@@ -3,7 +3,7 @@
     <thead id="sortableCol">
       <tr>
         <th class="borderless" scope="col" colspan="2">
-          <button>回上一層</button>
+          <button @click="test()">回上一層</button>
         </th>
         <th scope="col">
           <div>
@@ -123,27 +123,27 @@
 <script>
 import { functionTable } from "@/assets/js/hello.js";
 import VuexStore from "../../store";
+import { mapGetters } from "vuex";
 
 export default {
   name: "functionTable",
   data() {
     return {
       functionTable: "",
-      tableId: this.$route.query.table_id,
-      Data: [
-        {
-          tableId: this.$route.query.table_id
-        }
-      ]
+      // tableId: this.$route.query.table_id,
+      table_id: this.$route.query.tableId
     };
   },
   created: function() {
+    console.log("1");
     this.functionTable = functionTable;
-
-    this.$store.dispatch("loadingProject", this.Data);
+    this.$store
+      .dispatch("loadingOneTableMaster", this.table_id)
+      .then(this.test());
   },
   mounted: function() {
-    // $(document).disableSelection();
+    console.log("4");
+
     $("#sortableRow").sortable({
       revert: true,
       axis: "y",
@@ -173,6 +173,10 @@ export default {
     }
   },
   methods: {
+    test: function() {
+      // this.$store.state.FunctionTable_module.tableMaster;
+      console.log(this.$store.getters.tableMaster);
+    },
     changecolumn: function() {
       //console.log(this.newDB);
       var $this = this;
