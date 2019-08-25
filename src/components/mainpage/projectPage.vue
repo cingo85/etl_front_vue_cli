@@ -154,7 +154,7 @@ export default {
     queryInFunctionTable(table_id) {
       this.$router.push({
         name: "functionTable",
-        query: { table_id: table_id }
+        query: { tableId: table_id }
       });
     }
   }

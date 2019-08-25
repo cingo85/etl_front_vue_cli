@@ -9,30 +9,29 @@ export default {
         tableMaster: state => state.tableMaster
     },
     actions: {
-        loadingOneTableMaster({ commit }, tableId) {
-            apiQueryTableMasterByTableId(tableId)
-                .then(res => {
+         loadingOneTableMaster({ commit }, tableId) {
                     console.log("2");
-                    commit('SET_MASTER_ONE_TABLE', res.data)
-                }).catch(error => {
-                    console.log(error);
-                })
+              return getTest(apiQueryTableMasterByTableId(tableId),commit,'SET_MASTER_ONE_TABLE')  
         }
-
-        // loadingAllTableMaster({ commit }, projectId) {
-        //     apiQueryTableMasterByProjectId(projectId)
-        //         .then(res => {
-        //             commit('SET_MASTER_ALL_TABLE', res.data)
-        //         }).catch(error => {
-        //             console.log(error);
-        //         })
-        // }
     },
     mutations: {
         SET_MASTER_ONE_TABLE(state, tableMaster) {
             state.tableMaster = tableMaster;
-            console.log("2");
+            console.log("3");
         }
     }
 
+}
+
+export function getTest(api,commit,mutationType){
+    let promise = new Promise((resolve,reject)=>{
+        api.then(res=>{
+            commit(mutationType,res.data[0])
+            return resolve()
+        }).catch(error=>{
+            console.log(error);
+            return reject()
+        })
+    })
+    return promise
 }

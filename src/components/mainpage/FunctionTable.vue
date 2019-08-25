@@ -131,19 +131,23 @@ export default {
     return {
       functionTable: "",
       // tableId: this.$route.query.table_id,
-      table_id: this.$route.query.tableId
+      tableId: this.$route.query.tableId,
+      Test:this.$store.state.FunctionTable_module.tableMaster.data
     };
   },
   created: function() {
+    this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
     console.log("1");
     this.functionTable = functionTable;
-    this.$store
-      .dispatch("loadingOneTableMaster", this.table_id)
-      .then(this.test());
   },
   mounted: function() {
     console.log("4");
-
+    let objtemp =this.$store.state.FunctionTable_module.tableMaster;
+    console.log(objtemp)
+    console.log(this.$store.state.FunctionTable_module.tableMaster);
+  //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
+  //    console.log(element);
+  //  });
     $("#sortableRow").sortable({
       revert: true,
       axis: "y",

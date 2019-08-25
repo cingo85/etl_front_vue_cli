@@ -168,7 +168,7 @@ export default {
             projectId: element.projectId,
             database_note: element.database_note,
             datasource_id: element.datasource_id,
-            table_id: table_id_temp_UUID,
+            tableId: table_id_temp_UUID,
             table_cname: element.table_cname,
             table_ename: element.table_ename,
             table_pk: element.table_pk,
