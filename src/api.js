@@ -48,4 +48,4 @@ export const apiQueryTableMasterByProjectId = data => tableMasterRequest.post('/
 export const apiDatasourceNMastserByProjectId = data => tableMasterRequest.post('/compareDataSourceNTableMasterProjectId', data)
 export const apiQueryTableMasterByPmState = data => tableMasterRequest.post('/querytableMasterByPmState', data)
 export const apiQueryTableMasterByTableId = data => tableMasterRequest.post('/querytableMasterByTableId', 'tableId=' + data);
-
+export const apiQueryTableMasterByDatasourceId = data =>tableMasterRequest.post('/querytableMasterByDataSourceId','DataSourceId='+data);

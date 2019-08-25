@@ -53,8 +53,12 @@
         <th scope="col" colspan="3">大表英文名稱</th>
         <th scope="col">資料庫名稱</th>
         <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
-          <textarea class="content" type="text" v-model="item.DBname"></textarea>
+          <select @change="onSelectDataSource($event,item)">
+            <option v-for="(item,index) in DataSource" :value="item.datasource_id" v-if="item.is_input_datasource">{{item.datasource_name}}</option>
+          </select>
         </th>
+
+        
       </tr>
       <tr>
         <th scope="col" colspan="2">
@@ -63,7 +67,9 @@
         <th scope="col" colspan="3" rowspan="2">大表中文名稱</th>
         <th scope="col">表單名稱</th>
         <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
-          <textarea class="content" type="text" v-model="item.TableName"></textarea>
+          <select @change="onSelectTable($event,item)">
+            <option v-for="(item,index) in TableSource">{{item.table_cname}}</option>
+          </select>
         </th>
       </tr>
       <tr>
@@ -124,27 +130,42 @@
 import { functionTable } from "@/assets/js/hello.js";
 import VuexStore from "../../store";
 import { mapGetters } from "vuex";
+import {apiQueryDataBaseByprojectId,apiQueryTableMasterByDatasourceId} from '../../api'
 
 export default {
   name: "functionTable",
   data() {
     return {
       functionTable: "",
-      // tableId: this.$route.query.table_id,
       tableId: this.$route.query.tableId,
-      Test:this.$store.state.FunctionTable_module.tableMaster.data
+      projectId:this.$route.query.projectId,
+      DataSource:"",
+      TableSource:"",
+      tableMaster:this.$store.state.FunctionTable_module
     };
   },
   created: function() {
+apiQueryDataBaseByprojectId({
+      projectId: this.projectId
+    })
+      .then(res => {
+        this.DataSource = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+
+
     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
+    let objtemp =this.$store.state.FunctionTable_module.tableMaster;
+    
+    console.log(objtemp)
     console.log("1");
     this.functionTable = functionTable;
   },
   mounted: function() {
-    console.log("4");
-    let objtemp =this.$store.state.FunctionTable_module.tableMaster;
-    console.log(objtemp)
-    console.log(this.$store.state.FunctionTable_module.tableMaster);
+    console.log(this.$store.getters);
   //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
   //    console.log(element);
   //  });
@@ -239,11 +260,29 @@ export default {
         alert("切換殺戮模式");
       });
       // });
-    }
+    },
+    /*
+   *小J新加 
+   */
+    onSelectDataSource(event,item){
+      console.log(event.target.value)
+      let DataSourceId = event.target.value
+    apiQueryTableMasterByDatasourceId(
+      DataSourceId
+    ).then(res => {
+        this.TableSource = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
+  }
     /*
      *畫面控制選項
      */
-  }
+  },
+  
+  
 };
 </script>
 

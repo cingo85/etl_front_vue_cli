@@ -89,7 +89,7 @@
               </thead>
               <tbody>
                 <tr v-for="item in TableMaster" v-if="item.TableMasterState === 'PMCreate'">
-                  <td @click="queryInFunctionTable(item.tableId)">{{item.table_cname}}</td>
+                  <td @click="queryInFunctionTable(item.tableId,item.projectId)">{{item.table_cname}}</td>
                   <td>{{item.version}}</td>
                 </tr>
               </tbody>
@@ -151,10 +151,10 @@ export default {
         }
       });
     },
-    queryInFunctionTable(table_id) {
+    queryInFunctionTable(table_id,projectId) {
       this.$router.push({
         name: "functionTable",
-        query: { tableId: table_id }
+        query: { tableId: table_id,projectId: projectId }
       });
     }
   }
