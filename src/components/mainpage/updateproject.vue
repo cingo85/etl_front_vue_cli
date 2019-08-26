@@ -1,9 +1,9 @@
 <template>
-  <div id="modal-form" class="modal fade" aria-hidden="true" tabindex="-1" role="dialog">
+  <div id="modal-form-update" class="modal fade" aria-hidden="true" tabindex="-1" role="dialog">
     <div class="modal-dialog" style="text-align: center;margin-left: 350px;margin-top: 150px">
       <div class="modal-content" style="width:1200px">
         <div class="modal-header">
-          <h3 class="m-t-none m-b">建立新專案</h3>
+          <h3 class="m-t-none m-b">修改專案</h3>
         </div>
 
         <div class="modal-body">
@@ -223,7 +223,7 @@ import { apiCreateNewProject, apiCreateNewDataBase } from "../../api";
 import { uuid } from "uuid";
 
 export default {
-  name: "projectChangePage",
+  name: "updateProjectView",
   data() {
     const uuidv4 = require("uuid/v4");
     var datasource_id_UUID = uuidv4();

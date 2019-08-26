@@ -12,7 +12,8 @@ export default {
   },
   created: function() {
     this.$emit("createTable", true);
-    this.$emit("project", true);
+    this.$emit("update_project", true);
+    this.$emit("insert_project", false);
   }
 };
 </script>

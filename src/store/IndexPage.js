@@ -5,13 +5,23 @@ export default {
     state: {
         projectData: ""
     },
-    getters: {},
-    mutations: {},
+    getters: {
+        projectData: state => state.projectData
+    },
     actions: {
-        getList(context) {
-            apiQueryAllproject().then(res => {
-                context.commit(this.projectData = res.data)
-            });
+        initStore({ commit }) {
+            apiQueryAllproject()
+                .then(res => {
+                    commit('SET_PROJECT', res.data)
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        },
+    },
+    mutations: {
+        SET_PROJECT(state, projectData) {
+            state.projectData = projectData
         }
     }
 }

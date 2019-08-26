@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" id="inputPassword2" />
+                  <input size="23" type="text" class="form-control" v-model="table_ename" />
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" id="inputPassword2" />
+                  <input size="23" type="text" class="form-control" v-model="table_cname" />
                 </div>
               </div>
             </div>
@@ -35,20 +35,20 @@
                 <label for="staticEmail2">備註</label>
               </div>
               <div class="form-group col-md-10">
-                <label for="inputPassword2" class="sr-only">Password</label>
+                <label for="inputPassword2" class="sr-only"></label>
                 <textarea
                   class="form-control rounded-0"
                   style="margin-left: 100px"
-                  id="exampleFormControlTextarea2"
                   rows="2"
                   cols="100"
+                  v-model="tMasterNote"
                 ></textarea>
               </div>
             </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">確定</button>
+          <button type="button" class="btn btn-primary" @click="create()">確定</button>
           <button type="button" class="btn btn-default" data-dismiss="modal">關閉</button>
         </div>
       </div>
@@ -57,8 +57,54 @@
 </template>
 
 <script>
+import { uuid } from "uuid";
+import { apiUpdateTableMaster } from "../../api";
+
 export default {
-  name: "createNewTable"
+  name: "createNewTable",
+  data() {
+    const uuidv4 = require("uuid/v4");
+    var datasource_id = uuidv4();
+    var table_id = uuidv4();
+    return {
+      projectId: this.$route.query.projectId,
+      database_note: "",
+      datasourceId: datasource_id,
+      tableId: table_id,
+      table_cname: "",
+      table_ename: "",
+      TableMasterState: "PMCreate",
+      isConcatenation: false,
+      description: "",
+      reason: "",
+      tMasterNote: "",
+      version: "1.0"
+    };
+  },
+  methods: {
+    create() {
+      apiUpdateTableMaster({
+        projectId: this.projectId,
+        database_note: this.database_note,
+        datasourceId: this.datasourceId,
+        tableId: this.tableId,
+        table_cname: this.table_cname,
+        table_ename: this.table_ename,
+        TableMasterState: this.TableMasterState,
+        isConcatenation: this.isConcatenation,
+        description: this.description,
+        reason: this.reason,
+        tMasterNote: this.tMasterNote,
+        version: this.version
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
 };
 </script>
 
