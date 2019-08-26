@@ -69,8 +69,8 @@ export default {
     return {
       projectId: this.$route.query.projectId,
       database_note: "",
-      datasource_id: datasource_id,
-      tableId:table_id,
+      datasourceId: datasource_id,
+      tableId: table_id,
       table_cname: "",
       table_ename: "",
       TableMasterState: "PMCreate",
@@ -86,7 +86,7 @@ export default {
       apiUpdateTableMaster({
         projectId: this.projectId,
         database_note: this.database_note,
-        datasource_id: this.datasource_id,
+        datasourceId: this.datasourceId,
         tableId: this.tableId,
         table_cname: this.table_cname,
         table_ename: this.table_ename,

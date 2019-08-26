@@ -35,6 +35,7 @@
         <th scope="col">
           <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
         </th>
+
         <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
@@ -54,11 +55,14 @@
         <th scope="col">資料庫名稱</th>
         <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <select @change="onSelectDataSource($event,item)">
-            <option v-for="(item,index) in DataSource" :value="item.datasource_id" v-if="item.is_input_datasource">{{item.datasource_name}}</option>
+            <option value disabled selected>--請選擇--</option>
+            <option
+              v-for="(item,index) in DataSource"
+              :value="item.datasourceId"
+              v-if="item.is_input_datasource"
+            >{{item.datasource_name}}</option>
           </select>
         </th>
-
-        
       </tr>
       <tr>
         <th scope="col" colspan="2">
@@ -68,7 +72,8 @@
         <th scope="col">表單名稱</th>
         <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
           <select @change="onSelectTable($event,item)">
-            <option v-for="(item,index) in TableSource">{{item.table_cname}}</option>
+            <option value disabled selected>--請選擇--</option>
+            <option v-for="(item,index) in TableSource" :value="item.tableId">{{item.table_cname}}</option>
           </select>
         </th>
       </tr>
@@ -120,7 +125,10 @@
           <textarea class="content" type="text" v-model="item.login">{{item.login}}</textarea>
         </td>
         <td v-for="(item,index2) in functionTable.Data.ColTable">
-          <textarea class="content" type="text"></textarea>
+          <select>
+            <option value disabled selected>--請選擇--</option>
+            <option v-for="(item,index) in Column" :value="item.column_id">{{item.column_name}}</option>
+          </select>
         </td>
       </tr>
     </tbody>
@@ -130,7 +138,11 @@
 import { functionTable } from "@/assets/js/hello.js";
 import VuexStore from "../../store";
 import { mapGetters } from "vuex";
-import {apiQueryDataBaseByprojectId,apiQueryTableMasterByDatasourceId} from '../../api'
+import {
+  apiQueryDataBaseByprojectId,
+  apiQueryTableMasterByDatasourceId,
+  apiQueryColumnMasterByTableId
+} from "../../api";
 
 export default {
   name: "functionTable",
@@ -138,14 +150,15 @@ export default {
     return {
       functionTable: "",
       tableId: this.$route.query.tableId,
-      projectId:this.$route.query.projectId,
-      DataSource:"",
-      TableSource:"",
-      tableMaster:this.$store.state.FunctionTable_module
+      projectId: this.$route.query.projectId,
+      DataSource: "",
+      TableSource: "",
+      Column: "",
+      tableMaster: this.$store.state.FunctionTable_module
     };
   },
   created: function() {
-apiQueryDataBaseByprojectId({
+    apiQueryDataBaseByprojectId({
       projectId: this.projectId
     })
       .then(res => {
@@ -155,20 +168,14 @@ apiQueryDataBaseByprojectId({
         console.log(err);
       });
 
-
-
     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
-    let objtemp =this.$store.state.FunctionTable_module.tableMaster;
-    
-    console.log(objtemp)
-    console.log("1");
+    let objtemp = this.$store.state.FunctionTable_module.tableMaster;
     this.functionTable = functionTable;
   },
   mounted: function() {
-    console.log(this.$store.getters);
-  //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
-  //    console.log(element);
-  //  });
+    //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
+    //    console.log(element);
+    //  });
     $("#sortableRow").sortable({
       revert: true,
       axis: "y",
@@ -197,6 +204,7 @@ apiQueryDataBaseByprojectId({
       });
     }
   },
+
   methods: {
     test: function() {
       // this.$store.state.FunctionTable_module.tableMaster;
@@ -262,27 +270,34 @@ apiQueryDataBaseByprojectId({
       // });
     },
     /*
-   *小J新加 
-   */
-    onSelectDataSource(event,item){
-      console.log(event.target.value)
-      let DataSourceId = event.target.value
-    apiQueryTableMasterByDatasourceId(
-      DataSourceId
-    ).then(res => {
-        this.TableSource = res.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-  }
+     *小J新加
+     */
+    onSelectDataSource(event, item) {
+      let DataSourceId = event.target.value;
+      apiQueryTableMasterByDatasourceId(DataSourceId)
+        .then(res => {
+          this.TableSource = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    onSelectTable(event, item) {
+      let TableId = event.target.value;
+      console.log(TableId);
+      apiQueryColumnMasterByTableId(TableId)
+        .then(res => {
+          console.log(res);
+          this.Column = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
     /*
      *畫面控制選項
      */
-  },
-  
-  
+  }
 };
 </script>
 

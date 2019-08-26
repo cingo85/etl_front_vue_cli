@@ -340,7 +340,7 @@ export default {
           DataBaseState: "",
           data_root: "",
           datasource_name: "",
-          datasource_id: datasource_id_UUID,
+          datasourceId: datasource_id_UUID,
           is_input_datasource: true,
           is_output_datasource: false
         }
@@ -357,7 +357,7 @@ export default {
           DataBaseState: "",
           data_root: "",
           datasource_name: "blabla",
-          datasource_id: datasource_id_UUID2,
+          datasourceId: datasource_id_UUID2,
           is_input_datasource: false,
           is_output_datasource: true
         }
@@ -405,7 +405,7 @@ export default {
       let obj = {
         projectId: this.projectId,
         datasource_type: "",
-        datasource_id: datasource_id_UUID,
+        datasourceId: datasource_id_UUID,
         database_ip: "",
         database_port: "",
         database_user: "",
@@ -432,7 +432,7 @@ export default {
       let objSetting = {
         projectId: this.projectId,
         datasource_type: optionValue,
-        datasource_id: datasource_id_UUID,
+        datasourceId: datasource_id_UUID,
         database_ip: "",
         database_port: "",
         database_user: "",
@@ -447,7 +447,7 @@ export default {
       let objSetting2 = {
         projectId: this.projectId,
         datasource_type: optionValue,
-        datasource_id: datasource_id_UUID,
+        datasourceId: datasource_id_UUID,
         database_ip: "",
         database_port: "",
         database_user: "",

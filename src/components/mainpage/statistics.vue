@@ -139,7 +139,7 @@ export default {
       this.$papa.parse(event.target.files[0], {
         header: true,
         complete: results => {
-          var tableId = results.data[0].table_id;
+          var tableId = results.data[0].tableId;
           var tableName = results.data[0].table_cname;
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
@@ -159,7 +159,40 @@ export default {
     },
     updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
-        if (!(element.table_id === null)) {
+        if (!(element.tableId === null)) {
+          console.log("tableid:" + element.tableId);
+          // const uuidv4 = require("uuid/v4");
+          // var table_id_temp_UUID = uuidv4();
+          apiUpdateTableMaster({
+            sn: element.sn,
+            datasource_type: element.datasource_type,
+            projectId: element.projectId,
+            database_note: element.database_note,
+            datasourceId: element.datasourceId,
+            tableId: element.tableId,
+            table_cname: element.table_cname,
+            table_ename: element.table_ename,
+            table_pk: element.table_pk,
+            table_pk_name: element.table_pk_name,
+            table_column_quantity: element.table_column_quantity,
+            table_data_quantity: element.table_data_quantity,
+            TableMasterState: "CsvImport",
+            isConcatenation: false,
+            description: element.description,
+            reason: element.reason,
+            tMasterNote: element.tMasterNote,
+            datasource_name: element.datasource_name,
+            t_column_master: element.t_column_master
+          });
+          apiUpdateDataBaseByProjectId({
+            projectId: element.projectId,
+            datasourceId: element.datasourceId,
+            DataBaseState: element.state,
+            datasource_name: element.datasource_name,
+            datasource_type: element.datasource_type,
+            sn: element.sn
+          });
+        } else {
           const uuidv4 = require("uuid/v4");
           var table_id_temp_UUID = uuidv4();
           apiUpdateTableMaster({
@@ -167,7 +200,7 @@ export default {
             datasource_type: element.datasource_type,
             projectId: element.projectId,
             database_note: element.database_note,
-            datasource_id: element.datasource_id,
+            datasourceId: element.datasourceId,
             tableId: table_id_temp_UUID,
             table_cname: element.table_cname,
             table_ename: element.table_ename,
@@ -185,7 +218,7 @@ export default {
           });
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
-            datasource_id: element.datasource_id,
+            datasourceId: element.datasourceId,
             DataBaseState: element.state,
             datasource_name: element.datasource_name,
             datasource_type: element.datasource_type,
@@ -208,11 +241,12 @@ export default {
 
       this.t_table_master.map(val => {
         var obj = {
+          sn: val.sn,
           datasource_type: "",
           projectId: "",
           database_note: "",
-          datasource_id: "",
-          table_id: "",
+          datasourceId: "",
+          tableId: "",
           table_cname: "",
           table_pk: "",
           table_pk_name: "",
@@ -226,7 +260,7 @@ export default {
           datasource_name: "",
           t_column_master: [
             {
-              table_id: "",
+              tableId: "",
               column_id: "",
               column_name: "",
               column_read_name: "",
@@ -240,10 +274,9 @@ export default {
             }
           ]
         };
-
         obj.projectId = val.projectId;
         obj.datasource_type = val.datasource_type;
-        obj.datasource_id = val.datasource_id;
+        obj.datasourceId = val.datasourceId;
         obj.database_note = val.database_note;
         obj.datasource_name = val.datasource_name;
         obj.TableMasterState = val.TableMasterState;
@@ -252,7 +285,7 @@ export default {
         obj.description = val.description;
         this.csvfile.map(val2 => {
           let columnObj = {
-            table_id: "",
+            tableId: "",
             column_id: "",
             column_name: "",
             column_read_name: "",
@@ -264,14 +297,15 @@ export default {
             is_datamodel_attribute: "",
             ColumnMasterState: "CsvImport"
           };
+
           if (val.projectId === val2.project_id) {
-            if (val.datasource_id === val2.datasource_id) {
-              obj.table_id = val2.table_id;
+            if (val.datasourceId === val2.datasource_id) {
+              obj.tableId = val2.tableId;
               obj.table_cname = val2.table_cname;
               obj.table_column_quantity = val2.table_column_quantity;
               obj.table_data_quantity = val2.table_data_quantity;
 
-              (columnObj.table_id = val2.table_id),
+              (columnObj.tableId = val2.tableId),
                 (columnObj.column_id = val2.column_id),
                 (columnObj.column_name = val2.column_name),
                 (columnObj.column_read_name = val2.column_read_name),
@@ -282,16 +316,16 @@ export default {
                 (columnObj.column_default = val2.column_default),
                 (columnObj.is_datamodel_attribute =
                   val2.is_datamodel_attribute);
-              if (map.get(val2.table_id) === undefined) {
-                map.set(val2.table_id, (arr = new Array()));
-                map.get(val2.table_id).splice(indexColumn++, 0, columnObj);
+              if (map.get(val2.tableId) === undefined) {
+                map.set(val2.tableId, (arr = new Array()));
+                map.get(val2.tableId).splice(indexColumn++, 0, columnObj);
               } else {
-                map.get(val2.table_id).splice(indexColumn++, 0, columnObj);
+                map.get(val2.tableId).splice(indexColumn++, 0, columnObj);
               }
             }
           }
         });
-        obj.t_column_master = map.get(obj.table_id);
+        obj.t_column_master = map.get(obj.tableId);
         resultArray.splice(index++, 0, obj);
       });
       this.t_table_master = resultArray;

@@ -48,4 +48,10 @@ export const apiQueryTableMasterByProjectId = data => tableMasterRequest.post('/
 export const apiDatasourceNMastserByProjectId = data => tableMasterRequest.post('/compareDataSourceNTableMasterProjectId', data)
 export const apiQueryTableMasterByPmState = data => tableMasterRequest.post('/querytableMasterByPmState', data)
 export const apiQueryTableMasterByTableId = data => tableMasterRequest.post('/querytableMasterByTableId', 'tableId=' + data);
-export const apiQueryTableMasterByDatasourceId = data =>tableMasterRequest.post('/querytableMasterByDataSourceId','DataSourceId='+data);
+export const apiQueryTableMasterByDatasourceId = data => tableMasterRequest.post('/querytableMasterByDataSourceId', 'DataSourceId=' + data);
+
+const columnMasterRequest = axios.create({
+    baseURL: 'http://localhost:8093/api/t_column_master'
+})
+//ColumnMaster api
+export const apiQueryColumnMasterByTableId = data => columnMasterRequest.post('/queryColumnMasterByTableId', 'tableId=' + data)
