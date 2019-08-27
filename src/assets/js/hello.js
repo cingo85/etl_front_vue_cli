@@ -18,27 +18,7 @@ export const functionTable = {
     newDB: [],
     sortnum: [],
     functionData: [
-      {
-        eng: '1',
-        chin: '姓名',
-        type: 'String',
-        pk: 'yes',
-        logic: 'nothing1'
-      },
-      {
-        eng: '2',
-        chin: '姓名',
-        type: 'String',
-        pk: 'yes',
-        logic: 'nothing2'
-      },
-      {
-        eng: '3',
-        chin: '姓名',
-        type: 'String',
-        pk: 'yes',
-        logic: 'nothing2'
-      }
+
     ]
   }
 }

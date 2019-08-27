@@ -15,7 +15,7 @@ import { URLSearchParams } from "url";
 import UUID from 'uuid'
 import VuePapaParse from 'vue-papa-parse'
 import bootstrap4toggle from 'bootstrap4-toggle'
-
+import draggable from "vuedraggable";
 
 global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
@@ -26,6 +26,7 @@ Vue.use(Vuex);
 Vue.use(UUID);
 Vue.use(VuePapaParse)
 Vue.use(bootstrap4toggle)
+Vue.use(draggable)
 
 
 new Vue({

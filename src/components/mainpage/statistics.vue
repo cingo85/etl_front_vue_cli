@@ -160,9 +160,9 @@ export default {
     updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
         if (!(element.tableId === null)) {
-          console.log("tableid:" + element.tableId);
           // const uuidv4 = require("uuid/v4");
           // var table_id_temp_UUID = uuidv4();
+          //在已有tableId為更新,需要有SN
           apiUpdateTableMaster({
             sn: element.sn,
             datasource_type: element.datasource_type,
@@ -181,8 +181,8 @@ export default {
             description: element.description,
             reason: element.reason,
             tMasterNote: element.tMasterNote,
-            datasource_name: element.datasource_name,
-            t_column_master: element.t_column_master
+            datasource_name: element.datasource_name
+            // t_column_master: element.t_column_master
           });
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
@@ -195,6 +195,7 @@ export default {
         } else {
           const uuidv4 = require("uuid/v4");
           var table_id_temp_UUID = uuidv4();
+          //沒有tableId為新增一筆 不須SN
           apiUpdateTableMaster({
             sn: element.sn,
             datasource_type: element.datasource_type,
@@ -283,6 +284,7 @@ export default {
         obj.reason = val.reason;
         obj.tMasterNote = val.tMasterNote;
         obj.description = val.description;
+
         this.csvfile.map(val2 => {
           let columnObj = {
             tableId: "",
@@ -316,6 +318,7 @@ export default {
                 (columnObj.column_default = val2.column_default),
                 (columnObj.is_datamodel_attribute =
                   val2.is_datamodel_attribute);
+
               if (map.get(val2.tableId) === undefined) {
                 map.set(val2.tableId, (arr = new Array()));
                 map.get(val2.tableId).splice(indexColumn++, 0, columnObj);

@@ -30,18 +30,19 @@
             />
           </div>
         </th>
-        <th scope="col"></th>
-        <th scope="col"></th>
         <th scope="col">
           <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
         </th>
-
-        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+        <th scope="col"></th>
+        <th scope="col">
+          <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
+        </th>
+        <th scope="col" v-for="(item,index) in ColTable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
           >
-            <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
-            <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
+            <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
+            <div class="all-button minus minus-button" id="minusrow" @click="removeColumn(index)"></div>
           </div>
         </th>
       </tr>
@@ -53,7 +54,7 @@
         </th>
         <th scope="col" colspan="3">大表英文名稱</th>
         <th scope="col">資料庫名稱</th>
-        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+        <th scope="col" v-for="(item,index) in ColTable">
           <select @change="onSelectDataSource($event,item)">
             <option value disabled selected>--請選擇--</option>
             <option
@@ -70,7 +71,7 @@
         </th>
         <th scope="col" colspan="3" rowspan="2">大表中文名稱</th>
         <th scope="col">表單名稱</th>
-        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+        <th scope="col" v-for="(item,index) in ColTable">
           <select @change="onSelectTable($event,item)">
             <option value disabled selected>--請選擇--</option>
             <option v-for="(item,index) in TableSource" :value="item.tableId">{{item.table_cname}}</option>
@@ -82,25 +83,31 @@
           <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
         </th>
         <th scope="col">串接順序</th>
-        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+        <th scope="col" v-for="(item,index) in ColTable">
           <textarea class="content sort-key" id type="text" v-model="index">{{index}}</textarea>
         </th>
       </tr>
       <tr>
-        <th scope="row"></th>
+        <th scope="row">
+          <div
+            style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
+          >
+            <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
+          </div>
+        </th>
         <td>欄位英文</td>
         <td>欄位中文</td>
         <td>欄位型態</td>
         <td>pk/nop</td>
         <td>表單邏輯</td>
-        <th scope="col" v-for="(item,index) in functionTable.Data.ColTable">
+        <th scope="col" v-for="(item,index) in ColTable">
           <textarea class="content" type="text"></textarea>
         </th>
       </tr>
     </thead>
 
     <tbody id="sortableRow">
-      <tr :id="'drag'+index" v-for="(item,index) in functionTable.Data.functionData">
+      <tr :id="'drag'+index" v-for="(item,index) in RowTable">
         <td scope="row" id="draggable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
@@ -124,7 +131,7 @@
         <td>
           <textarea class="content" type="text" v-model="item.login">{{item.login}}</textarea>
         </td>
-        <td v-for="(item,index2) in functionTable.Data.ColTable">
+        <td v-for="(item,index2) in functionData">
           <select>
             <option value disabled selected>--請選擇--</option>
             <option v-for="(item,index) in Column" :value="item.column_id">{{item.column_name}}</option>
@@ -135,8 +142,8 @@
   </table>
 </template>
 <script>
-import { functionTable } from "@/assets/js/hello.js";
 import VuexStore from "../../store";
+import draggable from "vuedraggable";
 import { mapGetters } from "vuex";
 import {
   apiQueryDataBaseByprojectId,
@@ -148,13 +155,19 @@ export default {
   name: "functionTable",
   data() {
     return {
-      functionTable: "",
+      ColTable: [],
+      RowTable: [],
       tableId: this.$route.query.tableId,
       projectId: this.$route.query.projectId,
       DataSource: "",
       TableSource: "",
       Column: "",
-      tableMaster: this.$store.state.FunctionTable_module
+      tableMaster: this.$store.state.FunctionTable_module,
+      index: "",
+      RowTableLength: "",
+      ColTableLength: "",
+      functionData: [],
+      test: ""
     };
   },
   created: function() {
@@ -170,7 +183,7 @@ export default {
 
     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
     let objtemp = this.$store.state.FunctionTable_module.tableMaster;
-    this.functionTable = functionTable;
+    // this.functionTable = functionTable;
   },
   mounted: function() {
     //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
@@ -197,72 +210,142 @@ export default {
       }
     });
   },
-  computed: {
-    repeat() {
-      this.sortnum.filter(function(element, index, arr) {
-        return arr.indexOf(element) !== index;
-      });
+  watch: {
+    ColTable: function() {
+      console.log("ColTablechange");
+      this.RowTableLength = this.RowTable.length;
+      this.ColTableLength = this.ColTable.length;
+    },
+    deep: true,
+    immediate: false,
+    RowTable: function() {
+      console.log("RowTablechange");
+      this.RowTableLength = this.RowTable.length;
+      this.ColTableLength = this.ColTable.length;
+    },
+    deep: true,
+    immediate: false,
+    functionData: function() {
+      console.log("functionDatachange");
+    },
+    deep: true,
+    immediate: false,
+    RowTableLength: function() {
+      if (this.RowTableLength === this.ColTableLength) {
+        this.functionData.splice(this.test, 0, "coordinate");
+      }
+      // console.log(this.RowTableLength);
+      // console.log(this.ColTableLength);
+      // this.functionData.splice(this.RowTableLength + 1, 0, "obj");
+    },
+    ColTableLength: function() {
+      if (this.RowTableLength === this.ColTableLength) {
+        this.functionData.splice(this.test, 0, "coordinate");
+      }
+      // console.log(this.RowTableLength);
+      // console.log(this.ColTableLength);
     }
+  },
+  computed: {
+    // functionData() {
+    //   // this.functionData.splice(index + 1, 0, "test");
+    // }
+    // repeat() {
+    //   this.sortnum.filter(function(element, index, arr) {
+    //     return arr.indexOf(element) !== index;
+    //   });
+    // }
   },
 
   methods: {
-    test: function() {
-      // this.$store.state.FunctionTable_module.tableMaster;
-      console.log(this.$store.getters.tableMaster);
-    },
-    changecolumn: function() {
-      //console.log(this.newDB);
-      var $this = this;
-      var i = 0;
+    // changecolumn: function() {
+    //   //console.log(this.newDB);
+    //   var $this = this;
+    //   var i = 0;
 
-      this.sortnum.length = 0; //newDB清空
-      $(".sort-key").each(function(index, item) {
-        $this.sortnum.push($(this).val()); //抓到新的排序
-      });
-      //檢查順序是否重複
-      // var repeat = this.sortnum.filter(function(element, index, arr){
-      //   return arr.indexOf(element) !== index;
-      // })
+    //   this.sortnum.length = 0; //newDB清空
+    //   $(".sort-key").each(function(index, item) {
+    //     $this.sortnum.push($(this).val()); //抓到新的排序
+    //   });
+    //   //檢查順序是否重複
+    //   // var repeat = this.sortnum.filter(function(element, index, arr){
+    //   //   return arr.indexOf(element) !== index;
+    //   // })
 
-      alert(this.repeat);
+    //   alert(this.repeat);
 
-      this.DB.forEach(function(item, index) {
-        var newnum = $this.sortnum[i];
-        $this.newDB[newnum] = $this.DB[i]; //把新的值塞到newDB
-        i++;
-      });
-      this.DB.length = 0; //DB清空
-      for (var i = 0; i < this.newDB.length; i++) {
-        this.DB[i] = this.newDB[i];
+    //   this.DB.forEach(function(item, index) {
+    //     var newnum = $this.sortnum[i];
+    //     $this.newDB[newnum] = $this.DB[i]; //把新的值塞到newDB
+    //     i++;
+    //   });
+    //   this.DB.length = 0; //DB清空
+    //   for (var i = 0; i < this.newDB.length; i++) {
+    //     this.DB[i] = this.newDB[i];
+    //   }
+
+    //   this.$forceUpdate();
+    // },
+    addColumn: function(index) {
+      console.log("This is Column");
+      let Columnindex = index;
+      if (index === "") {
+        Columnindex = 0;
       }
+      // let coordinate = {
+      //   Row: this.RowTableLength,
+      //   Col: this.ColumnTableLength
+      // };
+      // console.log(Columnindex);
+      this.ColTable.splice(Columnindex + 1, 0, "add");
+      // if (this.RowTableLength === this.ColTableLength) {
+      //   this.functionData.splice(this.test, 0, "coordinate");
+      // }
 
-      this.$forceUpdate();
-    },
-    addCol: function(index) {
-      this.functionTable.Data.ColTable.splice(index + 1, 0, "add");
-      this.DB.splice(index + 1, 0, "");
+      // this.functionData.splice(index + 1, 0, "obj");
+      // this.functionData.splice(index + 1, 0, "test");
+      // this.DB.splice(index + 1, 0, "");
+      // this.functionData.splice(this.RowTableLength + 1, 0, "obj");
     },
     removeCol: function(index) {
-      this.functionTable.Data.ColTable.splice(index, 1);
-      this.DB.splice(index, 1);
+      this.ColTable.splice(index, 1);
+      // this.DB.splice(index, 1);
     },
     addRow: function(index) {
-      this.functionTable.Data.RowTable.splice(index + 1, 0, "add");
+      console.log("This is Row");
+      let RowIndex = index;
+      if (index === "") {
+        RowIndex = 0;
+      }
+      let arr = new Array();
+      // console.log(RowIndex);
       let obj = {
-        eng: "",
-        chin: "",
-        type: "",
-        pk: "",
-        logic: ""
+        column_name: "",
+        column_c_name: "",
+        column_type: "",
+        is_pk: "",
+        columnInTableType: "Row"
       };
-      this.functionTable.Data.functionData.splice(index + 1, 0, obj);
+
+      // let coordinate = {
+      //   Row: this.RowTableLength,
+      //   Col: this.ColumnTableLength
+      // };
+      this.RowTable.splice(this.RowIndex + 1, 0, obj);
+      // console.log(this.RowTableLength);
+      // console.log(this.ColTableLength);
+      // console.log(this.RowTable.length);
+      // console.log(this.ColTable.length);
+      // if (this.RowTable.length === this.ColTable.length) {
+      //   this.functionData.splice(this.test, 0, "coordinate");
+      // }
     },
     removeRow: function(index) {
-      this.functionTable.Data.RowTable.splice(index, 1);
-      this.functionTable.Data.functionData.splice(index, 1);
+      this.RowTable.splice(index, 1);
+      // this.functionData.splice(index, 1);
     },
     toggleModel: function() {
-      console.log("hello");
+      // console.log("hello");
       // $(function() {
       $("#ModelPattern").change(function() {
         alert("切換殺戮模式");
@@ -284,7 +367,6 @@ export default {
     },
     onSelectTable(event, item) {
       let TableId = event.target.value;
-      console.log(TableId);
       apiQueryColumnMasterByTableId(TableId)
         .then(res => {
           console.log(res);
