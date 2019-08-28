@@ -42,7 +42,7 @@
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
           >
             <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
-            <div class="all-button minus minus-button" id="minusrow" @click="removeColumn(index)"></div>
+            <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
           </div>
         </th>
       </tr>
@@ -167,7 +167,9 @@ export default {
       RowTableLength: "",
       ColTableLength: "",
       functionData: [],
-      test: ""
+      test: "",
+      newDB: [],
+      sortnum: []
     };
   },
   created: function() {
@@ -213,8 +215,15 @@ export default {
   watch: {
     ColTable: function() {
       console.log("ColTablechange");
+
       this.RowTableLength = this.RowTable.length;
       this.ColTableLength = this.ColTable.length;
+      console.log("RowTableLength:" + this.RowTableLength);
+      console.log("ColTableLength:" + this.ColTableLength);
+      if (this.RowTableLength != this.ColTableLength) {
+        // this.functionData.splice(0, 0, "coordinate");
+        this.functionData.push("coordinate");
+      }
     },
     deep: true,
     immediate: false,
@@ -222,6 +231,10 @@ export default {
       console.log("RowTablechange");
       this.RowTableLength = this.RowTable.length;
       this.ColTableLength = this.ColTable.length;
+      // if (this.RowTableLength != this.ColTableLength) {
+      //   // this.functionData.splice(0, 0, "coordinate");
+      //   this.functionData.push("coordinate");
+      // }
     },
     deep: true,
     immediate: false,
@@ -231,17 +244,11 @@ export default {
     deep: true,
     immediate: false,
     RowTableLength: function() {
-      if (this.RowTableLength === this.ColTableLength) {
-        this.functionData.splice(this.test, 0, "coordinate");
-      }
       // console.log(this.RowTableLength);
       // console.log(this.ColTableLength);
       // this.functionData.splice(this.RowTableLength + 1, 0, "obj");
     },
     ColTableLength: function() {
-      if (this.RowTableLength === this.ColTableLength) {
-        this.functionData.splice(this.test, 0, "coordinate");
-      }
       // console.log(this.RowTableLength);
       // console.log(this.ColTableLength);
     }
@@ -347,9 +354,7 @@ export default {
     toggleModel: function() {
       // console.log("hello");
       // $(function() {
-      $("#ModelPattern").change(function() {
-        alert("切換殺戮模式");
-      });
+      $("#ModelPattern").change(function() {});
       // });
     },
     /*

@@ -82,5 +82,7 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
+@import "../node_modules/ag-grid-community/dist/style/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/style/ag-theme-balham.css";
 </style>
