@@ -37,7 +37,7 @@
         <th scope="col">
           <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
         </th>
-        <th scope="col" v-for="(item,index) in ColTable">
+        <th :id="'drag2'+index" scope="col" v-for="(item,index) in ColTable">
           <div
             style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
           >
@@ -211,6 +211,27 @@ export default {
         }
       }
     });
+
+    // $("#sortableCol").sortable({
+    //   revert: true,
+    //   axis: "x",
+    //   cursor: "pointer",
+    //   // cancel:'#nodrag',
+    //   stop: function() {
+    //     var arr = $("#sortableCol").sortable("toArray");
+    //     console.log(arr);
+    //     localStorage.arr = arr;
+    //     var localSt = localStorage.arr;
+    //     if (localSt) {
+    //       var resArr = localSt.split(",");
+    //       console.log(resArr);
+    //     }
+    //     var resUl = $("thead");
+    //     for (var i = 0; i < resArr.length; i++) {
+    //       resUl.append($("#" + resArr[i]));
+    //     }
+    //   }
+    // });
   },
   watch: {
     ColTable: function() {
@@ -218,12 +239,12 @@ export default {
 
       this.RowTableLength = this.RowTable.length;
       this.ColTableLength = this.ColTable.length;
-      console.log("RowTableLength:" + this.RowTableLength);
-      console.log("ColTableLength:" + this.ColTableLength);
-      if (this.RowTableLength != this.ColTableLength) {
-        // this.functionData.splice(0, 0, "coordinate");
-        this.functionData.push("coordinate");
-      }
+      // console.log("RowTableLength:" + this.RowTableLength);
+      // console.log("ColTableLength:" + this.ColTableLength);
+      // if (this.RowTableLength != this.ColTableLength) {
+      //   // this.functionData.splice(0, 0, "coordinate");
+      //   this.functionData.push("coordinate");
+      // }
     },
     deep: true,
     immediate: false,
@@ -275,9 +296,9 @@ export default {
     //     $this.sortnum.push($(this).val()); //抓到新的排序
     //   });
     //   //檢查順序是否重複
-    //   // var repeat = this.sortnum.filter(function(element, index, arr){
-    //   //   return arr.indexOf(element) !== index;
-    //   // })
+    //   var repeat = this.sortnum.filter(function(element, index, arr) {
+    //     return arr.indexOf(element) !== index;
+    //   });
 
     //   alert(this.repeat);
 
@@ -299,12 +320,14 @@ export default {
       if (index === "") {
         Columnindex = 0;
       }
-      // let coordinate = {
-      //   Row: this.RowTableLength,
-      //   Col: this.ColumnTableLength
-      // };
+
+      let coordinate = {
+        Row: this.RowTableLength,
+        Col: this.ColumnTableLength
+      };
       // console.log(Columnindex);
       this.ColTable.splice(Columnindex + 1, 0, "add");
+      this.functionData.push(coordinate);
       // if (this.RowTableLength === this.ColTableLength) {
       //   this.functionData.splice(this.test, 0, "coordinate");
       // }
@@ -334,13 +357,22 @@ export default {
         columnInTableType: "Row"
       };
 
-      // let coordinate = {
-      //   Row: this.RowTableLength,
-      //   Col: this.ColumnTableLength
-      // };
       this.RowTable.splice(this.RowIndex + 1, 0, obj);
-      // console.log(this.RowTableLength);
-      // console.log(this.ColTableLength);
+      console.log("rowTable長度:" + this.RowTable.length);
+      console.log("colTable長度:" + this.ColTable.length);
+      console.log("compare:" + (this.RowTable.length === this.ColTable.length));
+      console.log("is0?:" + (this.ColTable.length != 0));
+      let coordinate = {
+        Row: this.RowTable.length,
+        Col: this.ColTable.length,
+        Obj: []
+      };
+      if (
+        this.RowTable.length === this.ColTable.length &&
+        this.ColTable.length != 0
+      ) {
+        this.functionData.push(coordinate);
+      }
       // console.log(this.RowTable.length);
       // console.log(this.ColTable.length);
       // if (this.RowTable.length === this.ColTable.length) {

@@ -6,13 +6,10 @@ function resolve(dir) {
 
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/hello-workd'
-    : '/',
-
   assetsDir: '/static',
+
   configureWebpack: config => {
-    devtool: 'sourcemap',
+    'sourcemap',
       config.resolve = {
         extensions: ['.js', '.vue', '.json', ".css"],
         alias: {
@@ -20,5 +17,14 @@ module.exports = {
           '@': resolve('src')
         }
       }
+  },
+  css: {
+    extract: false
+  },
+  pluginOptions: {
+    "style-resources-loader": {
+      preProcessor: "scss",
+      patterns: [path.resolve(__dirname, "./src/styles/global.scss")]
+    }
   }
 }

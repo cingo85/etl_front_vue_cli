@@ -16,7 +16,9 @@ import UUID from 'uuid'
 import VuePapaParse from 'vue-papa-parse'
 import bootstrap4toggle from 'bootstrap4-toggle'
 import tableDragger from 'table-dragger'
+import { AgGridVue } from "ag-grid-vue";
 
+global.AgGridVue = AgGridVue
 global.URLSearchParams = URLSearchParams
 Vue.config.productionTip = false
 Vue.prototype.$ = $;
