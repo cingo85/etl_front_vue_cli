@@ -1,5 +1,23 @@
 <template>
-  <table class="table table-bordered">
+  <!-- <div class="row">
+    <div class="col-8">
+      <h3>Draggable table</h3>
+      <table class="table table-striped">
+        <thead class="thead-dark">
+          <draggable v-model="headers" tag="tr">
+            <th v-for="header in headers" :key="header" scope="col">{{ header }}</th>
+          </draggable>
+        </thead>
+        <draggable v-model="list" tag="tbody">
+          <tr v-for="item in list" :key="item.name">
+            <td v-for="header in headers" :key="header">{{ item[header] }}</td>
+          </tr>
+        </draggable>
+      </table>
+    </div>
+  </div>-->
+
+  <table class="table table-bordered" id="table">
     <thead id="sortableCol">
       <tr>
         <th class="borderless" scope="col" colspan="2">
@@ -35,7 +53,7 @@
         </th>
         <th scope="col"></th>
         <th scope="col">
-          <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
+          <div class="all-button plus-button" id="addrow" @click="addColumn(0)"></div>
         </th>
         <th :id="'drag2'+index" scope="col" v-for="(item,index) in ColTable">
           <div
@@ -46,6 +64,7 @@
           </div>
         </th>
       </tr>
+
       <tr>
         <th scope="col" colspan="2">
           <button type="button" class="btn btn btn-info btn-lg btn-block">
@@ -65,6 +84,7 @@
           </select>
         </th>
       </tr>
+
       <tr>
         <th scope="col" colspan="2">
           <button type="button" class="btn btn btn-info btn-lg btn-block">發版</button>
@@ -107,6 +127,13 @@
     </thead>
 
     <tbody id="sortableRow">
+      <!-- <tr>
+        <div
+          style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
+        >
+          <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
+        </div>
+      </tr>-->
       <tr :id="'drag'+index" v-for="(item,index) in RowTable">
         <td scope="row" id="draggable">
           <div
@@ -153,6 +180,11 @@ import {
 
 export default {
   name: "functionTable",
+  display: "Table",
+  order: 8,
+  components: {
+    draggable
+  },
   data() {
     return {
       ColTable: [],
@@ -169,7 +201,15 @@ export default {
       functionData: [],
       test: "",
       newDB: [],
-      sortnum: []
+      sortnum: [],
+      headers: ["id", "name", "sport"],
+      list: [
+        { id: 1, name: "Abby", sport: "basket" },
+        { id: 2, name: "Brooke", sport: "" },
+        { id: 3, name: "", sport: "volley" },
+        { id: 4, name: "David", sport: "rugby" }
+      ],
+      dragging: false
     };
   },
   created: function() {
@@ -178,6 +218,9 @@ export default {
     })
       .then(res => {
         this.DataSource = res.data;
+        var x = res.data.datasource_name;
+
+        console.log(x);
       })
       .catch(err => {
         console.log(err);
@@ -191,6 +234,7 @@ export default {
     //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
     //    console.log(element);
     //  });
+
     $("#sortableRow").sortable({
       revert: true,
       axis: "y",
@@ -212,26 +256,26 @@ export default {
       }
     });
 
-    // $("#sortableCol").sortable({
-    //   revert: true,
-    //   axis: "x",
-    //   cursor: "pointer",
-    //   // cancel:'#nodrag',
-    //   stop: function() {
-    //     var arr = $("#sortableCol").sortable("toArray");
-    //     console.log(arr);
-    //     localStorage.arr = arr;
-    //     var localSt = localStorage.arr;
-    //     if (localSt) {
-    //       var resArr = localSt.split(",");
-    //       console.log(resArr);
-    //     }
-    //     var resUl = $("thead");
-    //     for (var i = 0; i < resArr.length; i++) {
-    //       resUl.append($("#" + resArr[i]));
-    //     }
-    //   }
-    // });
+    $("#sortableCol").sortable({
+      revert: true,
+      axis: "x",
+      cursor: "pointer",
+      // cancel:'#nodrag',
+      stop: function() {
+        var arr = $("#sortableCol").sortable("toArray");
+        console.log(arr);
+        localStorage.arr = arr;
+        var localSt = localStorage.arr;
+        if (localSt) {
+          var resArr = localSt.split(",");
+          console.log(resArr);
+        }
+        var resUl = $("thead");
+        for (var i = 0; i < resArr.length; i++) {
+          resUl.append($("#" + resArr[i]));
+        }
+      }
+    });
   },
   watch: {
     ColTable: function() {
@@ -317,16 +361,17 @@ export default {
     addColumn: function(index) {
       console.log("This is Column");
       let Columnindex = index;
-      if (index === "") {
-        Columnindex = 0;
-      }
 
       let coordinate = {
         Row: this.RowTableLength,
         Col: this.ColumnTableLength
       };
+
+      let Obj = {
+        index: index
+      };
       // console.log(Columnindex);
-      this.ColTable.splice(Columnindex + 1, 0, "add");
+      this.ColTable.splice(Columnindex + 1, 0, Obj);
       this.functionData.push(coordinate);
       // if (this.RowTableLength === this.ColTableLength) {
       //   this.functionData.splice(this.test, 0, "coordinate");
