@@ -76,7 +76,12 @@
             <template v-if="header === 'TableLogic'">{{ item[header] }}</template>-->
             <!-- <template @click="change(item[header])">{{ item[header] }}</template> -->
             <!-- {{ item[header] }} -->
-            <input v-if="true"  @click="change(item[header])" v-model="item[header]"></input>
+            <input  disabled="false" v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"  @click="change(item[header])" v-model="item[header]"></input>
+            <select v-else>
+              <option value disabled selected>--請選擇--</option>
+              <option v-for="(item,index) in Column" v-if="header === item">{{item}}</option>
+            </select>
+            <!-- <input v-if="!(ReadOnly)"></input> -->
             <!-- <select v-if="header!='TableLogic'">
               <option value disabled selected>--請選擇--</option>
               <option v-for="(item,index) in Column" v-if="header === item">{{item}}</option>
@@ -184,7 +189,8 @@ export default {
         }
       ],
       dragging: false,
-      SourceTableMaster: ""
+      SourceTableMaster: "",
+      ReadOnly : true
     };
   },
   created: function() {
