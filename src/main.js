@@ -24,6 +24,16 @@ Vue.config.productionTip = false
 Vue.prototype.$ = $;
 Vue.prototype.axios = axios
 
+
+Vue.config.errorHandler = function (err, vm, info) {
+  console.log(`Error: ${err.toString()}\nInfo: ${info}`);
+}
+
+//僅限用於開發環境下
+Vue.config.warnHandler = function (msg, vm, trace) {
+  console.log(`Warn: ${msg}\nTrace: ${trace}`);
+}
+
 Vue.use(Vuex);
 Vue.use(UUID);
 Vue.use(VuePapaParse)

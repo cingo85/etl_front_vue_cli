@@ -55,3 +55,19 @@ const columnMasterRequest = axios.create({
 })
 //ColumnMaster api
 export const apiQueryColumnMasterByTableId = data => columnMasterRequest.post('/queryColumnMasterByTableId', 'tableId=' + data)
+
+
+
+
+
+//Promise Function + Params
+export function doPromise(url, params) {
+    return new Promise((resolve, reject) => {
+        console.log(params)
+        axios.post(url, params).then(res => {
+            resolve(res.data)
+        }).catch(err => {
+            reject(err.data)
+        })
+    })
+}

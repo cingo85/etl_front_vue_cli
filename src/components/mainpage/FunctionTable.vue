@@ -1,4 +1,98 @@
 <template>
+  <div>
+    <div class="row">
+      <div class="col-lg-1">
+        <button @click="test()">回上一層</button>
+      </div>
+      <div class="col-lg-1">
+        <input
+          @click="toggleModel()"
+          id="ModelPattern"
+          type="checkbox"
+          checked
+          data-toggle="toggle"
+          data-onstyle="danger"
+          data-on="編輯模式"
+          data-off="檢視模式"
+        />
+      </div>
+      <div class="col-lg-1">
+        <input
+          type="checkbox"
+          checked
+          data-toggle="toggle"
+          data-onstyle="success"
+          data-offstyle="primary"
+          data-on="大表"
+          data-off="串接"
+        />
+      </div>
+      <div class="col-lg-1">
+        <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
+      </div>
+      <div class="col-lg-1">大表英文名稱</div>
+      <div class="col-lg-1">大表中文名稱</div>
+      <div class="col-lg-1">
+        <button type="button" class="btn btn btn-info btn-lg btn-block">發版</button>
+      </div>
+      <div class="col-lg-1">
+        <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
+      </div>
+      <div class="col-lg-1">
+        <!-- <div id="addColumn" > -->
+        增加資料源
+        <select @change="onSelectDataSource($event)">
+          <option value disabled selected>--請選擇--</option>
+          <option
+            v-for="(item,index) in SourceTableMaster"
+            :value="item.tableId+'.'+item.table_cname"
+          >{{item.table_cname}}</option>
+        </select>
+        <!-- </div> -->
+      </div>
+      <div class="col-lg-1">
+        <div id="addRow" @click="addRow(index)">增加來源</div>
+      </div>
+      <div class="col-lg-1">
+        <button @click="test()">回上一層</button>
+      </div>
+      <div class="col-lg-1">
+        <button @click="test()">回上一層</button>
+      </div>
+    </div>
+    <table class="table">
+      <thead class="thead-dark">
+        <draggable v-model="headers" tag="tr">
+          <th v-for="header in headers" :key="header" scope="col">{{ header }}</th>
+        </draggable>
+      </thead>
+      <draggable v-model="list" tag="tbody">
+        <tr v-for="item in list" :key="item.name">
+          <td v-for="header in headers" :key="header">
+            <!-- <template v-if="header === 'ColumnEng'">{{ item[header] }}</template>
+            <template v-if="header === 'ColumnChi'">{{ item[header] }}</template>
+            <template v-if="header === 'ColumnType'">{{ item[header] }}</template>
+            <template v-if="header === 'PrimaryKey'">{{ item[header] }}</template>
+            <template v-if="header === 'TableLogic'">{{ item[header] }}</template>-->
+            <!-- <template @click="change(item[header])">{{ item[header] }}</template> -->
+            <!-- {{ item[header] }} -->
+            <input v-if="true"  @click="change(item[header])" v-model="item[header]"></input>
+            <!-- <select v-if="header!='TableLogic'">
+              <option value disabled selected>--請選擇--</option>
+              <option v-for="(item,index) in Column" v-if="header === item">{{item}}</option>
+            </select> -->
+            <!-- <input v-if="header!='TableLogic'"  @click="change(item[header])" v-model="item[header]"></input> -->
+          </td>
+          <!-- <td v-for="(item,index2) in functionData">
+            <select>
+              <option value disabled selected>--請選擇--</option>
+              <option v-for="(item,index) in Column" :value="item.column_id">{{item.column_name}}</option>
+            </select>
+          </td>-->
+        </tr>
+      </draggable>
+    </table>
+  </div>
   <!-- <div class="row">
     <div class="col-8">
       <h3>Draggable table</h3>
@@ -16,157 +110,6 @@
       </table>
     </div>
   </div>-->
-
-  <table class="table table-bordered" id="table">
-    <thead id="sortableCol">
-      <tr>
-        <th class="borderless" scope="col" colspan="2">
-          <button @click="test()">回上一層</button>
-        </th>
-        <th scope="col">
-          <div>
-            <input
-              @click="toggleModel()"
-              id="ModelPattern"
-              type="checkbox"
-              checked
-              data-toggle="toggle"
-              data-onstyle="danger"
-              data-on="編輯模式"
-              data-off="檢視模式"
-            />
-          </div>
-          <div>
-            <input
-              type="checkbox"
-              checked
-              data-toggle="toggle"
-              data-onstyle="success"
-              data-offstyle="primary"
-              data-on="大表"
-              data-off="串接"
-            />
-          </div>
-        </th>
-        <th scope="col">
-          <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
-        </th>
-        <th scope="col"></th>
-        <th scope="col">
-          <div class="all-button plus-button" id="addrow" @click="addColumn(0)"></div>
-        </th>
-        <th :id="'drag2'+index" scope="col" v-for="(item,index) in ColTable">
-          <div
-            style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
-          >
-            <div class="all-button plus-button" id="addrow" @click="addColumn(index)"></div>
-            <div class="all-button minus minus-button" id="minusrow" @click="removeCol(index)"></div>
-          </div>
-        </th>
-      </tr>
-
-      <tr>
-        <th scope="col" colspan="2">
-          <button type="button" class="btn btn btn-info btn-lg btn-block">
-            <i class="fas fa-eye"></i>
-          </button>
-        </th>
-        <th scope="col" colspan="3">大表英文名稱</th>
-        <th scope="col">資料庫名稱</th>
-        <th scope="col" v-for="(item,index) in ColTable">
-          <select @change="onSelectDataSource($event,item)">
-            <option value disabled selected>--請選擇--</option>
-            <option
-              v-for="(item,index) in DataSource"
-              :value="item.datasourceId"
-              v-if="item.is_input_datasource"
-            >{{item.datasource_name}}</option>
-          </select>
-        </th>
-      </tr>
-
-      <tr>
-        <th scope="col" colspan="2">
-          <button type="button" class="btn btn btn-info btn-lg btn-block">發版</button>
-        </th>
-        <th scope="col" colspan="3" rowspan="2">大表中文名稱</th>
-        <th scope="col">表單名稱</th>
-        <th scope="col" v-for="(item,index) in ColTable">
-          <select @change="onSelectTable($event,item)">
-            <option value disabled selected>--請選擇--</option>
-            <option v-for="(item,index) in TableSource" :value="item.tableId">{{item.table_cname}}</option>
-          </select>
-        </th>
-      </tr>
-      <tr>
-        <th scope="col" colspan="2">
-          <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
-        </th>
-        <th scope="col">串接順序</th>
-        <th scope="col" v-for="(item,index) in ColTable">
-          <textarea class="content sort-key" id type="text" v-model="index">{{index}}</textarea>
-        </th>
-      </tr>
-      <tr>
-        <th scope="row">
-          <div
-            style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
-          >
-            <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
-          </div>
-        </th>
-        <td>欄位英文</td>
-        <td>欄位中文</td>
-        <td>欄位型態</td>
-        <td>pk/nop</td>
-        <td>表單邏輯</td>
-        <th scope="col" v-for="(item,index) in ColTable">
-          <textarea class="content" type="text"></textarea>
-        </th>
-      </tr>
-    </thead>
-
-    <tbody id="sortableRow">
-      <!-- <tr>
-        <div
-          style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
-        >
-          <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
-        </div>
-      </tr>-->
-      <tr :id="'drag'+index" v-for="(item,index) in RowTable">
-        <td scope="row" id="draggable">
-          <div
-            style="display: flex;flex-direction: row;justify-content: center;align-items: center;position: relative;"
-          >
-            <div class="all-button plus-button" id="addrow" @click="addRow(index)"></div>
-            <div class="all-button minus minus-button" id="minusrow" @click="removeRow(index)"></div>
-          </div>
-        </td>
-        <td>
-          <textarea class="content" type="text" v-model="item.eng">{{item.eng}}</textarea>
-        </td>
-        <td>
-          <textarea class="content" type="text" v-model="item.chin">{{item.chin}}</textarea>
-        </td>
-        <td>
-          <textarea class="content" type="text" v-model="item.type">{{item.type}}</textarea>
-        </td>
-        <td>
-          <textarea class="content" type="text" v-model="item.pk">{{item.pk}}</textarea>
-        </td>
-        <td>
-          <textarea class="content" type="text" v-model="item.login">{{item.login}}</textarea>
-        </td>
-        <td v-for="(item,index2) in functionData">
-          <select>
-            <option value disabled selected>--請選擇--</option>
-            <option v-for="(item,index) in Column" :value="item.column_id">{{item.column_name}}</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
 </template>
 <script>
 import VuexStore from "../../store";
@@ -175,7 +118,8 @@ import { mapGetters } from "vuex";
 import {
   apiQueryDataBaseByprojectId,
   apiQueryTableMasterByDatasourceId,
-  apiQueryColumnMasterByTableId
+  apiQueryColumnMasterByTableId,
+  apiQueryTableMasterByProjectId
 } from "../../api";
 
 export default {
@@ -193,7 +137,7 @@ export default {
       projectId: this.$route.query.projectId,
       DataSource: "",
       TableSource: "",
-      Column: "",
+      Column: [],
       tableMaster: this.$store.state.FunctionTable_module,
       index: "",
       RowTableLength: "",
@@ -202,14 +146,45 @@ export default {
       test: "",
       newDB: [],
       sortnum: [],
-      headers: ["id", "name", "sport"],
-      list: [
-        { id: 1, name: "Abby", sport: "basket" },
-        { id: 2, name: "Brooke", sport: "" },
-        { id: 3, name: "", sport: "volley" },
-        { id: 4, name: "David", sport: "rugby" }
+      headers: [
+        "ColumnEng",
+        "ColumnChi",
+        "ColumnType",
+        "PrimaryKey",
+        "TableLogic"
       ],
-      dragging: false
+      list: [
+        {
+          ColumnEng: 1,
+          ColumnChi: "Abby",
+          ColumnType: "basket",
+          PrimaryKey: "dddd",
+          TableLogic: ""
+        },
+        {
+          ColumnEng: 2,
+          ColumnChi: "Brooke",
+          ColumnType: "",
+          PrimaryKey: "dddd",
+          TableLogic: ""
+        },
+        {
+          ColumnEng: 3,
+          ColumnChi: "",
+          ColumnType: "volley",
+          PrimaryKey: "",
+          TableLogic: ""
+        },
+        {
+          ColumnEng: 4,
+          ColumnChi: "David",
+          ColumnType: "rugby",
+          PrimaryKey: "",
+          TableLogic: ""
+        }
+      ],
+      dragging: false,
+      SourceTableMaster: ""
     };
   },
   created: function() {
@@ -218,14 +193,22 @@ export default {
     })
       .then(res => {
         this.DataSource = res.data;
-        var x = res.data.datasource_name;
-
-        console.log(x);
       })
       .catch(err => {
         console.log(err);
       });
-
+    apiQueryTableMasterByProjectId({
+      projectId: this.projectId
+    })
+      .then(res => {
+        this.SourceTableMaster = res.data;
+        // res.data.forEach(item =>{
+        //   console.log(item.tableId)
+        // })
+      })
+      .catch(err => {
+        console.log(err);
+      });
     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
     let objtemp = this.$store.state.FunctionTable_module.tableMaster;
     // this.functionTable = functionTable;
@@ -330,6 +313,9 @@ export default {
   },
 
   methods: {
+    change: function(item) {
+      console.log(item);
+    },
     // changecolumn: function() {
     //   //console.log(this.newDB);
     //   var $this = this;
@@ -403,10 +389,7 @@ export default {
       };
 
       this.RowTable.splice(this.RowIndex + 1, 0, obj);
-      console.log("rowTable長度:" + this.RowTable.length);
-      console.log("colTable長度:" + this.ColTable.length);
-      console.log("compare:" + (this.RowTable.length === this.ColTable.length));
-      console.log("is0?:" + (this.ColTable.length != 0));
+
       let coordinate = {
         Row: this.RowTable.length,
         Col: this.ColTable.length,
@@ -437,22 +420,44 @@ export default {
     /*
      *小J新加
      */
-    onSelectDataSource(event, item) {
+    async onSelectDataSource(event) {
       let DataSourceId = event.target.value;
-      apiQueryTableMasterByDatasourceId(DataSourceId)
+      // console.log(DataSourceId);
+      let strArr = DataSourceId.split(".");
+      this.headers.push(strArr[1]);
+      // console.log(this.headers);
+      this.list.forEach(function(element) {
+        element["" + strArr[1] + ""] = "";
+      });
+
+      let Tablemap = new Map();
+      let Columnarr = new Array();
+      let index = 0;
+      // let obj = {
+      //   tableId: "",
+      //   column_name: ""
+      // };
+      await apiQueryColumnMasterByTableId(strArr[0])
         .then(res => {
-          this.TableSource = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    onSelectTable(event, item) {
-      let TableId = event.target.value;
-      apiQueryColumnMasterByTableId(TableId)
-        .then(res => {
-          console.log(res);
-          this.Column = res.data;
+          // res.data.forEach(item => {
+          //   let obj = {
+          //     tableId: "",
+          //     column_name: ""
+          //   };
+          //   console.log(item);
+          //   obj.tableId = item.tableId;
+          //   obj.column_name = item.column_name;
+          //   if (Tablemap.get(strArr[1]) === undefined) {
+          //     Tablemap.set(strArr[1], (Columnarr = new Array()));
+          //     Tablemap.get(strArr[1]).splice(index++, 0, obj);
+          //   } else {
+          //     Tablemap.get(strArr[1]).splice(index++, 0, obj);
+          //   }
+          // });
+
+          // // Tablemap.set(strArr[1], obj);
+          // console.log(Tablemap);
+          this.Column.push(res.data);
         })
         .catch(err => {
           console.log(err);
