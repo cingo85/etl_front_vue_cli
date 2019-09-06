@@ -51,7 +51,7 @@
         <!-- </div> -->
       </div>
       <div class="col-lg-1">
-        <div id="addRow" @click="addRow(index)">增加來源</div>
+        <button id="addRow" @click="addRow(index)">增加來源</button>
       </div>
       <div class="col-lg-1">
         <button @click="test()">回上一層</button>
@@ -379,39 +379,14 @@ export default {
       // this.DB.splice(index, 1);
     },
     addRow: function(index) {
-      console.log("This is Row");
-      let RowIndex = index;
-      if (index === "") {
-        RowIndex = 0;
-      }
-      let arr = new Array();
-      // console.log(RowIndex);
-      let obj = {
-        column_name: "",
-        column_c_name: "",
-        column_type: "",
-        is_pk: "",
-        columnInTableType: "Row"
-      };
-
-      this.RowTable.splice(this.RowIndex + 1, 0, obj);
-
-      let coordinate = {
-        Row: this.RowTable.length,
-        Col: this.ColTable.length,
-        Obj: []
-      };
-      if (
-        this.RowTable.length === this.ColTable.length &&
-        this.ColTable.length != 0
-      ) {
-        this.functionData.push(coordinate);
-      }
-      // console.log(this.RowTable.length);
-      // console.log(this.ColTable.length);
-      // if (this.RowTable.length === this.ColTable.length) {
-      //   this.functionData.splice(this.test, 0, "coordinate");
-      // }
+    var obj={
+        };
+    this.headers.forEach(function(element) {
+        obj[element] = "";
+        console.log(obj)
+      });
+      // console.log(obj)
+      this.list.push(obj);
     },
     removeRow: function(index) {
       this.RowTable.splice(index, 1);
