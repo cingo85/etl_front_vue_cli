@@ -217,6 +217,8 @@ export default {
       });
     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
     let objtemp = this.$store.state.FunctionTable_module.tableMaster;
+
+    console.log(objtemp)
     // this.functionTable = functionTable;
   },
   mounted: function() {
