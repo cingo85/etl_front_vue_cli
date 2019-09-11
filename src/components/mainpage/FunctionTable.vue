@@ -405,14 +405,13 @@ export default {
      */
     async onSelectDataSource(event) {
       let DataSourceId = event.target.value;
-      // console.log(DataSourceId);
+       console.log(DataSourceId);
       let strArr = DataSourceId.split(".");
       this.headers.push(strArr[1]);
       // console.log(this.headers);
       this.list.forEach(function(element) {
         element["" + strArr[1] + ""] = "";
       });
-
       let Tablemap = new Map();
       let Columnarr = new Array();
       let index = 0;
@@ -420,7 +419,7 @@ export default {
       //   tableId: "",
       //   column_name: ""
       // };
-      await apiQueryColumnMasterByTableId(strArr[0])
+      await apiQueryColumnMasterByTableId(DataSourceId)
         .then(res => {
           // res.data.forEach(item => {
           //   let obj = {
