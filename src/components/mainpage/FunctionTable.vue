@@ -79,7 +79,7 @@
             <input  disabled="false" v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"  @click="change(item[header])" v-model="item[header]"></input>
             <select v-else>
               <option value disabled selected>--請選擇--</option>
-              <option v-for="(item,index) in Column" v-if="header === item">{{item}}</option>
+              <option v-for="(item,index) in Column">{{Column[0]}}</option>
             </select>
             <!-- <input v-if="!(ReadOnly)"></input> -->
             <!-- <select v-if="header!='TableLogic'">
