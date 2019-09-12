@@ -44,7 +44,7 @@
         <select @change="onSelectDataSource($event)">
           <option value disabled selected>--請選擇--</option>
           <option
-            v-for="(item,index) in SourceTableMaster"
+            v-for="item in SourceTableMaster"
             :value="item.tableId+'.'+item.table_cname"
           >{{item.table_cname}}</option>
         </select>
@@ -69,52 +69,17 @@
       <draggable v-model="list" tag="tbody">
         <tr v-for="item in list" :key="item.name">
           <td v-for="header in headers" :key="header">
-            <!-- <template v-if="header === 'ColumnEng'">{{ item[header] }}</template>
-            <template v-if="header === 'ColumnChi'">{{ item[header] }}</template>
-            <template v-if="header === 'ColumnType'">{{ item[header] }}</template>
-            <template v-if="header === 'PrimaryKey'">{{ item[header] }}</template>
-            <template v-if="header === 'TableLogic'">{{ item[header] }}</template>-->
-            <!-- <template @click="change(item[header])">{{ item[header] }}</template> -->
-            <!-- {{ item[header] }} -->
             <input  disabled="false" v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"  @click="change(item[header])" v-model="item[header]"></input>
-            <select v-else>
-              <option value disabled selected>--請選擇--</option>
-              <option v-for="(item,index) in Column">{{Column[0]}}</option>
-            </select>
-            <!-- <input v-if="!(ReadOnly)"></input> -->
-            <!-- <select v-if="header!='TableLogic'">
-              <option value disabled selected>--請選擇--</option>
-              <option v-for="(item,index) in Column" v-if="header === item">{{item}}</option>
-            </select> -->
-            <!-- <input v-if="header!='TableLogic'"  @click="change(item[header])" v-model="item[header]"></input> -->
+            <div v-else v-for="itemQ in shoppingItems" >
+              <div v-if="header === itemQ.tableName" v-for="(item,index,key) in Column">
+
+              </div>
+            </div>
           </td>
-          <!-- <td v-for="(item,index2) in functionData">
-            <select>
-              <option value disabled selected>--請選擇--</option>
-              <option v-for="(item,index) in Column" :value="item.column_id">{{item.column_name}}</option>
-            </select>
-          </td>-->
         </tr>
       </draggable>
     </table>
   </div>
-  <!-- <div class="row">
-    <div class="col-8">
-      <h3>Draggable table</h3>
-      <table class="table table-striped">
-        <thead class="thead-dark">
-          <draggable v-model="headers" tag="tr">
-            <th v-for="header in headers" :key="header" scope="col">{{ header }}</th>
-          </draggable>
-        </thead>
-        <draggable v-model="list" tag="tbody">
-          <tr v-for="item in list" :key="item.name">
-            <td v-for="header in headers" :key="header">{{ item[header] }}</td>
-          </tr>
-        </draggable>
-      </table>
-    </div>
-  </div>-->
 </template>
 <script>
 import VuexStore from "../../store";
@@ -190,7 +155,9 @@ export default {
       ],
       dragging: false,
       SourceTableMaster: "",
-      ReadOnly : true
+      ReadOnly : true,
+      shoppingItems: []
+
     };
   },
   created: function() {
@@ -385,7 +352,6 @@ export default {
         };
     this.headers.forEach(function(element) {
         obj[element] = "";
-        console.log(obj)
       });
       // console.log(obj)
       this.list.push(obj);
@@ -405,41 +371,20 @@ export default {
      */
     async onSelectDataSource(event) {
       let DataSourceId = event.target.value;
-       console.log(DataSourceId);
       let strArr = DataSourceId.split(".");
       this.headers.push(strArr[1]);
-      // console.log(this.headers);
+
       this.list.forEach(function(element) {
         element["" + strArr[1] + ""] = "";
       });
-      let Tablemap = new Map();
-      let Columnarr = new Array();
       let index = 0;
-      // let obj = {
-      //   tableId: "",
-      //   column_name: ""
-      // };
       await apiQueryColumnMasterByTableId(DataSourceId)
         .then(res => {
-          // res.data.forEach(item => {
-          //   let obj = {
-          //     tableId: "",
-          //     column_name: ""
-          //   };
-          //   console.log(item);
-          //   obj.tableId = item.tableId;
-          //   obj.column_name = item.column_name;
-          //   if (Tablemap.get(strArr[1]) === undefined) {
-          //     Tablemap.set(strArr[1], (Columnarr = new Array()));
-          //     Tablemap.get(strArr[1]).splice(index++, 0, obj);
-          //   } else {
-          //     Tablemap.get(strArr[1]).splice(index++, 0, obj);
-          //   }
-          // });
-
-          // // Tablemap.set(strArr[1], obj);
-          // console.log(Tablemap);
           this.Column.push(res.data);
+          let obj = {
+            tableName:strArr[1]
+          }
+          this.shoppingItems.push(obj);
         })
         .catch(err => {
           console.log(err);
