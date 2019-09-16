@@ -30,9 +30,9 @@ Vue.config.errorHandler = function (err, vm, info) {
 }
 
 //僅限用於開發環境下
-Vue.config.warnHandler = function (msg, vm, trace) {
-  console.log(`Warn: ${msg}\nTrace: ${trace}`);
-}
+// Vue.config.warnHandler = function (msg, vm, trace) {
+//   console.log(`Warn: ${msg}\nTrace: ${trace}`);
+// }
 
 Vue.use(Vuex);
 Vue.use(UUID);
