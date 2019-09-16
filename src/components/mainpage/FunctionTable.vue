@@ -69,11 +69,15 @@
       <draggable v-model="list" tag="tbody">
         <tr v-for="item in list" :key="item.name">
           <td v-for="header in headers" :key="header">
-            <input  disabled="false" v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"  @click="change(item[header])" v-model="item[header]"></input>
-            <div v-else v-for="itemQ in shoppingItems" >
-              <div v-if="header === itemQ.tableName" v-for="(item,index,key) in Column">
-
-              </div>
+            <input   v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"  @click="change(item[header])" v-model="item[header]"></input>
+            <div v-else v-for="itemMaster in Column" v-if="header === itemMaster.tableName">
+                <select v-model="item[header]">
+                  <option value disabled selected>--請選擇--</option>
+                  <option
+                          v-for="itemdetail in itemMaster.tableValue"
+                          :value="itemdetail.column_id"
+                  >{{itemdetail.column_name}}</option>
+                </select>
             </div>
           </td>
         </tr>
@@ -101,21 +105,11 @@ export default {
   },
   data() {
     return {
-      ColTable: [],
-      RowTable: [],
       tableId: this.$route.query.tableId,
       projectId: this.$route.query.projectId,
       DataSource: "",
-      TableSource: "",
       Column: [],
       tableMaster: this.$store.state.FunctionTable_module,
-      index: "",
-      RowTableLength: "",
-      ColTableLength: "",
-      functionData: [],
-      test: "",
-      newDB: [],
-      sortnum: [],
       headers: [
         "ColumnEng",
         "ColumnChi",
@@ -124,40 +118,10 @@ export default {
         "TableLogic"
       ],
       list: [
-        {
-          ColumnEng: 1,
-          ColumnChi: "Abby",
-          ColumnType: "basket",
-          PrimaryKey: "dddd",
-          TableLogic: ""
-        },
-        {
-          ColumnEng: 2,
-          ColumnChi: "Brooke",
-          ColumnType: "",
-          PrimaryKey: "dddd",
-          TableLogic: ""
-        },
-        {
-          ColumnEng: 3,
-          ColumnChi: "",
-          ColumnType: "volley",
-          PrimaryKey: "",
-          TableLogic: ""
-        },
-        {
-          ColumnEng: 4,
-          ColumnChi: "David",
-          ColumnType: "rugby",
-          PrimaryKey: "",
-          TableLogic: ""
-        }
       ],
       dragging: false,
       SourceTableMaster: "",
-      ReadOnly : true,
-      shoppingItems: []
-
+      ReadOnly : true
     };
   },
   created: function() {
@@ -175,199 +139,36 @@ export default {
     })
       .then(res => {
         this.SourceTableMaster = res.data;
-        // res.data.forEach(item =>{
-        //   console.log(item.tableId)
-        // })
       })
       .catch(err => {
         console.log(err);
       });
-    this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
-    let objtemp = this.$store.state.FunctionTable_module.tableMaster;
-
-    console.log(objtemp)
-    // this.functionTable = functionTable;
+     this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
+    // let objtemp = this.$store.state.FunctionTable_module.tableMaster;
   },
   mounted: function() {
-    //  this.$store.state.FunctionTable_module.tableMaster.data.forEach(element => {
-    //    console.log(element);
-    //  });
 
-    $("#sortableRow").sortable({
-      revert: true,
-      axis: "y",
-      cursor: "pointer",
-      // cancel:'#nodrag',
-      stop: function() {
-        var arr = $("#sortableRow").sortable("toArray");
-        console.log(arr);
-        localStorage.arr = arr;
-        var localSt = localStorage.arr;
-        if (localSt) {
-          var resArr = localSt.split(",");
-          console.log(resArr);
-        }
-        var resUl = $("tbody");
-        for (var i = 0; i < resArr.length; i++) {
-          resUl.append($("#" + resArr[i]));
-        }
-      }
-    });
-
-    $("#sortableCol").sortable({
-      revert: true,
-      axis: "x",
-      cursor: "pointer",
-      // cancel:'#nodrag',
-      stop: function() {
-        var arr = $("#sortableCol").sortable("toArray");
-        console.log(arr);
-        localStorage.arr = arr;
-        var localSt = localStorage.arr;
-        if (localSt) {
-          var resArr = localSt.split(",");
-          console.log(resArr);
-        }
-        var resUl = $("thead");
-        for (var i = 0; i < resArr.length; i++) {
-          resUl.append($("#" + resArr[i]));
-        }
-      }
-    });
   },
   watch: {
-    ColTable: function() {
-      console.log("ColTablechange");
-
-      this.RowTableLength = this.RowTable.length;
-      this.ColTableLength = this.ColTable.length;
-      // console.log("RowTableLength:" + this.RowTableLength);
-      // console.log("ColTableLength:" + this.ColTableLength);
-      // if (this.RowTableLength != this.ColTableLength) {
-      //   // this.functionData.splice(0, 0, "coordinate");
-      //   this.functionData.push("coordinate");
-      // }
-    },
-    deep: true,
-    immediate: false,
-    RowTable: function() {
-      console.log("RowTablechange");
-      this.RowTableLength = this.RowTable.length;
-      this.ColTableLength = this.ColTable.length;
-      // if (this.RowTableLength != this.ColTableLength) {
-      //   // this.functionData.splice(0, 0, "coordinate");
-      //   this.functionData.push("coordinate");
-      // }
-    },
-    deep: true,
-    immediate: false,
-    functionData: function() {
-      console.log("functionDatachange");
-    },
-    deep: true,
-    immediate: false,
-    RowTableLength: function() {
-      // console.log(this.RowTableLength);
-      // console.log(this.ColTableLength);
-      // this.functionData.splice(this.RowTableLength + 1, 0, "obj");
-    },
-    ColTableLength: function() {
-      // console.log(this.RowTableLength);
-      // console.log(this.ColTableLength);
-    }
   },
   computed: {
-    // functionData() {
-    //   // this.functionData.splice(index + 1, 0, "test");
-    // }
-    // repeat() {
-    //   this.sortnum.filter(function(element, index, arr) {
-    //     return arr.indexOf(element) !== index;
-    //   });
-    // }
   },
-
   methods: {
-    change: function(item) {
-      console.log(item);
-    },
-    // changecolumn: function() {
-    //   //console.log(this.newDB);
-    //   var $this = this;
-    //   var i = 0;
-
-    //   this.sortnum.length = 0; //newDB清空
-    //   $(".sort-key").each(function(index, item) {
-    //     $this.sortnum.push($(this).val()); //抓到新的排序
-    //   });
-    //   //檢查順序是否重複
-    //   var repeat = this.sortnum.filter(function(element, index, arr) {
-    //     return arr.indexOf(element) !== index;
-    //   });
-
-    //   alert(this.repeat);
-
-    //   this.DB.forEach(function(item, index) {
-    //     var newnum = $this.sortnum[i];
-    //     $this.newDB[newnum] = $this.DB[i]; //把新的值塞到newDB
-    //     i++;
-    //   });
-    //   this.DB.length = 0; //DB清空
-    //   for (var i = 0; i < this.newDB.length; i++) {
-    //     this.DB[i] = this.newDB[i];
-    //   }
-
-    //   this.$forceUpdate();
-    // },
-    addColumn: function(index) {
-      console.log("This is Column");
-      let Columnindex = index;
-
-      let coordinate = {
-        Row: this.RowTableLength,
-        Col: this.ColumnTableLength
-      };
-
-      let Obj = {
-        index: index
-      };
-      // console.log(Columnindex);
-      this.ColTable.splice(Columnindex + 1, 0, Obj);
-      this.functionData.push(coordinate);
-      // if (this.RowTableLength === this.ColTableLength) {
-      //   this.functionData.splice(this.test, 0, "coordinate");
-      // }
-
-      // this.functionData.splice(index + 1, 0, "obj");
-      // this.functionData.splice(index + 1, 0, "test");
-      // this.DB.splice(index + 1, 0, "");
-      // this.functionData.splice(this.RowTableLength + 1, 0, "obj");
-    },
     removeCol: function(index) {
       this.ColTable.splice(index, 1);
-      // this.DB.splice(index, 1);
     },
     addRow: function(index) {
-    var obj={
-        };
+    var obj={};
     this.headers.forEach(function(element) {
         obj[element] = "";
       });
-      // console.log(obj)
       this.list.push(obj);
     },
     removeRow: function(index) {
       this.RowTable.splice(index, 1);
-      // this.functionData.splice(index, 1);
-    },
-    toggleModel: function() {
-      // console.log("hello");
-      // $(function() {
-      $("#ModelPattern").change(function() {});
-      // });
     },
     /*
-     *小J新加
+     *小J新加 超幹酷炫屌炸天
      */
     async onSelectDataSource(event) {
       let DataSourceId = event.target.value;
@@ -377,14 +178,15 @@ export default {
       this.list.forEach(function(element) {
         element["" + strArr[1] + ""] = "";
       });
-      let index = 0;
       await apiQueryColumnMasterByTableId(DataSourceId)
         .then(res => {
-          this.Column.push(res.data);
+
           let obj = {
-            tableName:strArr[1]
+            tableName:strArr[1],
+            tableValue:res.data
           }
-          this.shoppingItems.push(obj);
+
+          this.Column.push(obj);
         })
         .catch(err => {
           console.log(err);
