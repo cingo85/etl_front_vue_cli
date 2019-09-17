@@ -15,7 +15,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" v-model="table_ename" />
+                  <input size="23" type="text" class="form-control" v-model="tableEname" />
                 </div>
               </div>
             </div>
@@ -26,7 +26,7 @@
                 </div>
                 <div class="form-group col-md-6">
                   <label for="inputPassword2" class="sr-only"></label>
-                  <input size="23" type="text" class="form-control" v-model="table_cname" />
+                  <input size="23" type="text" class="form-control" v-model="tableCname" />
                 </div>
               </div>
             </div>
@@ -68,12 +68,12 @@ export default {
     var table_id = uuidv4();
     return {
       projectId: this.$route.query.projectId,
-      database_note: "",
+      databaseNote: "",
       datasourceId: datasource_id,
       tableId: table_id,
-      table_cname: "",
-      table_ename: "",
-      TableMasterState: "PMCreate",
+      tableCname: "",
+      tableEname: "",
+      tableMasterState: "PMCreate",
       isConcatenation: false,
       description: "",
       reason: "",
@@ -88,9 +88,9 @@ export default {
         database_note: this.database_note,
         datasourceId: this.datasourceId,
         tableId: this.tableId,
-        table_cname: this.table_cname,
-        table_ename: this.table_ename,
-        TableMasterState: this.TableMasterState,
+        tableCname: this.tableCname,
+        tableEname: this.tableEname,
+        tableMasterState: this.tableMasterState,
         isConcatenation: this.isConcatenation,
         description: this.description,
         reason: this.reason,

@@ -14,14 +14,14 @@
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" v-model="project_name" />
+                <input size="21" type="text" class="form-control" v-model="projectName" />
               </div>
               <div class="form-group col-md-2">
                 <label for="staticEmail2">客戶名稱</label>
               </div>
               <div class="form-group col-md-4">
                 <label for="inputPassword2" class="sr-only"></label>
-                <input size="21" type="text" class="form-control" v-model="customer_name" />
+                <input size="21" type="text" class="form-control" v-model="customerName" />
               </div>
             </div>
             <div style="margin: 5px" class="form-inline">
@@ -33,7 +33,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" v-model="check_date" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="checkDate" />
                 </div>
               </div>
               <div class="form-group col-md-2">
@@ -44,7 +44,7 @@
                   <span class="input-group-addon">
                     <i class="fa fa-calendar"></i>
                   </span>
-                  <input type="date" class="form-control" value="03/04/2014" v-model="warr_date" />
+                  <input type="date" class="form-control" value="03/04/2014" v-model="warrDate" />
                 </div>
               </div>
             </div>
@@ -57,8 +57,8 @@
                 <label for="inputPassword2" class="sr-only"></label>
                 <select
                   class="custom-select"
-                  v-model="t_datasource[index].datasource_type"
-                  @click="cleanValue('dataSource',index,t_datasource[index].datasource_type)"
+                  v-model="t_datasource[index].datasourceType"
+                  @click="cleanValue('dataSource',index,t_datasource[index].datasourceType)"
                 >
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
@@ -67,100 +67,100 @@
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫IP"
                   class="form-control"
-                  v-model="t_datasource[index].database_ip"
+                  v-model="t_datasource[index].databaseIp"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫Port"
                   size="10"
                   class="form-control"
-                  v-model="t_datasource[index].database_port"
+                  v-model="t_datasource[index].databasePort"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫帳號"
                   class="form-control"
-                  v-model="t_datasource[index].database_user"
+                  v-model="t_datasource[index].databaseUser"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫密碼"
                   class="form-control"
-                  v-model="t_datasource[index].database_password"
+                  v-model="t_datasource[index].databasePassword"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫名稱"
                   class="form-control"
-                  v-model="t_datasource[index].datasource_name"
+                  v-model="t_datasource[index].datasourceName"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource[index].datasource_type === 'database'"
-                v-show="t_datasource[index].datasource_type ==='database'"
+                v-if="t_datasource[index].datasourceType === 'database'"
+                v-show="t_datasource[index].datasourceType ==='database'"
               ></div>
               <div
                 class="form-group col-md-6"
-                v-if="t_datasource[index].datasource_type === 'datafolder'"
-                v-show="t_datasource[index].datasource_type ==='datafolder'"
+                v-if="t_datasource[index].datasourceType === 'datafolder'"
+                v-show="t_datasource[index].datasourceType ==='datafolder'"
               >
                 <input
                   type="text"
                   placeholder="資料夾路徑"
                   size="50"
                   class="form-control"
-                  v-model="t_datasource[index].data_root"
+                  v-model="t_datasource[index].dataRoot"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource[index].datasource_type === 'datafolder'"
-                v-show="t_datasource[index].datasource_type ==='datafolder'"
+                v-if="t_datasource[index].datasourceType === 'datafolder'"
+                v-show="t_datasource[index].datasourceType ==='datafolder'"
               >
                 <input
                   type="text"
                   placeholder="資料夾名稱"
                   style="margin-left:-94px"
                   class="form-control"
-                  v-model="t_datasource[index].datasource_name"
+                  v-model="t_datasource[index].datasourceName"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource[index].datasource_type != ''"
-                v-show="t_datasource[index].datasource_type !=''"
+                v-if="t_datasource[index].datasourceType != ''"
+                v-show="t_datasource[index].datasourceType !=''"
               >
                 <div class="all-button plus-button" id="addrow" @click="addCol(index)"></div>
                 <div
@@ -179,8 +179,8 @@
                 <label for="inputPassword2" class="sr-only"></label>
                 <select
                   class="custom-select"
-                  v-model="t_datasource2[index].datasource_type"
-                  @click="cleanValue('dataPath',index,t_datasource2[index].datasource_type)"
+                  v-model="t_datasource2[index].datasourceType"
+                  @click="cleanValue('dataPath',index,t_datasource2[index].datasourceType)"
                 >
                   <option value>請選擇</option>
                   <option value="database">資料庫</option>
@@ -189,94 +189,94 @@
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫IP"
                   class="form-control"
-                  v-model="t_datasource2[index].database_ip"
+                  v-model="t_datasource2[index].databaseIp"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫Port"
                   size="10"
                   class="form-control"
-                  v-model="t_datasource2[index].database_port"
+                  v-model="t_datasource2[index].databasePort"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫帳號"
                   class="form-control"
-                  v-model="t_datasource2[index].database_user"
+                  v-model="t_datasource2[index].databaseUser"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫密碼"
                   class="form-control"
-                  v-model="t_datasource2[index].database_password"
+                  v-model="t_datasource2[index].databasePassword"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               >
                 <input
                   type="text"
                   placeholder="資料庫名稱"
                   class="form-control"
-                  v-model="t_datasource2[index].datasource_name"
+                  v-model="t_datasource2[index].datasourceName"
                 />
               </div>
               <div
                 class="form-group col-md-1"
-                v-if="t_datasource2[index].datasource_type === 'database'"
-                v-show="t_datasource2[index].datasource_type ==='database'"
+                v-if="t_datasource2[index].datasourceType === 'database'"
+                v-show="t_datasource2[index].datasourceType ==='database'"
               ></div>
               <div
                 class="form-group col-md-6"
-                v-if="t_datasource2[index].datasource_type === 'datafolder'"
-                v-show="t_datasource2[index].datasource_type ==='datafolder'"
+                v-if="t_datasource2[index].datasourceType === 'datafolder'"
+                v-show="t_datasource2[index].datasourceType ==='datafolder'"
               >
                 <input
                   type="text"
                   placeholder="資料夾路徑"
                   size="50"
                   class="form-control"
-                  v-model="t_datasource2[index].data_root"
+                  v-model="t_datasource2[index].dataRoot"
                 />
               </div>
               <div
                 class="form-group col-md-2"
-                v-if="t_datasource2[index].datasource_type === 'datafolder'"
-                v-show="t_datasource2[index].datasource_type ==='datafolder'"
+                v-if="t_datasource2[index].datasourceType === 'datafolder'"
+                v-show="t_datasource2[index].datasourceType ==='datafolder'"
               >
                 <input
                   type="text"
                   placeholder="資料夾名稱"
                   style="margin-left:-94px"
                   class="form-control"
-                  v-model="t_datasource2[index].datasource_name"
+                  v-model="t_datasource2[index].datasourceName"
                 />
               </div>
             </div>
@@ -292,7 +292,7 @@
                   id="exampleFormControlTextarea2"
                   rows="2"
                   cols="100"
-                  v-model="note"
+                  v-model="databaseNote"
                 ></textarea>
               </div>
             </div>
@@ -321,45 +321,45 @@ export default {
     var project_id_UUID = uuidv1();
     return {
       projectId: project_id_UUID,
-      project_name: "",
-      project_creater_id: "KATE",
-      project_last_modify_id: "KATE",
-      customer_name: "",
-      check_date: "",
-      warr_date: "",
-      note: "",
+      projectName: "",
+      projectCreaterId: "KATE",
+      projectLastModifyId: "KATE",
+      customerName: "",
+      checkDate: "",
+      warrDate: "",
+      databaseNote: "",
       t_datasource: [
         {
           projectId: project_id_UUID,
-          datasource_type: "",
-          database_ip: "",
-          database_port: "",
-          database_user: "",
-          database_password: "",
-          database_note: "",
+          datasourceType: "",
+          databaseIp: "",
+          databasePort: "",
+          databaseUser: "",
+          databasePassword: "",
+          databaseNote: "",
           DataBaseState: "",
-          data_root: "",
-          datasource_name: "",
+          dataRoot: "",
+          datasourceName: "",
           datasourceId: datasource_id_UUID,
-          is_input_datasource: true,
-          is_output_datasource: false
+          isInputDatasource: true,
+          isOutputDatasource: false
         }
       ],
       t_datasource2: [
         {
           projectId: project_id_UUID,
           datasource_type: "",
-          database_ip: "",
-          database_port: "",
-          database_user: "",
-          database_password: "",
-          database_note: "",
+          databaseIp: "",
+          databasePort: "",
+          databaseUser: "",
+          databasePassword: "",
+          databaseNote: "",
           DataBaseState: "",
-          data_root: "",
-          datasource_name: "blabla",
+          dataRoot: "",
+          datasourceName: "blabla",
           datasourceId: datasource_id_UUID2,
-          is_input_datasource: false,
-          is_output_datasource: true
+          isInputDatasource: false,
+          isOutputDatasource: true
         }
       ]
     };
@@ -382,14 +382,14 @@ export default {
     //API接口
     createNewProject() {
       apiCreateNewProject({
-        project_name: this.project_name,
-        customer_name: this.customer_name,
-        check_date: this.check_date,
-        warr_date: this.warr_date,
-        note: this.note,
+        projectName: this.projectName,
+        customerName: this.customerName,
+        checkDate: this.checkDate,
+        warrDate: this.warrDate,
+        databaseNote: this.databaseNote,
         projectId: this.projectId,
-        project_creater_id: "kate",
-        project_last_modify_id: "kate",
+        projectCreaterId: "kate",
+        projectLastModifyId: "kate",
         DataBaseState: "",
         t_datasource: this.t_datasource,
         t_datasource2: this.t_datasource2
@@ -404,18 +404,18 @@ export default {
       var datasource_id_UUID = uuidv4();
       let obj = {
         projectId: this.projectId,
-        datasource_type: "",
+        datasourceType: "",
         datasourceId: datasource_id_UUID,
-        database_ip: "",
-        database_port: "",
-        database_user: "",
-        database_password: "",
-        note: "",
+        databaseIp: "",
+        databasePort: "",
+        databaseUser: "",
+        databasePassword: "",
+        databaseNote: "",
         DataBaseState: "",
-        data_root: "",
-        datasource_name: "",
-        is_input_datasource: true,
-        is_output_datasource: false
+        dataRoot: "",
+        datasourceName: "",
+        isInputDatasource: true,
+        isOutputDatasource: false
       };
       this.t_datasource.splice(index + 1, 0, obj);
     },
@@ -431,33 +431,33 @@ export default {
       var datasource_id_UUID = uuidv4();
       let objSetting = {
         projectId: this.projectId,
-        datasource_type: optionValue,
+        datasourceType: optionValue,
         datasourceId: datasource_id_UUID,
-        database_ip: "",
-        database_port: "",
-        database_user: "",
-        database_password: "",
-        note: "",
+        databaseIp: "",
+        databasePort: "",
+        databaseUser: "",
+        databasePassword: "",
+        databaseNote: "",
         DataBaseState: "",
-        data_root: "",
-        datasource_name: "",
-        is_input_datasource: true,
-        is_output_datasource: false
+        dataRoot: "",
+        datasourceName: "",
+        isInputDatasource: true,
+        isOutputDatasource: false
       };
       let objSetting2 = {
         projectId: this.projectId,
-        datasource_type: optionValue,
+        datasourceType: optionValue,
         datasourceId: datasource_id_UUID,
-        database_ip: "",
-        database_port: "",
-        database_user: "",
-        database_password: "",
-        note: "",
+        databaseIp: "",
+        databasePort: "",
+        databaseUser: "",
+        databasePassword: "",
+        databaseNote: "",
         DataBaseState: "",
-        data_root: "",
-        datasource_name: "",
-        is_input_datasource: false,
-        is_output_datasource: true
+        dataRoot: "",
+        datasourceName: "",
+        isInputDatasource: false,
+        isOutputDatasource: true
       };
 
       if (al === "dataSource") {

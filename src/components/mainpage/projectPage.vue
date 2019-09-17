@@ -10,7 +10,7 @@
                 v-for="projectItem of this.$store.state.IndexPage_module.projectData"
                 v-if="projectItem.projectId === projectId"
               >
-                <h2>{{projectItem.project_name}}</h2>
+                <h2>{{projectItem.projectName}}</h2>
               </div>
               <div class="col-lg-6">
                 <button
@@ -35,18 +35,18 @@
               class="row"
               v-for="item in DataSouce"
               v-if="item.projectId === projectId"
-              v-show="item.is_input_datasource"
+              v-show="item.isInputDatasource"
             >
               <div
                 class="col-lg-12"
                 style="padding-left:510px"
                 v-if="item.datasource_type === 'database'"
-              >SQL:{{item.database_ip}}+{{item.database_port}}</div>
+              >SQL:{{item.databaseIp}}+{{item.databasePort}}</div>
               <div
                 class="col-lg-12"
                 style="padding-left:510px"
-                v-if="item.datasource_type === 'datafolder'"
-              >CSV:{{item.data_root}}</div>
+                v-if="item.datasourceType === 'datafolder'"
+              >CSV:{{item.dataRoot}}</div>
             </div>
             <div
               class="row"
@@ -54,9 +54,9 @@
               v-if="projectItem.projectId === projectId"
             >
               <div class="col-lg-4" style="padding-left:500px">保固期限:</div>
-              <div class="col-lg-2">{{projectItem.warr_date}}</div>
+              <div class="col-lg-2">{{projectItem.warrDate}}</div>
               <div class="col-lg-1">驗收日期:</div>
-              <div class="col-lg-5">{{projectItem.check_date}}</div>
+              <div class="col-lg-5">{{projectItem.checkDate}}</div>
               <div class="col-lg-12" style="padding-left:485px">備註:</div>
               <div class="col-lg-12" style="padding-left:485px">{{projectItem.note}}</div>
             </div>
@@ -88,8 +88,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in TableMaster" v-if="item.TableMasterState === 'PMCreate'">
-                  <td @click="queryInFunctionTable(item.tableId,item.projectId)">{{item.table_cname}}</td>
+                <tr v-for="item in TableMaster" v-if="item.tableMasterState === 'PMCreate'">
+                  <td @click="queryInFunctionTable(item.tableId,item.projectId)">{{item.tableCname}}</td>
                   <td>{{item.version}}</td>
                 </tr>
               </tbody>

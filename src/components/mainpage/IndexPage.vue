@@ -30,17 +30,17 @@
               </thead>
               <tbody>
                 <tr v-for="item of this.$store.state.IndexPage_module.projectData">
-                  <td v-if="!(item.is_close)" @click="query(item.projectId)">{{item.project_name}}</td>
-                  <td v-if="!(item.is_close)">{{item.customer_name}}</td>
-                  <td v-if="!(item.is_close)">{{item.project_create_date}}</td>
-                  <td class="center" v-if="!(item.is_close)">{{item.project_creater_id}}</td>
-                  <td class="center" v-if="!(item.is_close)">{{item.project_last_modify_date}}</td>
-                  <td class="center" v-if="!(item.is_close)">{{item.project_last_modify_id}}</td>
-                  <td class="center" v-if="!(item.is_close)">{{item.warr_date}}</td>
+                  <td v-if="!(item.isClose)" @click="query(item.projectId)">{{item.projectName}}</td>
+                  <td v-if="!(item.isClose)">{{item.customerName}}</td>
+                  <td v-if="!(item.isClose)">{{item.projectCreateDate}}</td>
+                  <td class="center" v-if="!(item.isClose)">{{item.projectCreaterId}}</td>
+                  <td class="center" v-if="!(item.isClose)">{{item.projectLastModifyDate}}</td>
+                  <td class="center" v-if="!(item.isClose)">{{item.projectLastModifyId}}</td>
+                  <td class="center" v-if="!(item.isClose)">{{item.warrDate}}</td>
                   <td
                     class="center fas fa-trash-alt"
                     @click="remove(item.sn)"
-                    v-if="!(item.is_close)"
+                    v-if="!(item.isClose)"
                   ></td>
                 </tr>
               </tbody>

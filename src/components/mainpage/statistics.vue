@@ -10,7 +10,7 @@
                 v-for="projectItem of this.$store.state.IndexPage_module.projectData"
                 v-if="projectItem.projectId === projectId"
               >
-                <h2>{{projectItem.project_name}}</h2>
+                <h2>{{projectItem.projectName}}</h2>
               </div>
               <div class="col-lg-6">
                 <button
@@ -54,15 +54,15 @@
               </thead>
               <tbody v-for="(item,index) in t_table_master">
                 <tr>
-                  <td v-model="t_table_master[index].datasource_type">{{item.datasource_type}}</td>
-                  <td v-model="t_table_master[index].datasource_name">{{item.datasource_name}}</td>
-                  <td v-model="t_table_master[index].table_cname">{{item.table_cname}}</td>
+                  <td v-model="t_table_master[index].datasourceType">{{item.datasourceType}}</td>
+                  <td v-model="t_table_master[index].datasourceName">{{item.datasourceName}}</td>
+                  <td v-model="t_table_master[index].tableCname">{{item.tableCname}}</td>
                   <td
-                    v-model="t_table_master[index].table_column_quantity"
-                  >{{item.table_column_quantity}}</td>
+                    v-model="t_table_master[index].tableColumnQuantity"
+                  >{{item.tableColumnQuantity}}</td>
                   <td
-                    v-model="t_table_master[index].table_data_quantity"
-                  >{{item.table_data_quantity}}</td>
+                    v-model="t_table_master[index].tableDataQuantity"
+                  >{{item.tableDataQuantity}}</td>
                   <td v-model="t_table_master[index].isConcatenation">{{item.isConcatenation}}</td>
                   <td>
                     <input
@@ -144,6 +144,10 @@ export default {
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
 
+          console.log("tableId:"+tableId);
+          console.log("tableName:"+tableName);
+          console.log("tableDataQuantity:"+tableDataQuantity);
+          console.log("tableColumnQuantity:"+tableColumnQuantity);
           if (
             tableId === undefined ||
             tableName === undefined ||
@@ -165,31 +169,31 @@ export default {
           //在已有tableId為更新,需要有SN
           apiUpdateTableMaster({
             sn: element.sn,
-            datasource_type: element.datasource_type,
+            datasourceType: element.datasourceType,
             projectId: element.projectId,
-            database_note: element.database_note,
+            databaseNote: element.databaseNote,
             datasourceId: element.datasourceId,
             tableId: element.tableId,
-            table_cname: element.table_cname,
-            table_ename: element.table_ename,
-            table_pk: element.table_pk,
-            table_pk_name: element.table_pk_name,
-            table_column_quantity: element.table_column_quantity,
-            table_data_quantity: element.table_data_quantity,
-            TableMasterState: "CsvImport",
+            tableCname: element.tableCname,
+            tableEname: element.tableEname,
+            tablePk: element.tablePk,
+            tablePkName: element.tablePkName,
+            tableColumnQuantity: element.tableColumnQuantity,
+            tableDataQuantity: element.tableDataQuantity,
+            tableMasterState: "CsvImport",
             isConcatenation: false,
             description: element.description,
             reason: element.reason,
             tMasterNote: element.tMasterNote,
-            datasource_name: element.datasource_name
-            // t_column_master: element.t_column_master
+            datasourceName: element.datasourceName,
+            t_column_master: element.t_column_master
           });
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
             datasourceId: element.datasourceId,
             DataBaseState: element.state,
-            datasource_name: element.datasource_name,
-            datasource_type: element.datasource_type,
+            datasourceName: element.datasourceName,
+            datasourceType: element.datasourceType,
             sn: element.sn
           });
         } else {
@@ -198,31 +202,31 @@ export default {
           //沒有tableId為新增一筆 不須SN
           apiUpdateTableMaster({
             sn: element.sn,
-            datasource_type: element.datasource_type,
+            datasourceType: element.datasourceType,
             projectId: element.projectId,
-            database_note: element.database_note,
+            databaseNote: element.databaseNote,
             datasourceId: element.datasourceId,
             tableId: table_id_temp_UUID,
-            table_cname: element.table_cname,
-            table_ename: element.table_ename,
-            table_pk: element.table_pk,
-            table_pk_name: element.table_pk_name,
-            table_column_quantity: element.table_column_quantity,
-            table_data_quantity: element.table_data_quantity,
-            TableMasterState: "CsvImport",
+            tableCname: element.tableCname,
+            tableEname: element.tableEname,
+            tablePk: element.tablePk,
+            tablePkName: element.tablePkName,
+            tableColumnQuantity: element.tableColumnQuantity,
+            tableDataQuantity: element.tableDataQuantity,
+            tableMasterState: "CsvImport",
             isConcatenation: false,
             description: element.description,
             reason: element.reason,
             tMasterNote: element.tMasterNote,
-            datasource_name: element.datasource_name,
+            datasourceName: element.datasourceName,
             t_column_master: element.t_column_master
           });
           apiUpdateDataBaseByProjectId({
             projectId: element.projectId,
             datasourceId: element.datasourceId,
             DataBaseState: element.state,
-            datasource_name: element.datasource_name,
-            datasource_type: element.datasource_type,
+            datasourceName: element.datasourceName,
+            datasourceType: element.datasourceType,
             sn: element.sn
           });
         }
@@ -243,44 +247,44 @@ export default {
       this.t_table_master.map(val => {
         var obj = {
           sn: val.sn,
-          datasource_type: "",
+          datasourceType: "",
           projectId: "",
-          database_note: "",
+          databaseNote: "",
           datasourceId: "",
           tableId: "",
-          table_cname: "",
-          table_pk: "",
-          table_pk_name: "",
-          table_column_quantity: "",
-          table_data_quantity: "",
-          TableMasterState: "",
+          tableCname: "",
+          tablePk: "",
+          tablePkName: "",
+          tableColumnQuantity: "",
+          tableDataQuantity: "",
+          tableMasterState: "",
           isConcatenation: false,
           description: "",
           reason: "",
           tMasterNote: "",
-          datasource_name: "",
+          datasourceName: "",
           t_column_master: [
             {
               tableId: "",
-              column_id: "",
-              column_name: "",
-              column_read_name: "",
-              column_c_name: "",
-              is_pk: "",
-              column_type: "",
-              column_length: "",
-              column_default: "",
-              is_datamodel_attribute: "",
+              columnId: "",
+              columnName: "",
+              columnReadName: "",
+              columnCname: "",
+              isPk: "",
+              columnType: "",
+              columnLength: "",
+              columnDefault: "",
+              isDatamodelAttribute: "",
               ColumnMasterState: "CsvImport"
             }
           ]
         };
         obj.projectId = val.projectId;
-        obj.datasource_type = val.datasource_type;
+        obj.datasourceType = val.datasourceType;
         obj.datasourceId = val.datasourceId;
-        obj.database_note = val.database_note;
-        obj.datasource_name = val.datasource_name;
-        obj.TableMasterState = val.TableMasterState;
+        obj.databaseNote = val.databaseNote;
+        obj.datasourceName = val.datasourceName;
+        obj.tableMasterState = val.tableMasterState;
         obj.reason = val.reason;
         obj.tMasterNote = val.tMasterNote;
         obj.description = val.description;
@@ -288,35 +292,35 @@ export default {
         this.csvfile.map(val2 => {
           let columnObj = {
             tableId: "",
-            column_id: "",
-            column_name: "",
-            column_read_name: "",
-            column_c_name: "",
-            is_pk: "",
-            column_type: "",
-            column_length: "",
-            column_default: "",
-            is_datamodel_attribute: "",
+            columnId: "",
+            columnName: "",
+            columnReadName: "",
+            columnCname: "",
+            isPk: "",
+            columnType: "",
+            columnLength: "",
+            columnDefault: "",
+            isDatamodelAttribute: "",
             ColumnMasterState: "CsvImport"
           };
 
           if (val.projectId === val2.project_id) {
             if (val.datasourceId === val2.datasource_id) {
               obj.tableId = val2.tableId;
-              obj.table_cname = val2.table_cname;
-              obj.table_column_quantity = val2.table_column_quantity;
-              obj.table_data_quantity = val2.table_data_quantity;
+              obj.tableCname = val2.table_cname;
+              obj.tableColumnQuantity = val2.table_column_quantity;
+              obj.tableDataQuantity = val2.table_data_quantity;
 
               (columnObj.tableId = val2.tableId),
-                (columnObj.column_id = val2.column_id),
-                (columnObj.column_name = val2.column_name),
-                (columnObj.column_read_name = val2.column_read_name),
-                (columnObj.column_c_name = val2.column_c_name),
-                (columnObj.is_pk = val2.is_pk),
-                (columnObj.column_type = val2.column_type),
-                (columnObj.column_length = val2.column_length),
-                (columnObj.column_default = val2.column_default),
-                (columnObj.is_datamodel_attribute =
+                (columnObj.columnId = val2.column_id),
+                (columnObj.columnName = val2.column_name),
+                (columnObj.columnReadName = val2.column_read_name),
+                (columnObj.columnCname = val2.column_c_name),
+                (columnObj.isPk = val2.is_pk),
+                (columnObj.columnType = val2.column_type),
+                (columnObj.columnLength = val2.column_length),
+                (columnObj.columnDefault = val2.column_default),
+                (columnObj.isDatamodelAttribute =
                   val2.is_datamodel_attribute);
 
               if (map.get(val2.tableId) === undefined) {

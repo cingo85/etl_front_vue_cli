@@ -2,7 +2,7 @@
     <div>
         <div class="row">
             <div class="col-lg-1">
-                <button @click="test()">回上一層</button>
+                <button @click="goback()">回上一層</button>
             </div>
             <div class="col-lg-1">
                 <input
@@ -45,8 +45,8 @@
                     <option value disabled selected>--請選擇--</option>
                     <option
                             v-for="item in SourceTableMaster"
-                            :value="item.tableId+'.'+item.table_cname"
-                    >{{item.table_cname}}
+                            :value="item.tableId+'.'+item.tableCname"
+                    >{{item.tableCname}}
                     </option>
                 </select>
                 <!-- </div> -->
@@ -73,13 +73,13 @@
                         <input disabled
                                v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"
                                @click="change(item[header])" v-model="item[header]"></input>
-                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName">
-                            <select v-model="item[header]">
+                        <div v-for="itemMaster in Column">
+                            <select v-if="header === itemMaster.tableName" v-model="item[header]">
                                 <option value disabled selected>--請選擇--</option>
-                                <option
-                                        v-for="itemdetail in itemMaster.tableValue"
-                                        :value="itemdetail.column_id"
-                                >{{itemdetail.column_name}}
+                                <option v-for="itemdetail in itemMaster.tableValue"
+                                        :value="itemdetail.columnId"
+                                        :key="itemdetail.columnId"
+                                >{{itemdetail.columnName}}
                                 </option>
                             </select>
                         </div>
@@ -90,12 +90,9 @@
     </div>
 </template>
 <script>
-    import VuexStore from "../../store";
     import draggable from "vuedraggable";
-    import {mapGetters} from "vuex";
     import {
         apiQueryDataBaseByprojectId,
-        apiQueryTableMasterByDatasourceId,
         apiQueryColumnMasterByTableId,
         apiQueryTableMasterByProjectId
     } from "../../api";
@@ -135,7 +132,7 @@
                     this.DataSource = res.data;
                 })
                 .catch(err => {
-                    console.log(err);
+
                 });
             apiQueryTableMasterByProjectId({
                 projectId: this.projectId
@@ -144,7 +141,7 @@
                     this.SourceTableMaster = res.data;
                 })
                 .catch(err => {
-                    console.log(err);
+
                 });
             this.$store.dispatch("loadingOneTableMaster", this.$route.query.tableId);
             // let objtemp = this.$store.state.FunctionTable_module.tableMaster;
@@ -155,6 +152,9 @@
         watch: {},
         computed: {},
         methods: {
+            goback() {
+                this.$router.history.go(-1);
+            },
             removeCol: function (index) {
                 this.ColTable.splice(index, 1);
             },
@@ -162,7 +162,9 @@
              * 增加&移除欄位
              */
             addRow: function () {
-                var obj = {};
+                var obj = {
+                    column_id : ""
+                };
                 this.headers.forEach(function (element) {
                     obj[element] = "";
                 });
@@ -197,7 +199,6 @@
                             this.Column.push(obj);
                         })
                         .catch(err => {
-                            console.log(err);
                         });
                 } else {
                     alert("此表單已存在");
@@ -209,7 +210,7 @@
              * 鍵盤事件 Ctrl選取欄位
              */
             dosomething: function (index) {
-                alert("click:"+index)
+                alert("click:" + index)
             }
             /*
              *畫面控制選項
