@@ -44,7 +44,7 @@
                 <select @change="onSelectDataSource($event)">
                     <option value disabled selected>--請選擇--</option>
                     <option
-                            v-for="item in SourceTableMaster"
+                            v-for="item in OptionValue"
                             :value="item.tableId+'.'+item.tableCname"
                     >{{item.tableCname}}
                     </option>
@@ -73,11 +73,11 @@
                         <input disabled
                                v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"
                                @click="change(item[header])" v-model="item[header]"></input>
-                        <div v-for="itemMaster in Column">
-                            <select v-if="header === itemMaster.tableName" v-model="item[header]">
+                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName">
+                            <select v-model="item[header]">
                                 <option value disabled selected>--請選擇--</option>
                                 <option v-for="itemdetail in itemMaster.tableValue"
-                                        :value="itemdetail.columnId"
+                                        :value="itemdetail.columnName"
                                         :key="itemdetail.columnId"
                                 >{{itemdetail.columnName}}
                                 </option>
@@ -121,7 +121,8 @@
                 list: [],
                 dragging: false,
                 SourceTableMaster: "",
-                ReadOnly: true
+                ReadOnly: true,
+                OptionValue: ""
             };
         },
         created: function () {
@@ -138,7 +139,18 @@
                 projectId: this.projectId
             })
                 .then(res => {
-                    this.SourceTableMaster = res.data;
+                    let tId = this.tableId;
+                    let SourceTableMaster = new Array();
+                    let OptionValue = new Array();
+                    res.data.forEach(async function (element) {
+                        if (element.tableId != tId) {
+                            OptionValue.push(element);
+                        } else {
+                            SourceTableMaster.push(element);
+                        }
+                    });
+                    this.SourceTableMaster = SourceTableMaster;
+                    this.OptionValue = OptionValue;
                 })
                 .catch(err => {
 
@@ -149,7 +161,17 @@
         mounted: function () {
 
         },
-        watch: {},
+        watch: {
+            // list:function(){
+            //
+            // },
+            // deep: true,
+            // immediate: false,
+            // headers:function(){
+            //
+            // }
+
+        },
         computed: {},
         methods: {
             goback() {
@@ -163,11 +185,14 @@
              */
             addRow: function () {
                 var obj = {
-                    column_id : ""
+                    column_id: ""
                 };
                 this.headers.forEach(function (element) {
                     obj[element] = "";
                 });
+                this.SourceTableMaster.forEach(function (item) {
+                    item.t_column_master.push(obj)
+                })
                 this.list.push(obj);
             },
             removeRow: function (index) {
@@ -200,6 +225,7 @@
                         })
                         .catch(err => {
                         });
+
                 } else {
                     alert("此表單已存在");
                 }

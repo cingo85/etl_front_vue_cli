@@ -144,10 +144,6 @@ export default {
           var tableDataQuantity = results.data[0].table_data_quantity;
           var tableColumnQuantity = results.data[0].table_column_quantity;
 
-          console.log("tableId:"+tableId);
-          console.log("tableName:"+tableName);
-          console.log("tableDataQuantity:"+tableDataQuantity);
-          console.log("tableColumnQuantity:"+tableColumnQuantity);
           if (
             tableId === undefined ||
             tableName === undefined ||
