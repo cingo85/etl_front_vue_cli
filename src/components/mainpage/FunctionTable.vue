@@ -4,42 +4,9 @@
             <div class="col-lg-1">
                 <button @click="goback()">回上一層</button>
             </div>
-            <div class="col-lg-1">
-                <input
-                        @click="toggleModel()"
-                        id="ModelPattern"
-                        type="checkbox"
-                        checked
-                        data-toggle="toggle"
-                        data-onstyle="danger"
-                        data-on="編輯模式"
-                        data-off="檢視模式"
-                />
-            </div>
-            <div class="col-lg-1">
-                <input
-                        type="checkbox"
-                        checked
-                        data-toggle="toggle"
-                        data-onstyle="success"
-                        data-offstyle="primary"
-                        data-on="大表"
-                        data-off="串接"
-                />
-            </div>
-            <div class="col-lg-1">
-                <button type="button" class="btn btn btn-info btn-lg btn-block" @click="changecolumn()">排序</button>
-            </div>
             <div class="col-lg-1">大表英文名稱</div>
             <div class="col-lg-1">大表中文名稱</div>
             <div class="col-lg-1">
-                <button type="button" class="btn btn btn-info btn-lg btn-block">發版</button>
-            </div>
-            <div class="col-lg-1">
-                <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
-            </div>
-            <div class="col-lg-1">
-                <!-- <div id="addColumn" > -->
                 增加資料源
                 <select @change="onSelectDataSource($event)">
                     <option value disabled selected>--請選擇--</option>
@@ -49,10 +16,42 @@
                     >{{item.tableCname}}
                     </option>
                 </select>
-                <!-- </div> -->
             </div>
             <div class="col-lg-1">
+                增加表單
+                <select @change="onSelectDataSource($event)">
+                    <option value disabled selected>--請選擇--</option>
+                    <option
+                            v-for="item in OptionValue"
+                            :value="item.tableId+'.'+item.tableCname"
+                    >{{item.tableCname}}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-1">
+                串接方式
+                <select @change="onSelectDataSource($event)">
+                    <option value disabled selected>--請選擇--</option>
+                    <option
+                            v-for="item in OptionValue"
+                            :value="item.tableId+'.'+item.tableCname"
+                    >{{item.tableCname}}
+                    </option>
+                </select>
+            </div>
+
+            <div class="col-lg-1">
                 <button id="addRow" @click="addRow()">增加來源</button>
+            </div>
+            <div class="col-lg-1">
+                <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
+            </div>
+            <div class="col-lg-1">
+                增加資料源
+
+            </div>
+            <div class="col-lg-1">
+
             </div>
             <div class="col-lg-1">
                 <button @click="test()">回上一層</button>
@@ -64,16 +63,23 @@
         <table class="table">
             <thead class="thead-dark">
             <draggable v-model="headers" tag="tr">
-                <th v-for="header in headers" :key="header" scope="col">{{ header }}</th>
+                <th v-for="header in headers" :key="header" scope="col">
+                    <button @click="fix(header)">+</button>
+                    {{ header }}</th>
             </draggable>
             </thead>
             <draggable v-model="list" tag="tbody">
-                <tr v-for="(item,index) in list" :key="item.name" @click.ctrl="dosomething(index)">
+                <tr v-for="(item,index) in list" :key="item.name">
                     <td v-for="header in headers" :key="header">
-                        <input disabled
-                               v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType' || header === 'PrimaryKey' || header === 'TableLogic'"
+                        <input
+                               v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType'  || header === 'TableLogic'"
                                @click="change(item[header])" v-model="item[header]"></input>
-                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName">
+                        <select v-if="header === 'PrimaryKey'">
+                            <option value disabled selected>--請選擇--</option>.
+                            <option value="PK">PK</option>
+                            <option value="NPK">NPK</option>
+                        </select>
+                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName"  onclick="changeColor()" :key="itemMaster.tableValue" style="background-color:#89ff9e">
                             <select v-model="item[header]">
                                 <option value disabled selected>--請選擇--</option>
                                 <option v-for="itemdetail in itemMaster.tableValue"
@@ -82,6 +88,7 @@
                                 >{{itemdetail.columnName}}
                                 </option>
                             </select>
+<!--                            <button @click="addLogic(itemMaster.columnId)">+</button>-->
                         </div>
                     </td>
                 </tr>
@@ -205,11 +212,14 @@
                 let checkpoint = true
                 let DataSourceId = event.target.value;
                 let strArr = DataSourceId.split(".");
+
                 this.headers.forEach(function (element) {
                     if (element.match(strArr[1])) {
                         checkpoint = false
                     }
                 })
+
+
                 if (checkpoint) {
                     this.headers.push(strArr[1]);
                     this.list.forEach(function (element) {
@@ -237,10 +247,21 @@
              */
             dosomething: function (index) {
                 alert("click:" + index)
-            }
+            },
             /*
              *畫面控制選項
              */
+
+            /*
+             * 加入邏輯
+             */
+            addLogic:function (index) {
+                alert("logic:"+index)
+            },
+            fix:function (header) {
+
+                alert("hearder:"+header);
+            }
         }
     };
 </script>

@@ -160,8 +160,6 @@ export default {
     updateTableMaster(t_table_master) {
       t_table_master.forEach(element => {
         if (!(element.tableId === null)) {
-          // const uuidv4 = require("uuid/v4");
-          // var table_id_temp_UUID = uuidv4();
           //在已有tableId為更新,需要有SN
           apiUpdateTableMaster({
             sn: element.sn,
