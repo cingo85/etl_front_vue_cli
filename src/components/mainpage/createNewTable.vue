@@ -58,13 +58,13 @@
 
 <script>
 import { uuid } from "uuid";
-import { apiUpdateTableMaster } from "../../api";
+import {apiUpdateTableMaster, apiQueryDataBaseByByProjectIdWithOutPut} from "../../api";
+
 
 export default {
   name: "createNewTable",
   data() {
     const uuidv4 = require("uuid/v4");
-    var datasource_id = uuidv4();
     var table_id = uuidv4();
     return {
       projectId: this.$route.query.projectId,
@@ -78,8 +78,20 @@ export default {
       description: "",
       reason: "",
       tMasterNote: "",
-      version: "1.0"
+      version: "1.0",
+      projectData: ""
     };
+  },
+  created: function () {
+    apiQueryDataBaseByByProjectIdWithOutPut({
+      projectId: this.projectId
+    }).then(res => {
+
+    }).catch(err => {
+
+    })
+
+
   },
   methods: {
     create() {
@@ -103,6 +115,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
+
     }
   }
 };

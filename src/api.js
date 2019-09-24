@@ -36,6 +36,7 @@ const datasourceRequest = axios.create({
 });
 export const apiCreateNewDataBase = data => datasourceRequest.post('/createNewDataBase', data)
 export const apiQueryDataBaseByprojectId = data => datasourceRequest.post('/queryDataSourceByProjectId', data)
+export const apiQueryDataBaseByByProjectIdWithOutPut = data => datasourceRequest.post('/queryDataSourceByProjectIdWithOutPut',data);
 export const apiUpdateDataBaseByProjectId = data => datasourceRequest.post('/updateDataBaseState', data)
 
 //TableMaster api

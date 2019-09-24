@@ -8,12 +8,12 @@
             <div class="col-lg-1">大表中文名稱</div>
             <div class="col-lg-1">
                 增加資料源
-                <select @change="onSelectDataSource($event)">
+                <select>
                     <option value disabled selected>--請選擇--</option>
                     <option
-                            v-for="item in OptionValue"
+                            v-for="item in DataSource"
                             :value="item.tableId+'.'+item.tableCname"
-                    >{{item.tableCname}}
+                    >{{item.datasourceName}}
                     </option>
                 </select>
             </div>
@@ -41,23 +41,22 @@
             </div>
 
             <div class="col-lg-1">
-                <button id="addRow" @click="addRow()">增加來源</button>
+                <button id="addRow" @click="addRow()">增加列數</button>
             </div>
             <div class="col-lg-1">
-                <button type="button" class="btn btn btn-info btn-lg btn-block">暫存</button>
+                暫無使用
             </div>
             <div class="col-lg-1">
-                增加資料源
-
+                暫無使用
             </div>
             <div class="col-lg-1">
-
+                暫無使用
             </div>
             <div class="col-lg-1">
-                <button @click="test()">回上一層</button>
+                暫無使用
             </div>
             <div class="col-lg-1">
-                <button @click="test()">回上一層</button>
+                暫無使用
             </div>
         </div>
         <table class="table">
@@ -65,21 +64,23 @@
             <draggable v-model="headers" tag="tr">
                 <th v-for="header in headers" :key="header" scope="col">
                     <button @click="fix(header)">+</button>
-                    {{ header }}</th>
+                    {{ header }}
+                </th>
             </draggable>
             </thead>
             <draggable v-model="list" tag="tbody">
                 <tr v-for="(item,index) in list" :key="item.name">
                     <td v-for="header in headers" :key="header">
                         <input
-                               v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType'  || header === 'TableLogic'"
-                               @click="change(item[header])" v-model="item[header]"></input>
+                                v-if="header==='ColumnEng' || header==='ColumnChi' || header==='ColumnType'  || header === 'TableLogic'"
+                                @click="change(item[header])" v-model="item[header]"></input>
                         <select v-if="header === 'PrimaryKey'">
-                            <option value disabled selected>--請選擇--</option>.
+                            <option value disabled selected>--請選擇--</option>
                             <option value="PK">PK</option>
                             <option value="NPK">NPK</option>
                         </select>
-                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName"  onclick="changeColor()" :key="itemMaster.tableValue" style="background-color:#89ff9e">
+                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName" onclick="changeColor()"
+                             :key="itemMaster.tableValue" style="background-color:#89ff9e">
                             <select v-model="item[header]">
                                 <option value disabled selected>--請選擇--</option>
                                 <option v-for="itemdetail in itemMaster.tableValue"
@@ -88,7 +89,7 @@
                                 >{{itemdetail.columnName}}
                                 </option>
                             </select>
-<!--                            <button @click="addLogic(itemMaster.columnId)">+</button>-->
+                            <!--                            <button @click="addLogic(itemMaster.columnId)">+</button>-->
                         </div>
                     </td>
                 </tr>
@@ -255,12 +256,12 @@
             /*
              * 加入邏輯
              */
-            addLogic:function (index) {
-                alert("logic:"+index)
+            addLogic: function (index) {
+                alert("logic:" + index)
             },
-            fix:function (header) {
+            fix: function (header) {
 
-                alert("hearder:"+header);
+                alert("hearder:" + header);
             }
         }
     };

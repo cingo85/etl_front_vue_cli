@@ -123,7 +123,6 @@ export default {
       projectId: projectId
     })
       .then(res => {
-        console.log(res);
         this.t_table_master = res.data;
       })
       .catch(err => {

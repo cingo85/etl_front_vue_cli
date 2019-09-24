@@ -9,8 +9,8 @@ export default {
         projectData: state => state.projectData
     },
     actions: {
-        initStore({ commit }) {
-            apiQueryAllproject()
+        async initStore({ commit }) {
+            await apiQueryAllproject()
                 .then(res => {
                     commit('SET_PROJECT', res.data)
                 })
