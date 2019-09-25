@@ -68,30 +68,32 @@ export default {
     var table_id = uuidv4();
     return {
       projectId: this.$route.query.projectId,
-      databaseNote: "",
-      datasourceId: datasource_id,
+      databaseNote: '',
+      datasourceId: '',
       tableId: table_id,
-      tableCname: "",
-      tableEname: "",
+      tableCname: '',
+      tableEname: '',
       tableMasterState: "PMCreate",
       isConcatenation: false,
-      description: "",
-      reason: "",
-      tMasterNote: "",
-      version: "1.0",
-      projectData: ""
+      description: '',
+      reason: '',
+      tMasterNote: '',
+      version: '1.0',
+      projectData: ''
     };
   },
   created: function () {
     apiQueryDataBaseByByProjectIdWithOutPut({
       projectId: this.projectId
     }).then(res => {
+     let outdata = res.data;
+      outdata.forEach(element =>{
+        this.datasourceId = element.datasourceId;
+      })
 
     }).catch(err => {
 
     })
-
-
   },
   methods: {
     create() {

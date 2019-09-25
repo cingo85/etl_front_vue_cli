@@ -8,19 +8,19 @@
             <div class="col-lg-1">大表中文名稱</div>
             <div class="col-lg-1">
                 增加資料源
-                <select>
-                    <option value disabled selected>--請選擇--</option>
+                <select @change="onSelectDataSource($event)">
+                    <option value disabled selected="selected">--請選擇--</option>
                     <option
                             v-for="item in DataSource"
-                            :value="item.tableId+'.'+item.tableCname"
+                            :value="item.datasourceId"
                     >{{item.datasourceName}}
                     </option>
                 </select>
             </div>
             <div class="col-lg-1">
                 增加表單
-                <select @change="onSelectDataSource($event)">
-                    <option value disabled selected>--請選擇--</option>
+                <select @change="onSelectTable($event)">
+                    <option selected="selected">--請選擇--</option>
                     <option
                             v-for="item in OptionValue"
                             :value="item.tableId+'.'+item.tableCname"
@@ -30,13 +30,10 @@
             </div>
             <div class="col-lg-1">
                 串接方式
-                <select @change="onSelectDataSource($event)">
+                <select @change="onSelectString($event)">
                     <option value disabled selected>--請選擇--</option>
-                    <option
-                            v-for="item in OptionValue"
-                            :value="item.tableId+'.'+item.tableCname"
-                    >{{item.tableCname}}
-                    </option>
+                    <option value="PK">PK</option>
+                    <option value="NPK">NPK</option>
                 </select>
             </div>
 
@@ -81,7 +78,7 @@
                         </select>
                         <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName" onclick="changeColor()"
                              :key="itemMaster.tableValue" style="background-color:#89ff9e">
-                            <select v-model="item[header]">
+                            <select v-model="item[header]" @change="tableSearch($event)">
                                 <option value disabled selected>--請選擇--</option>
                                 <option v-for="itemdetail in itemMaster.tableValue"
                                         :value="itemdetail.columnName"
@@ -102,7 +99,8 @@
     import {
         apiQueryDataBaseByprojectId,
         apiQueryColumnMasterByTableId,
-        apiQueryTableMasterByProjectId
+        apiQueryTableMasterByProjectId,
+        apiQueryTableMasterByDatasourceId
     } from "../../api";
 
     export default {
@@ -130,7 +128,8 @@
                 dragging: false,
                 SourceTableMaster: "",
                 ReadOnly: true,
-                OptionValue: ""
+                OptionValue: "",
+                pkDataSourceId: ""
             };
         },
         created: function () {
@@ -147,18 +146,7 @@
                 projectId: this.projectId
             })
                 .then(res => {
-                    let tId = this.tableId;
-                    let SourceTableMaster = new Array();
-                    let OptionValue = new Array();
-                    res.data.forEach(async function (element) {
-                        if (element.tableId != tId) {
-                            OptionValue.push(element);
-                        } else {
-                            SourceTableMaster.push(element);
-                        }
-                    });
-                    this.SourceTableMaster = SourceTableMaster;
-                    this.OptionValue = OptionValue;
+
                 })
                 .catch(err => {
 
@@ -209,24 +197,56 @@
             /*
              *小J新加 超幹酷炫屌炸天(使用下拉選單增加表單)
              */
+            /*
+             * 選擇資料源
+             */
             async onSelectDataSource(event) {
-                let checkpoint = true
                 let DataSourceId = event.target.value;
-                let strArr = DataSourceId.split(".");
+                await apiQueryTableMasterByDatasourceId(DataSourceId).then(res => {
+                    let tId = this.tableId;
+                    let SourceTableMaster = new Array();
+                    let OptionValue = new Array();
+                    res.data.forEach(function (element) {
+                        if (element.tableId != tId) {
+                            OptionValue.push(element);
+                        } else {
+                            SourceTableMaster.push(element);
+                        }
+                    });
+                    this.SourceTableMaster = SourceTableMaster;
+                    this.OptionValue = OptionValue;
+                })
+            },
+
+
+            /*
+             * 選擇表單
+             */
+           onSelectTable(event) {
+                let DataSourceId = event.target.value;
+                this.pkDataSourceId = DataSourceId;
+            },
+
+            /*
+             * 選擇串接鍵
+             */
+            async onSelectString(event) {
+                let pkString = event.target.value;
+                let checkpoint = true
+                let strArr =  this.pkDataSourceId.split(".");
+
 
                 this.headers.forEach(function (element) {
                     if (element.match(strArr[1])) {
                         checkpoint = false
                     }
                 })
-
-
                 if (checkpoint) {
                     this.headers.push(strArr[1]);
                     this.list.forEach(function (element) {
                         element["" + strArr[1] + ""] = "";
                     });
-                    await apiQueryColumnMasterByTableId(DataSourceId)
+                    await apiQueryColumnMasterByTableId(this.pkDataSourceId)
                         .then(res => {
                             let obj = {
                                 tableName: strArr[1],
@@ -240,9 +260,10 @@
                 } else {
                     alert("此表單已存在");
                 }
-
-
             },
+
+
+
             /*
              * 鍵盤事件 Ctrl選取欄位
              */
