@@ -59,7 +59,7 @@
         <table class="table">
             <thead class="thead-dark">
             <draggable v-model="headers" tag="tr">
-                <th v-for="header in headers" :key="header" scope="col">
+                <th v-for="header in headers" scope="col">
                     <button @click="fix(header)">+</button>
                     {{ header }}
                 </th>
@@ -76,8 +76,9 @@
                             <option value="PK">PK</option>
                             <option value="NPK">NPK</option>
                         </select>
-                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName" onclick="changeColor()"
-                             :key="itemMaster.tableValue" style="background-color:#89ff9e">
+                        <!--                        :key="itemMaster.tableValue"-->
+                        <div v-for="itemMaster in Column" v-if="header === itemMaster.tableName"
+                             style="background-color:#89ff9e">
                             <select v-model="item[header]" @change="tableSearch($event)">
                                 <option value disabled selected>--請選擇--</option>
                                 <option v-for="itemdetail in itemMaster.tableValue"
@@ -111,6 +112,7 @@
             draggable
         },
         data() {
+
             return {
                 tableId: this.$route.query.tableId,
                 projectId: this.$route.query.projectId,
@@ -158,14 +160,6 @@
 
         },
         watch: {
-            // list:function(){
-            //
-            // },
-            // deep: true,
-            // immediate: false,
-            // headers:function(){
-            //
-            // }
 
         },
         computed: {},
@@ -180,15 +174,15 @@
              * 增加&移除欄位
              */
             addRow: function () {
+                const uuidv4 = require("uuid/v4");
+                var column_id_UUID = uuidv4();
                 var obj = {
-                    column_id: ""
+                    column_id: column_id_UUID,
+                    tableId:this.tableId
                 };
                 this.headers.forEach(function (element) {
                     obj[element] = "";
                 });
-                this.SourceTableMaster.forEach(function (item) {
-                    item.t_column_master.push(obj)
-                })
                 this.list.push(obj);
             },
             removeRow: function (index) {
@@ -261,7 +255,9 @@
                     alert("此表單已存在");
                 }
             },
+            tableSearch: function (event) {
 
+            },
 
 
             /*
