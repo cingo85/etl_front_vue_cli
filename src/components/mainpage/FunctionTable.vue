@@ -41,7 +41,7 @@
                 <button id="addRow" @click="addRow()">增加列數</button>
             </div>
             <div class="col-lg-1">
-                暫無使用
+                <button id="pushVersion" @click="pushInColumnMaster()">發行版本</button>
             </div>
             <div class="col-lg-1">
                 暫無使用
@@ -112,7 +112,6 @@
             draggable
         },
         data() {
-
             return {
                 tableId: this.$route.query.tableId,
                 projectId: this.$route.query.projectId,
@@ -256,6 +255,16 @@
                 }
             },
             tableSearch: function (event) {
+
+            },
+            pushInColumnMaster:function(){
+                let temparr = this.tableMaster.tableMaster;
+                temparr.headerSeq = this.headers;
+                temparr.t_column_master = this.list;
+                console.log(temparr)
+                // temparr.map(val=>{
+                //     console.log(val);
+                // })
 
             },
 
